@@ -1,0 +1,133 @@
+[MOVE]
+name="Idle"
+animation="1,31,31"
+action=D="50,0"
+looping
+preserveInput
+canTurn
+
+[MOVE]
+name="Fall"
+animation="1,25,25"
+condition=G="FALSE"
+allowGravity
+looping
+preserveInput
+open
+
+[MOVE]
+name="Hurt"
+animation="1,21,24"
+animation="1,24,24"
+open
+
+[MOVE]
+name="Hit Stun"
+animation="1,23,23"
+allowGravity
+open
+
+[MOVE]
+name="Knockdown"
+animation="1,38,38"
+animation="1,38,38"
+animation="1,38,38"
+animation="1,38,38"
+animation="1,38,38"
+animation="1,38,38"
+allowGravity
+open
+
+[MOVE]
+name="FallH"
+animation="1,24,24"
+condition=G="FALSE" M="Hurt"
+condition=G="FALSE"
+transition="LandH"
+allowGravity
+looping
+preserveInput
+
+[MOVE]
+name="LandH"
+animation="1,38,38"
+animation="1,38,38"
+animation="1,38,38"
+animation="1,38,38"
+animation="1,38,38"
+action=M="0,0"
+condition=G="TRUE" M="FallH"
+condition=G="TRUE"
+preserveInput
+
+[MOVE]
+name="JumpU"
+animation="1,15,17"
+condition=H="8" M="Idle"
+action=I="0,-50"
+transition="Fall"
+preserveInput
+
+[MOVE]
+name="JumpF"
+animation="1,15,17"
+condition=H="8" M="WalkF"
+action=I="24,-50"
+transition="Fall"
+preserveInput
+
+[MOVE]
+name="JumpB"
+animation="1,15,17"
+condition=H="8" M="WalkB"
+action=I="-24,-50"
+transition="Fall"
+preserveInput
+
+[MOVE]
+name="Air Dash F"
+animation="1,9,12"
+animation="1,9,10"
+condition=I="6,6," M="Fall"
+action=M="45,0"
+transition="Fall"
+
+[MOVE]
+name="WalkF"
+animation="1,45,50"
+condition=H="6" M="Idle"
+action=M="18,0"
+looping
+preserveInput
+canTurn
+
+[MOVE]
+name="WalkB"
+animation="1,25,30"
+condition=H="4" M="Idle"
+action=M="-18,0"
+looping
+preserveInput
+canTurn
+
+[MOVE]
+name="QCF-A"
+animation="1,0,8"
+action=M="0,0"
+condition=I="2,3,6,A," M="Idle"
+condition=I="2,3,6,A," M="WalkF"
+hitbox=A="6,90,0,45,50,5,0,500,1" A="7,100,0,50,50,5,0,500,1" G="HIGH"
+
+[MOVE]
+name="QCF-B"
+animation="1,34,38"
+action=M="0,0"
+condition=I="2," I="3," I="6," I="B," M="QCF-A"
+preserveInput
+
+[MOVE]
+name="Auto-Chain"
+animation="1,34,38"
+action=M="0,0"
+condition=S="TRUE" F="7" M="QCF-A"
+preserveInput
