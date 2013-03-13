@@ -19,7 +19,7 @@ import svb.State;
 
 public class Fighter extends Actor {
 
-	public String inputString = "5,";
+	private String inputString = "5,";
 	public String inputBuffer = "";
 	public String lastString = "";
 	public String heldDirection = "";
@@ -76,7 +76,7 @@ public class Fighter extends Actor {
 		/** 
 		 * NB: If animation.update() is handed a number greater than the animation duration, frames WILL be skipped.
 		 * This will cause logic problems in states where the frame number is relevant, 
-		 * such as IMPULSE states.
+		 * such as IMPULSE states, and may cause strange hitbox behaviour.
 		*/
 		animation.update((long)(delta * Manager.WORLD.conversionConstant * Manager.timeScale));
 		statusUpdate();
@@ -206,6 +206,9 @@ public class Fighter extends Actor {
 
 	public void setHealth(int health) {
 		this.health = health;
+		
+		if(this.health < 0)
+			this.health = 0;
 	}
 
 	public int getMaxHealth() {
@@ -214,5 +217,13 @@ public class Fighter extends Actor {
 
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
+	}
+
+	public String getInputString() {
+		return inputString;
+	}
+
+	public void setInputString(String inputString) {
+		this.inputString = inputString;
 	}
 }

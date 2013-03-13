@@ -43,7 +43,7 @@ public class MoveFactory {
 		fighter.zoneBox.setLocation(fighter.location);
 		fighter.touchBox.setX(fighter.location.getX() + fighter.touchBoxOffset.x);
 		
-		fighter.health = fighter.maxHealth = 10000;
+		fighter.health = fighter.maxHealth = 5000;
 		player.fighter = fighter;
 		sheetList = Manager.haroldSheet;
 		populateMoveList("Assets\\Moves\\HaroldMovelist");
@@ -51,6 +51,8 @@ public class MoveFactory {
 		Manager.players.add(player);
 		Manager.fighters.add(fighter);
 
+		Manager.cameras.get(0).target1 = fighter;
+		
 		player = new Player(0,0);
 		player.setKeys(Input.KEY_NUMPAD8, Input.KEY_NUMPAD2, Input.KEY_NUMPAD4, Input.KEY_NUMPAD6, 
 				Input.KEY_O, Input.KEY_P, Input.KEY_K, Input.KEY_L);
@@ -61,7 +63,7 @@ public class MoveFactory {
 		fighter.zoneBox.setLocation(fighter.location);
 		fighter.touchBox.setX(fighter.location.getX() + fighter.touchBoxOffset.x);
 		
-		fighter.health = fighter.maxHealth = 10000;
+		fighter.health = fighter.maxHealth = 5000;
 		player.fighter = fighter;
 		sheetList = Manager.haroldSheet;
 		populateMoveList("Assets\\Moves\\HaroldMovelist");
@@ -69,6 +71,8 @@ public class MoveFactory {
 		Manager.players.add(player);
 		Manager.fighters.add(fighter);
 
+		Manager.cameras.get(0).target2 = fighter;
+		
 	}
 
 	private void populateMoveList(String movelist)

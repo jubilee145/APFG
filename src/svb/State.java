@@ -53,9 +53,13 @@ public class State {
 
 	public void update(Fighter fighter)
 	{
+
 		for (State s : cancels)
 		{
-			s.checkConditions(fighter);
+			if(s.checkConditions(fighter))
+			{
+				break;
+			}
 		}
 		
 		for (Hitbox h : hitBoxes)
@@ -109,16 +113,17 @@ public class State {
 		}
 	}
 	
-	public void checkConditions(Fighter fighter)
+	public boolean checkConditions(Fighter fighter)
 	{
 		for (String condition : conditions)
 		{
 			if(EventHandler.check(fighter, condition))
 			{
 				fighter.setState(this);
-				break;
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	public List<State> getCancels() {

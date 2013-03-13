@@ -22,7 +22,7 @@ public class Damage implements StatusPacket{
 	
 	@Override
 	public void update() {
-		target.health -= damage;
+		target.setHealth(target.getHealth() - damage);
 	}
 
 	@Override

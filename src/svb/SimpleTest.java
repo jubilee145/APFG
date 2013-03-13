@@ -13,7 +13,7 @@ import entities.Fighter;
 
 public class SimpleTest extends BasicGame {
 
-	Camera camera, camera2;
+	Camera camera;
 	Manager manager;
 	
 	Animation animation;
@@ -31,16 +31,7 @@ public class SimpleTest extends BasicGame {
 		
 		camera = new Camera(container);
 		Manager.cameras.add(camera);
-		//Manager.cameras.get(0).target = Manager.fighters.get(0);
-		//TODO Delete me
-		{
-			camera.screenLocation.x = 0;
-			camera.screenLocation.y = 0;
-			camera.location.x = 0;
-			camera.location.y = 0;
-			
-
-		}
+		MoveFactory mf = new MoveFactory();
 	}
 
 	@Override

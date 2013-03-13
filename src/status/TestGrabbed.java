@@ -16,7 +16,7 @@ public class TestGrabbed implements StatusPacket {
 	
 	@Override
 	public void update() {
-		target.inputString = "";
+		target.setInputString("");
 		float setX = parent.getState().hitBoxes.get(0).getX();
 		float setY = parent.getState().hitBoxes.get(0).getY();
 		target.location = new Vector2f(setX, setY);

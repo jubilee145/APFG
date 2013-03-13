@@ -52,18 +52,17 @@ public class Player {
 		
 		if(!fighter.inputBuffer.contentEquals(""))
 		{
-			if(fighter.inputString.contains("5,"))
-				fighter.inputString = "";
-			fighter.inputString += fighter.inputBuffer;
+			if(fighter.getInputString().contains("5,"))
+				fighter.setInputString("");
+			fighter.setInputString(fighter.getInputString() + fighter.inputBuffer);
 		}
 		fighter.inputBuffer = "";
-		
 
 		if(time >= 250)
 		{
-			if(fighter.inputString != "5,")
-				fighter.lastString = fighter.inputString;
-			fighter.inputString = "5,";
+			if(fighter.getInputString() != "5,")
+				fighter.lastString = fighter.getInputString();
+			fighter.setInputString("5,");
 			time = 0;
 		}
 
@@ -76,18 +75,23 @@ public class Player {
 	public void render(GameContainer container, Graphics g)
 			throws SlickException {
 		
-		//TODO Delete me. Shows hitboxes. Replace with effect class when done.
-		for(Hitbox h : fighter.getState().getHitBoxes())
-		{
-			g.fill(h);
-		}
-		////
 		
-		g.drawRect(debugDrawLocation.x+5, 35, 200, 10);
-		g.fillRect(debugDrawLocation.x+5, 35, 200 * fighter.health/fighter.maxHealth, 10);
+		
+		//Render health bar, on right hand side if player 2
+		if(this == Manager.player1)
+		{
+			g.drawRect(50, 35, 500, 20);
+			g.fillRect(50, 35, 500 * fighter.health/fighter.maxHealth, 20);
+		}
+		else
+		{
+			g.drawRect(container.getWidth() - 50, 35, -500, 20);
+			g.fillRect(container.getWidth() - 50, 35, -500 * fighter.health/fighter.maxHealth, 20);
+		}
+		
 		if(Manager.debug)
 		{
-			g.drawString("Input String: " + fighter.inputString, debugDrawLocation.x+5, 55);
+			g.drawString("Input String: " + fighter.getInputString(), debugDrawLocation.x+5, 55);
 			g.drawString("Input Buffer: " + fighter.inputBuffer, debugDrawLocation.x+5, 75);
 			g.drawString("Time: " + time, debugDrawLocation.x+5, 95);
 			g.drawString("State: " + fighter.getState().getName(), debugDrawLocation.x+5, 115);

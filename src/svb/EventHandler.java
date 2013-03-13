@@ -26,7 +26,7 @@ public class EventHandler {
 
 			if(flag == 'I')
 			{
-				if(!fighter.inputString.contains(subString))
+				if(!fighter.getInputString().contains(subString))
 				{	
 					return false;
 				}

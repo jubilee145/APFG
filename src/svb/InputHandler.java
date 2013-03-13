@@ -139,6 +139,16 @@ public class InputHandler {
 			heldDirection += UP;
 			resetClock = true;
 		}
+		
+		if(heldDirection.contentEquals("26"))
+			heldDirection = "3";
+		else if(heldDirection.contentEquals("24"))
+			heldDirection = "1";
+		else if(heldDirection.contentEquals("48"))
+			heldDirection = "7";
+		else if(heldDirection.contentEquals("68"))
+			heldDirection = "9";
+		
 		if(dirty)
 		{
 			if(inputBuffer.contentEquals("26"))

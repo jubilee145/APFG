@@ -24,14 +24,14 @@ public class Manager
 	public static List<Player> players;
 	public static Player player1, player2;
 	public static List<Camera> cameras;
-	public static List<SpriteSheet> twiSheet, rainbowSheet, haroldSheet;
+	public static List<SpriteSheet> haroldSheet;
 	public static boolean debug;
 	public static float timeScale = 100f;
 	private static Quadtree quadtree;
 	
 	public static class WORLD
 	{
-		public static final int groundLevel = 690;
+		public static final int groundLevel = 0;
 		public static final float gravity = 0.005f;
 		public static final float conversionConstant = 0.01f;
 	}
@@ -41,14 +41,8 @@ public class Manager
 		actors = new ArrayList<Actor>();
 		fighters = new ArrayList<Fighter>();
 		players = new ArrayList<Player>();
-		cameras = new ArrayList<Camera>();
-		
-		twiSheet = new ArrayList<SpriteSheet>();
+		cameras = new ArrayList<Camera>();	
 		haroldSheet = new ArrayList<SpriteSheet>();
-		rainbowSheet = new ArrayList<SpriteSheet>();
-		
-		twiSheet.add(new SpriteSheet("assets\\sprites\\twilightsparkle.png", 96,96));
-		rainbowSheet.add(new SpriteSheet("assets\\sprites\\rainbowdash.png", 94, 94));
 		
 		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 1.png", 300,360));
 		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 2.png", 300,360));
@@ -68,7 +62,7 @@ public class Manager
 		
 		debug = false;
 		quadtree = new Quadtree(0, new Rectangle(0,0,800,600));
-		MoveFactory mf = new MoveFactory();
+		
 	}
 	
 	public static void update(GameContainer container, int delta) throws SlickException
@@ -169,8 +163,6 @@ public class Manager
 	
 	public static void render(GameContainer container, Graphics g) throws SlickException
 	{
-		//TODO Delete me. Displays ground level.
-		g.drawLine(0, WORLD.groundLevel, container.getScreenWidth(), WORLD.groundLevel);
 		for(Camera c : cameras)
 		{
 			c.render(g);
