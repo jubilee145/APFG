@@ -12,6 +12,13 @@ import entities.Actor;
 import entities.Fighter;
 import entities.Hitbox;
 
+/**
+ * The camera class allows the action to move around, while still being visible. It basically shifts
+ * whatever object its rendering to be visible onscreen, then sends it back, every render cycle.
+ * May have useless stuff from a different project on it. <.<
+ * @author Jubilee
+ *
+ */
 
 public class Camera {
 

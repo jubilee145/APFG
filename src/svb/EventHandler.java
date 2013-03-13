@@ -5,12 +5,16 @@ import status.Impulse;
 import status.StandardMove;
 import entities.Fighter;
 
+/**
+ * Determines both the conditions required to enter a state, and the actions that will occur in that state.
+ * TODO: An explanation of all of the condition and action flags. :/
+ * @author Jubilee
+ *
+ */
+
 public class EventHandler {
 
-	public EventHandler()
-	{
-		
-	}
+	public EventHandler(){}
 	
 	public static boolean check(Fighter fighter, String condition)
 	{

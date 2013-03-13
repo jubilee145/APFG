@@ -12,26 +12,113 @@ import entities.Fighter;
 import entities.Hitbox;
 import entities.Hitbox.Hit;
 
+/**
+ * The State class is used to build up a kind of decision tree for the Fighter class.
+ * Each state has a handful of states it can 'cancel' into, depending on the players input.
+ * eg. the "Idle" state cancels into the "Walk Forward" state when the player pushed the
+ * forward button. "Idle" can also cancel into jump, most of the attack states and probably
+ * a lot of other stuff later.
+ * @author Jubilee
+ *
+ */
+
 public class State {
 
+	/**
+	 * The list of possible states that can be assigned to the fighter from this state.
+	 */
 	private List<State> cancels;
-	private State transition;
-	private State block;
-	private String name;
-	private List<String> conditions;
-	private List<String> actions;
-	private int val;
-	private Animation animation;
-	public List<Hitbox> hitBoxes;
-	public List<StatusPacket> status;
-	private List<StatusPacket> removeStatus;
-	private boolean looping;
-	private boolean allowGravity = false;
-	private boolean preserveInput = false;
-	private boolean canTurn = false;
-	private boolean canBlock = false;
-	private Guard guard;
 	
+	/**
+	 * The state that will be assigned to the fighter once this state finishes.
+	 */
+	private State transition; 
+	
+	/**
+	 * This is the state which will happen if the fighter blocks an attack while in this
+	 * state. Usually this will just be "Block" or something, but for things like air-blocking
+	 * or counters, different states may be used.
+	 */
+	private State block;
+	
+	/**
+	 * Used to identify the state.
+	 */
+	private String name;
+	
+	/**
+	 * A list of the conditions required to enter this state. This is what determines
+	 * how one state cancels into another. Check the EventHandler class to see what the
+	 * different condition terms mean.
+	 */
+	private List<String> conditions;
+	
+	/**
+	 * Actions performed during this state. Adds Status effects.
+	 */
+	private List<String> actions;
+	
+	/**
+	 * ...What. <.< >.> I'm not entirely sure what this is.
+	 */
+	private int val;
+	
+	/**
+	 * The animation (basically a list of images) that gets sent to the Fighter when this state is assigned.
+	 */
+	private Animation animation;
+	
+	/**
+	 * The list of possible hitboxes that can happen during this state.
+	 */
+	public List<Hitbox> hitBoxes;
+	
+	/**
+	 * Status effects like movement and drag get sent here depending on what's in the action list.
+	 * Basically anything that happens every time you're in this state should be in here.
+	 */
+	public List<StatusPacket> status;
+	
+	/**
+	 * A list of statuses (statii?) that are going to be removed from the status list in the next pass. 
+	 */
+	private List<StatusPacket> removeStatus;
+	
+	/**
+	 * Whether this state loops, or goes to the transition state at the end of the animation.
+	 * NB: If this is TRUE, then at least one condition in the condition list must be true in 
+	 * each update pass, or else the transition state will be assigned.
+	 */
+	private boolean looping;
+	
+	/**
+	 * Whether the fighter will fall during this state.
+	 */
+	private boolean allowGravity = false;
+	
+	/**
+	 * If this is true, any keys pressed to enter this state won't be wiped from the input buffer.
+	 * Useful for things like walking that happen as part of another move.
+	 */
+	private boolean preserveInput = false;
+	
+	/**
+	 * Whether the fighter can turn around in this state. Should never be true for any state that
+	 * makes you go forwards, or you get horrible spinny stuff.
+	 */
+	private boolean canTurn = false;
+	
+	/**
+	 * Whether the player can block... ?
+	 * TODO: Can't actually recall exactly how this works, i'll flesh this out later.
+	 */
+	private boolean canBlock = false;
+	
+	/**
+	 * All the block types. If HIGH is true, then any high attacks can be blocked in this state, 
+	 * etc. etc.
+	 */
+	private Guard guard;
 	public class Guard
 	{
 		boolean high = false;

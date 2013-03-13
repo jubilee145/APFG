@@ -15,7 +15,6 @@ public class Player {
 
 	public Fighter fighter;
 	public InputHandler inputHandler;
-	//public Vector2f location;
 	
 	private int time;
 	

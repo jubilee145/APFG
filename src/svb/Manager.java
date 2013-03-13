@@ -16,7 +16,16 @@ import entities.Entity;
 import entities.Fighter;
 import entities.Hitbox;
 
-
+/**
+ * Holds... Ugh, all kinds of stuff. This should probably be about three or four classes.
+ * 
+ * TODO: Make this into three or four classes. :P
+ * 
+ * Manager holds details about the world, deals with collisions, holds spritesheets for the characters,
+ * deals with the cameras, updates *everything,* controls the flow of time... Bleh. It does everything.
+ * @author Jubilee
+ *
+ */
 public class Manager
 {
 	public static List<Actor> actors;
@@ -67,10 +76,6 @@ public class Manager
 	
 	public static void update(GameContainer container, int delta) throws SlickException
 	{
-		//TODO Delete me
-		if(container.getInput().isKeyPressed(Input.KEY_EQUALS))
-			container.setTargetFrameRate(container.getFPS() - 26);
-
 		for(Fighter f: fighters)
 		{
 			for (Fighter f2 : fighters)

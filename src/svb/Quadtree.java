@@ -9,7 +9,13 @@ import entities.Actor;
 import entities.Actor;
 import entities.Entity;
 
-
+/**
+ * Useful for large scale collisions. Not currently used, since there are probably only going to be
+ * something like five collision objects on the stage at once, but it might be useful for particles or
+ * something later on.
+ * @author Jubilee
+ *
+ */
 public class Quadtree {
 	 
 	  private int MAX_OBJECTS = 10;

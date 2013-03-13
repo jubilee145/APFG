@@ -4,6 +4,26 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SpriteSheet;
 
+/**
+ * Gets the input from the keyboard (and later, any networked player) and converts it into
+ * the eight directional numbers and A B C and D, so that the Fighter and State classes can
+ * figure out what they're supposed to do. :)
+ * 
+ * Directions work like this:
+ * 
+ * 	789
+ * 	4 6
+ * 	123
+ * 
+ * With six being forward, eight is up and so on.
+ * There are only four directional buttons, so pressing the six and eight buttons
+ * simultaneously will turn the input into a nine.
+ * 
+ * 
+ * @author Jubilee
+ *
+ */
+
 public class InputHandler {
 
 	class Keys {

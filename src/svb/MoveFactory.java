@@ -24,6 +24,13 @@ import status.TestStatus;
 import entities.Fighter;
 import entities.Hitbox;
 
+/**
+ * The moveFactory reads a characters movelist file, and uses it
+ * to build up a network of connected States. 
+ * @author Jubilee
+ *
+ */
+
 public class MoveFactory {
 
 	Player player = new Player();
