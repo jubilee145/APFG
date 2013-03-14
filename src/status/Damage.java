@@ -6,7 +6,7 @@ import entities.Fighter;
 import entities.Hitbox;
 
 /**
- * Just what it says on the tin. :) Causes damage once, then self-destructs.
+ * Just what it says on the tin. :) Causes damage once, then removes itself.
  * @author Jubilee
  *
  */

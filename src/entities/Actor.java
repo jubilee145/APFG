@@ -15,6 +15,18 @@ import org.newdawn.slick.geom.Vector2f;
 import svb.Camera;
 import svb.Manager;
 
+/**
+ * Actor is basically the class used for anything that is on the screen and active.
+ * It has behaviour for animation and movement, it holds information for collisions,
+ * stuff like that.
+ * 
+ * Right now, this could probably be be merged with Fighter, since it's the only class that extends
+ * it, and it overrides a lot of the important things. Later on though, actor will be used for
+ * projectiles, animated background objects, maybe menu items and stuff too.
+ * 
+ * @author Jubilee
+ *
+ */
 public class Actor {
 
 	public Vector2f acceleration; 

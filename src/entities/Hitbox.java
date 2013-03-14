@@ -10,6 +10,17 @@ import org.newdawn.slick.geom.Vector2f;
 import status.StatusPacket;
 import svb.Manager;
 
+/**
+ * Hitboxes are added to a State instance when the state needs to do something to the other
+ * player. The lists of statusPackets are applied when the hitbox touches the other player.
+ * The hitbox can also apply status effects to the 'attacking' player or state. Things like
+ * lifedrain, teleportation or stuff like that.
+ * Most commonly they have a Damage statusPacket in them and are used for attacking.
+ * @author Jubilee
+ *
+ */
+
+@SuppressWarnings("serial")
 public class Hitbox extends Rectangle {
 
 	public class Frame {
@@ -153,6 +164,14 @@ public class Hitbox extends Rectangle {
 		status.removeStatus.clear();
 	}
 	
+	/**
+	 * Apply the hitboxes status effects to the target and parent.
+	 * 
+	 * TODO: This will currently ignore blocking. Put target status effects in
+	 * Fighter.hit() instead, once blocking mechanics are sorted out.
+	 * 
+	 * @param fighter
+	 */
 	public void hit(Fighter fighter)
 	{
 		for(StatusPacket s: status.applyTarget)

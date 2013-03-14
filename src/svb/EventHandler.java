@@ -2,11 +2,14 @@ package svb;
 
 import status.Drag;
 import status.Impulse;
-import status.StandardMove;
+import status.Move;
 import entities.Fighter;
 
 /**
  * Determines both the conditions required to enter a state, and the actions that will occur in that state.
+ * For instance, a condition of I="6,A" will return true if the players input equals "6,A".
+ * The action M="50,0" will add a MOVE statusPacket to the state the fighter is in, telling it to move
+ * forwards at a speed of fifty.
  * TODO: An explanation of all of the condition and action flags. :/
  * @author Jubilee
  *
@@ -104,7 +107,7 @@ public class EventHandler {
 				float impX = Integer.parseInt(splitString[0]);
 				float impY = Integer.parseInt(splitString[1]);
 				
-				StandardMove m = new StandardMove(impX,impY);
+				Move m = new Move(impX,impY);
 				m.setParent(fighter);
 				m.giveObject(fighter);
 				

@@ -40,8 +40,6 @@ public class MoveFactory {
 	
 	public MoveFactory() throws SlickException
 	{
-		
-		
 		player = new Player(600,0);
 		fighter = new Fighter(Manager.haroldSheet.get(0), new Vector2f(350,Manager.WORLD.groundLevel));
 		
@@ -79,7 +77,6 @@ public class MoveFactory {
 		Manager.fighters.add(fighter);
 
 		Manager.cameras.get(0).target2 = fighter;
-		
 	}
 
 	private void populateMoveList(String movelist)

@@ -9,31 +9,34 @@ import entities.Fighter;
 import entities.Hitbox;
 
 /**
- * Multiplies movement by numbers handed to the constructor. A drag of 1,1 will cause no change,
- * while a drag of 0,0 will halt movement completely. Negative drag is bad, and will cause insanity.
- * Drag > 1 will cause runaway acceleration, use with caution.
- * Use for skids, to control temporary friction effects, etc.
+ * Moves the target at a constant direction and speed, modified by parents direction.
+ * Used for basic movement, walking etc. Possibly also for stranger movement things, like wind
+ * or something.
+ * Overwrites whatever movement the target had previously. (Change this?)
  * Does not remove itself.
+ * NB: When using for basic movement, parent and target should be the same.
  * @author Jubilee
  *
  */
-public class Drag implements StatusPacket{
+public class Move implements StatusPacket{
 
 	private Fighter target;
 	private Fighter parent;
-	private Vector2f applyDrag;
+	private Vector2f applyMovement;
 	
-	public Drag(float impX, float impY)
+	public Move(float impX, float impY)
 	{
-		applyDrag = new Vector2f(impX * Manager.WORLD.conversionConstant, impY * Manager.WORLD.conversionConstant);
+		applyMovement = new Vector2f(impX * Manager.WORLD.conversionConstant, impY * Manager.WORLD.conversionConstant);
 	}
 	
 	@Override
 	public void update() {
-		Vector2f tempVector = applyDrag.copy();
+		Vector2f tempVector = applyMovement.copy();
+		if(parent.isFacingLeft)
+			tempVector.x *= -1;
 		
-		target.velocity.x *= tempVector.x;
-		target.velocity.y *= tempVector.y;
+		target.velocity.x = tempVector.x;
+		target.velocity.y = tempVector.y;
 	}
 
 	@Override

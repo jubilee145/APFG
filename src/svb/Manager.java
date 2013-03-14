@@ -12,7 +12,6 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 import entities.Actor;
-import entities.Entity;
 import entities.Fighter;
 import entities.Hitbox;
 
@@ -23,6 +22,7 @@ import entities.Hitbox;
  * 
  * Manager holds details about the world, deals with collisions, holds spritesheets for the characters,
  * deals with the cameras, updates *everything,* controls the flow of time... Bleh. It does everything.
+ * 
  * @author Jubilee
  *
  */
@@ -36,7 +36,6 @@ public class Manager
 	public static List<SpriteSheet> haroldSheet;
 	public static boolean debug;
 	public static float timeScale = 100f;
-	private static Quadtree quadtree;
 	
 	public static class WORLD
 	{
@@ -70,8 +69,6 @@ public class Manager
 		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 15.png", 300,360));
 		
 		debug = false;
-		quadtree = new Quadtree(0, new Rectangle(0,0,800,600));
-		
 	}
 	
 	public static void update(GameContainer container, int delta) throws SlickException
@@ -91,10 +88,9 @@ public class Manager
 						if(h.intersects(f.touchBox)&&h.spent == false)
 						{
 							h.hit(f);
-
 							if(f.getState().canBlock())
 							{
-								//Check if block state conditions are satisfied
+								//Check if block State conditions are satisfied
 								boolean blockCondition = false;
 								if(f.getState().getBlock().getConditions().size() == 0)
 									blockCondition = true;
@@ -142,6 +138,7 @@ public class Manager
 			c.update(delta);
 		}
 		
+		//Turn the players around if they're behind one another.
 		float player1Loc = player1.fighter.location.x + player1.fighter.zoneBox.getWidth()/2;
 		float player2Loc = player2.fighter.location.x + player2.fighter.zoneBox.getWidth()/2;
 		boolean player1Left = player1.fighter.isFacingLeft;
@@ -174,16 +171,6 @@ public class Manager
 		}
 		if(debug)
 			g.drawString("Actors: " + actors.size(), 5, 35);
-	}
-	
-	public static void collide(Entity entity1, Entity entity2)
-	{
-		if (entity1.intersects(entity2))
-		{
-			
-			//seperateX(entity1, entity2);
-			//seperateY(entity1, entity2);
-		}
 	}
 	
 	private static boolean seperateX(Actor actor1, Actor actor2)

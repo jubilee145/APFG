@@ -9,6 +9,12 @@ import status.StatusPacket;
 import status.TestGrabbed;
 import entities.Fighter;
 
+/**
+ * Gets input from the movelist file, and figures out what status effects need to go where.
+ * A more complete explanation of what the status effects do will be in their own comment section.
+ * @author Jubilee
+ *
+ */
 public class StatusPacketFactory {
 
 	public StatusPacketFactory(){}

@@ -8,6 +8,11 @@ import svb.State;
 import entities.Fighter;
 import entities.Hitbox;
 
+/**
+ * Assigns a state from the targets list of open states.
+ * @author Jubilee
+ *
+ */
 public class SetState implements StatusPacket{
 
 	private Fighter target;

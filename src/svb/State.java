@@ -15,7 +15,7 @@ import entities.Hitbox.Hit;
 /**
  * The State class is used to build up a kind of decision tree for the Fighter class.
  * Each state has a handful of states it can 'cancel' into, depending on the players input.
- * eg. the "Idle" state cancels into the "Walk Forward" state when the player pushed the
+ * eg. the "Idle" state cancels into the "Walk Forward" state when the player pushes the
  * forward button. "Idle" can also cancel into jump, most of the attack states and probably
  * a lot of other stuff later.
  * @author Jubilee

@@ -8,8 +8,10 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.AppGameContainer;
 
 /**
- * Where everything starts. Resolution, fullscreen mode and framerate are set down the bottom, and it
- * sets up the name of the window and instantiates a few important classes.
+ * Where everything starts. Resolution, fullscreen mode and framerate are set down the bottom in main(), 
+ * and this also sets up the name of the window and instantiates a few important classes.
+ * 
+ * Later, this will probably be setting up the menu instead.
  * @author Jubilee
  *
  */

@@ -17,6 +17,15 @@ import status.TestStatus;
 import svb.Manager;
 import svb.State;
 
+/**
+ * The fighter class is basically what the player is controlling/seeing right now.
+ * It holds & updates the current active State, animation and collision data, holds the players 
+ * input data for the State to look at & keeps track of things that need to last longer than 
+ * any single state, such as hitstun. (When it's done. :D)
+ * 
+ * @author Jubilee
+ *
+ */
 public class Fighter extends Actor {
 
 	private String inputString = "5,";
@@ -30,16 +39,34 @@ public class Fighter extends Actor {
 	public int health;
 	public int maxHealth;
 
-	public SpriteSheet spriteSheet;
-
 	private State state;
+	
+	/**
+	 * A list of states that can be accessed at all times/don't need to be cancelled into.
+	 * "Hurt" is one such state, as is "Idle."
+	 * This is more for convenience than anything else, since making every state cancel into
+	 * idle when it was done would make the idle part of each characters movelist about
+	 * ten pages long. 
+	 */
 	public List<State> openStates;
+	
+	/**
+	 * Status effect that will be applied to the fighter. Used for any status that will last
+	 * longer than a single State, such as poison. Some characters may have permanent status 
+	 * effects built into them. (Things like ammunition counters, or super bars that behave
+	 * differently to other characters.)
+	 */
 	public List<StatusPacket> status;
 	private List<StatusPacket> removeStatus;
 	
 	public boolean canTurn = true;
 	public boolean isFacingLeft = false;
 	public boolean isTouchingGround = false;
+	
+	/**
+	 * True when any hitbox of the current state has succesfully connected with another player.
+	 * Used to cancel into states that require hit confirmation, like grabs and counters.
+	 */
 	public boolean hitConfirmed = false;
 
 	public Vector2f touchBoxOffset;
@@ -51,8 +78,6 @@ public class Fighter extends Actor {
 	public Fighter(SpriteSheet sheet, Vector2f startLocation) throws SlickException
 	{
 		super(sheet, startLocation);
-
-		spriteSheet = sheet;
 
 		openStates = new ArrayList<State>();
 		status = new ArrayList<StatusPacket>();
@@ -74,9 +99,9 @@ public class Fighter extends Actor {
 			throws SlickException {
 		
 		/** 
-		 * NB: If animation.update() is handed a number greater than the animation duration, frames WILL be skipped.
-		 * This will cause logic problems in states where the frame number is relevant, 
-		 * such as IMPULSE states, and may cause strange hitbox behaviour.
+		 * NB: If animation.update() is handed a number greater than the animation duration,
+		 * frames WILL be skipped. This will cause logic problems in states where the frame 
+		 * number is relevant,such as IMPULSE states, and may cause strange hitbox behaviour.
 		*/
 		animation.update((long)(delta * Manager.WORLD.conversionConstant * Manager.timeScale));
 		statusUpdate();
@@ -164,6 +189,9 @@ public class Fighter extends Actor {
 		removeStatus.clear();
 	}
 
+	/**
+	 * Resets and assigns a state to the fighter, along with the states animation.
+	 */
 	public void setState(State newState)
 	{
 		this.state = newState;
@@ -173,11 +201,13 @@ public class Fighter extends Actor {
 		newState.doActions(this);
 		newState.resetHitboxes(this);
 		
+		//Clear input stream.
 		if(!newState.isPreserveInput())
 		{
 			lastString = inputString;
 			inputString = "5,";
 		}
+		
 		hitConfirmed = false;
 		canTurn = newState.canTurn();
 	}
@@ -186,13 +216,13 @@ public class Fighter extends Actor {
 		return state;
 	}
 
+	/**
+	 * Currently doesn't do anything. Needed later for blocking mechanics. Figures
+	 * out what should happen when the fighter touches a hitbox.
+	 */
 	public void hit(Hitbox hitbox)
-	{
-		/*health -= hitbox.currentFrame.damage;
-		
-		velocity.x = hitbox.currentFrame.impulseH * hitbox.directionMultiplier;
-		velocity.y = hitbox.currentFrame.impulseV;*/
-		
+	{	
+		//TODO: Blocking mechanics.
 	}
 	
 	public void applyStatus(StatusPacket s)

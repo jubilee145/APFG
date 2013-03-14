@@ -19,7 +19,6 @@ import org.newdawn.slick.SpriteSheet;
  * There are only four directional buttons, so pressing the six and eight buttons
  * simultaneously will turn the input into a nine.
  * 
- * 
  * @author Jubilee
  *
  */
