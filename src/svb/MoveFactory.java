@@ -51,7 +51,7 @@ public class MoveFactory {
 		fighter.health = fighter.maxHealth = 5000;
 		player.fighter = fighter;
 		sheetList = Manager.haroldSheet;
-		populateMoveList("Assets\\Moves\\HaroldMovelist");
+		populateMoveList("Assets/Moves/HaroldMovelist");
 		Manager.player1 = player;
 		Manager.players.add(player);
 		Manager.fighters.add(fighter);
@@ -71,7 +71,7 @@ public class MoveFactory {
 		fighter.health = fighter.maxHealth = 5000;
 		player.fighter = fighter;
 		sheetList = Manager.haroldSheet;
-		populateMoveList("Assets\\Moves\\HaroldMovelist");
+		populateMoveList("Assets/Moves/HaroldMovelist");
 		Manager.player2 = player;
 		Manager.players.add(player);
 		Manager.fighters.add(fighter);

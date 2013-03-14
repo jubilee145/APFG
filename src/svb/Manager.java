@@ -52,21 +52,21 @@ public class Manager
 		cameras = new ArrayList<Camera>();	
 		haroldSheet = new ArrayList<SpriteSheet>();
 		
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 1.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 2.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 3.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 4.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 5.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 6.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 7.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 8.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 9.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 10.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 11.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 12.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 13.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 14.png", 300,360));
-		haroldSheet.add(new SpriteSheet("assets\\sprites\\HaroldSheet - 15.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 1.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 2.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 3.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 4.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 5.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 6.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 7.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 8.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 9.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 10.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 11.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 12.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 13.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 14.png", 300,360));
+		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 15.png", 300,360));
 		
 		debug = false;
 	}
