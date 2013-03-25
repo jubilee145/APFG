@@ -9,6 +9,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
+import stage.Stage;
+
 import entities.Actor;
 import entities.Fighter;
 import entities.Hitbox;
@@ -34,6 +36,7 @@ public class Manager
 	public static List<SpriteSheet> haroldSheet;
 	public static boolean debug;
 	public static float timeScale = 100f;
+	public static Stage stage;
 	
 	public static class WORLD
 	{
@@ -67,6 +70,8 @@ public class Manager
 		haroldSheet.add(new SpriteSheet("assets/sprites/HaroldSheet - 15.png", 300,360));
 		
 		debug = false;
+		
+		stage = new Stage();
 	}
 	
 	public static void update(GameContainer container, int delta) throws SlickException
@@ -75,6 +80,16 @@ public class Manager
 		if (delta > 20)
 			delta = 20;
 
+		for(Player p : players)
+		{
+			p.update(container, delta);
+		}
+		
+		for(Camera c : cameras)
+		{
+			c.update(delta);
+		}
+		
 		for(Fighter f: fighters)
 		{
 			for (Fighter f2 : fighters)
@@ -128,16 +143,6 @@ public class Manager
 		for(Actor a : actors)
 		{
 			a.update(container, delta);
-		}
-		
-		for(Player p : players)
-		{
-			p.update(container, delta);
-		}
-		
-		for(Camera c : cameras)
-		{
-			c.update(delta);
 		}
 		
 		//Turn the players around if they're behind one another.

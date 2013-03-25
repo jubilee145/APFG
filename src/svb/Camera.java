@@ -6,6 +6,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
+import stage.BackgroundObject;
 import svb.Manager.WORLD;
 
 import entities.Actor;
@@ -39,12 +40,15 @@ public class Camera {
 		this.container = container;
 		
 		location = new Vector2f();
-		screenLocation = new Vector2f(50,125);
-		screen = new Rectangle(0, 0, container.getWidth(), container.getHeight());
+		screenLocation = new Vector2f(0,0);
+		screen = new Rectangle(0, 0, 1920, 1080);
 	}
 
 	public void update(int delta)
 	{
+		/**
+		 * Needs to be measured from the right-hand side of the right-most target.
+		 */
 		if(target1 != null && target2 != null)
 		{
 			location.x = (target1.location.x + target1.zoneBox.getWidth()/2 + target2.location.x + target2.zoneBox.getWidth()/2)/2 - screen.getWidth()/2;
@@ -58,9 +62,18 @@ public class Camera {
 		
 		Vector2f offset = new Vector2f();
 		
-		//TODO Delete me. Displays ground level.
-		//-30 so that it looks like they're actually standing on something.
+		/**TODO Delete me. Displays ground level.
+		 *-30 so that it looks like they're actually standing on the ground, instead of an impossibly
+		 *thin wire.
+		 */
 		g.drawLine(0, WORLD.groundLevel - location.y + screen.getY() - 30, container.getScreenWidth(), WORLD.groundLevel + screen.getY() - location.y - 30);
+		
+		for (BackgroundObject b : Manager.stage.background)
+		{
+			b.setLocation(b.location.add(location.negate().add(screenLocation)));
+			b.render(container, g, 0, 0);
+			b.setLocation(b.location.add(location).add(screenLocation.negate()));
+		}
 		
 		for (Fighter f : Manager.fighters) {
 			
@@ -88,6 +101,5 @@ public class Camera {
 			////
 			p.render(container, g);
 		}
-		
 	}
 }

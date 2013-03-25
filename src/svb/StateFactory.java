@@ -31,17 +31,17 @@ import entities.Hitbox;
  *
  */
 
-public class MoveFactory {
+public class StateFactory {
 
 	Player player = new Player();
 	StatusPacketFactory packetFactory = new StatusPacketFactory();
 	Fighter fighter;
 	List<SpriteSheet> sheetList;
 	
-	public MoveFactory() throws SlickException
+	public StateFactory() throws SlickException
 	{
-		player = new Player(600,0);
-		fighter = new Fighter(Manager.haroldSheet.get(0), new Vector2f(350,Manager.WORLD.groundLevel));
+		player = new Player(500,0);
+		fighter = new Fighter(Manager.haroldSheet.get(0), new Vector2f(-500,Manager.WORLD.groundLevel));
 		
 		fighter.touchBox = new Rectangle(0,0,150,260);
 		fighter.touchBoxOffset = new Vector2f(75,96);
@@ -51,17 +51,17 @@ public class MoveFactory {
 		fighter.health = fighter.maxHealth = 5000;
 		player.fighter = fighter;
 		sheetList = Manager.haroldSheet;
-		populateMoveList("assets/moves/HaroldMovelist");
+		populateMoveList("assets/Moves/HaroldMovelist");
 		Manager.player1 = player;
 		Manager.players.add(player);
 		Manager.fighters.add(fighter);
 
 		Manager.cameras.get(0).target1 = fighter;
 		
-		player = new Player(0,0);
+		player = new Player(-500,0);
 		player.setKeys(Input.KEY_NUMPAD8, Input.KEY_NUMPAD2, Input.KEY_NUMPAD4, Input.KEY_NUMPAD6, 
 				Input.KEY_O, Input.KEY_P, Input.KEY_K, Input.KEY_L);
-		fighter = new Fighter(Manager.haroldSheet.get(0), new Vector2f(125,Manager.WORLD.groundLevel));
+		fighter = new Fighter(Manager.haroldSheet.get(0), new Vector2f(500,Manager.WORLD.groundLevel));
 		
 		fighter.touchBox = new Rectangle(0,0,150,260);
 		fighter.touchBoxOffset = new Vector2f(75,96);
@@ -71,7 +71,7 @@ public class MoveFactory {
 		fighter.health = fighter.maxHealth = 5000;
 		player.fighter = fighter;
 		sheetList = Manager.haroldSheet;
-		populateMoveList("assets/moves/HaroldMovelist");
+		populateMoveList("assets/Moves/HaroldMovelist");
 		Manager.player2 = player;
 		Manager.players.add(player);
 		Manager.fighters.add(fighter);
@@ -114,7 +114,7 @@ public class MoveFactory {
 				}
 				
 				int index = strLine.indexOf('"');
-				if(strLine.contains("[MOVE]"))
+				if(strLine.contains("[STATE]"))
 				{
 					state = new State();
 					anim = null;
@@ -348,13 +348,16 @@ public class MoveFactory {
 			//Connect moves into tree.
 			for(String str : s.getConditions())
 			{
-				if(str.contains("M="))
+				if(str.contains("STATE="))
 				{
-					String subString = str.substring(str.indexOf("M=")+3, str.indexOf('"', str.indexOf("M=")+3));
+					String subString = str.substring(str.indexOf("STATE=")+7, str.indexOf('"', str.indexOf("STATE=")+7));
+					
 					for(State s2 :moveList)
 					{
 						if(s2.getName().contentEquals(subString))
+						{
 							s2.getCancels().add(s);
+						}
 					}
 				}
 				

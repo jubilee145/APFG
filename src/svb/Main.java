@@ -1,6 +1,7 @@
 package svb;
 
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.CanvasGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -28,10 +29,12 @@ public class Main extends BasicGame {
 	public void init(GameContainer container) throws SlickException {
 
 		manager = new Manager();
-		
 		camera = new Camera(container);
 		Manager.cameras.add(camera);
-		MoveFactory mf = new MoveFactory();
+		
+		StateFactory mf = new StateFactory();
+		
+		
 	}
 
 	@Override
@@ -54,7 +57,11 @@ public class Main extends BasicGame {
 	public static void main(String[] args) {
 		try {
 			AppGameContainer app = new AppGameContainer(new Main());
+			//CanvasGameContainer app = new CanvasGameContainer(new Main());
+			
 			app.setDisplayMode(1280, 720, false);
+			app.setResizable(true);
+			app.setAlwaysRender(true);
 			app.setTargetFrameRate(100);
 			app.start();
 		} catch (SlickException e) {

@@ -68,7 +68,7 @@ public class EventHandler {
 					return false;
 				}
 			}
-			else if(flag =='S')
+			else if(flag =='C')
 			{
 				if(!fighter.hitConfirmed)
 				{

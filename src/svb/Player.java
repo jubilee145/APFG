@@ -82,8 +82,8 @@ public class Player {
 		}
 		else
 		{
-			g.drawRect(container.getWidth() - 50, 35, -500, 20);
-			g.fillRect(container.getWidth() - 50, 35, -500 * fighter.health/fighter.maxHealth, 20);
+			g.drawRect(1920 - 50, 35, -500, 20);
+			g.fillRect(1920 - 50, 35, -500 * fighter.health/fighter.maxHealth, 20);
 		}
 		
 		if(Manager.debug)
