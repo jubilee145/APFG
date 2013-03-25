@@ -165,13 +165,19 @@ public class State {
 		}
 		if(looping)
 		{
+			boolean keepGoing = false;
 			for (String condition : conditions)
 			{
-				if(!EventHandler.check(fighter, condition))
+				if(EventHandler.check(fighter, condition))
 				{
-					fighter.animation.restart();
-					fighter.setState(this.transition);
+					keepGoing = true;
+					break;
 				}
+			}
+			if(!keepGoing)
+			{
+				fighter.animation.restart();
+				fighter.setState(this.transition);
 			}
 		}
 	}

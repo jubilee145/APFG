@@ -174,11 +174,6 @@ public class Hitbox extends Rectangle {
 	 */
 	public void hit(Fighter fighter)
 	{
-		for(StatusPacket s: status.applyTarget)
-		{
-			s.giveObject(fighter);
-			fighter.applyStatus(s);
-		}
 		for(StatusPacket s: status.applyParent)
 		{
 			s.giveObject(parent);

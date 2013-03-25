@@ -222,7 +222,12 @@ public class Fighter extends Actor {
 	 */
 	public void hit(Hitbox hitbox)
 	{	
-		//TODO: Blocking mechanics.
+
+		for(StatusPacket s: hitbox.status.applyTarget)
+		{
+			s.giveObject(this);
+			this.applyStatus(s);
+		}
 	}
 	
 	public void applyStatus(StatusPacket s)

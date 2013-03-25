@@ -2,18 +2,52 @@
 name="Idle"
 animation="1,0,59"
 action=D="50,0"
+condition=H=""
 looping
 preserveInput
 canTurn
+block="Stand Guard"
+
+[STATE]
+name="Stand Guard"
+animation="2,0,5"
+condition=H="4"
+action=M="-1,0"
+guard="HIGH"
+guard="MID"
+block="Stand Guard"
+
+[STATE]
+name="Crouch Guard"
+animation="6,0,5"
+condition=H="1"
+action=M="-1,0"
+guard="LOW"
+block="Crouch Guard"
+transition="Crouch"
+
+[STATE]
+name="Air Guard"
+animation="2,0,5"
+condition=H="4"
+action=M="-1,0"
+guard="HIGH"
+guard="MID"
+guard="LOW"
+block="Air Guard"
+transition="Fall"
 
 [STATE]
 name="Crouch"
 animation="5,0,35"
 action=D="10,0"
 condition=H="2" STATE="Idle"
+condition=H="3"
+condition=H="1"
 looping
 preserveInput
 canTurn
+block="Crouch Guard"
 
 [STATE]
 name="Hurt"
@@ -28,6 +62,7 @@ allowGravity
 looping
 preserveInput
 open
+block="Air Guard"
 
 [STATE]
 name="JumpF"
@@ -38,6 +73,7 @@ action=I="33,-180"
 transition="Fall"
 allowGravity
 preserveInput
+block="Air Guard"
 
 [STATE]
 name="JumpB"
@@ -48,6 +84,7 @@ action=I="-33,-180"
 transition="Fall"
 allowGravity
 preserveInput
+block="Air Guard"
 
 [STATE]
 name="JumpU"
@@ -57,6 +94,7 @@ action=I="0,-180"
 transition="Fall"
 allowGravity
 preserveInput
+block="Air Guard"
 
 [STATE]
 name="Air Dash F"
@@ -105,6 +143,7 @@ action=M="-18,0"
 looping
 preserveInput
 canTurn
+block="Stand Guard"
 
 [STATE]
 name="Quick Upper"
