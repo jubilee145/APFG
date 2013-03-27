@@ -24,7 +24,7 @@ public class StatusPacketFactory {
 		String[] subString = packetData.split(",");
 		if(subString[0].contentEquals("GRAB"))
 		{
-			TestGrabbed testGrabbed = new TestGrabbed();
+			TestGrabbed testGrabbed = new TestGrabbed(subString[1]);
 			testGrabbed.setParent(fighter);
 			packetList.add(testGrabbed);
 			return;

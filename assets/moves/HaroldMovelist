@@ -9,6 +9,28 @@ canTurn
 block="Stand Guard"
 
 [STATE]
+name="Forward Grab - Startup"
+animation="8,0,10"
+condition=I="BD," STATE="Idle"
+condition=I="BD," STATE="Standing B"
+condition=I="BD," STATE="Standing D"
+hitbox=A="6,200,100,45,150," A="7,300,100,50,150" T="GRAB,Forward Grab"
+
+[STATE]
+name="Forward Grab"
+animation="8,11,20"
+animation="10,0,51"
+condition=C="TRUE" STATE="Forward Grab - Startup"
+hitbox=A="0,100,0,0,0" A="60,100,0,0,0"
+hitbox=A="60,210,0,500,500" T="SETSTATE,Knockdown" T="IMPULSE,100,-100" T="DAMAGE,800"
+
+[STATE]
+name="Knockdown"
+animation="15,0,20"
+allowGravity
+open
+
+[STATE]
 name="Stand Guard"
 animation="2,0,5"
 condition=H="4"
@@ -69,7 +91,7 @@ name="JumpF"
 animation="12,0,30"
 condition=H="9" STATE="WalkF"
 condition=H="9" STATE="Idle"
-action=I="33,-180"
+action=I="99,-200"
 transition="Fall"
 allowGravity
 preserveInput
@@ -80,7 +102,7 @@ name="JumpB"
 animation="13,0,30"
 condition=H="7" STATE="WalkB"
 condition=H="7" STATE="Idle"
-action=I="-33,-180"
+action=I="-99,-200"
 transition="Fall"
 allowGravity
 preserveInput
@@ -90,7 +112,7 @@ block="Air Guard"
 name="JumpU"
 animation="12,0,30"
 condition=H="8" STATE="Idle"
-action=I="0,-180"
+action=I="0,-200"
 transition="Fall"
 allowGravity
 preserveInput

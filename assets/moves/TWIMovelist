@@ -91,7 +91,7 @@ animation="270,278"
 action=M="2,0"
 condition=I="A," M="Idle"
 condition=I="A," M="WalkF"
-hitbox=A="6,90,0,45,50," A="7,100,0,50,50" T="GRAB"
+hitbox=A="6,90,0,45,50," A="7,100,0,50,50" T="GRAB, Grabbing Test"
 
 [MOVE]
 name="Grabbing Test"

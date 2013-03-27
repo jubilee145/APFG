@@ -9,11 +9,16 @@ import entities.Hitbox;
 
 public class TestGrabbed implements StatusPacket {
 
-	public TestGrabbed(){}
-	
+	String grabState;
 	private Fighter target;
 	private Fighter parent;
 	
+	
+	public TestGrabbed(String grabState)
+	{
+		this.grabState = grabState;	
+	}
+
 	@Override
 	public void update() {
 		target.setInputString("");
@@ -28,17 +33,14 @@ public class TestGrabbed implements StatusPacket {
 	public boolean die() {
 		//Trigger when the last hitbox in the state hits the parent
 		if(parent.getState().hitBoxes.get(parent.getState().hitBoxes.size()-1).spent)
-			if(parent.getState().getName().contains("Grabbing"))
+		{
+			if(parent.getState().getName().contentEquals(grabState))
 			{
-				/*Vector2f applyVel = new Vector2f();
-				applyVel.x = parent.state.hitBoxes.get(parent.state.hitBoxes.size()-1).currentFrame.impulseH;
-				applyVel.y = parent.state.hitBoxes.get(parent.state.hitBoxes.size()-1).currentFrame.impulseV;
-				target.velocity = applyVel;
-				target.hitStun = 0;*/
 				parent.immovable = false;
 				target.immovable = false;
 				return true;
 			}
+		}
 		return false;
 	}
 

@@ -140,7 +140,6 @@ public class State {
 
 	public void update(Fighter fighter)
 	{
-
 		for (State s : cancels)
 		{
 			if(s.checkConditions(fighter))

@@ -204,10 +204,22 @@ public class Manager
 			Rectangle act1rect = actor1.touchBox;
 			Rectangle act2rect = actor2.touchBox;
 			{
-				float maxOverlap = act1deltaAbs + act2deltaAbs + 25;//OVERLAP_BIAS;
+				float maxOverlap = act1deltaAbs + act2deltaAbs + 150;//OVERLAP_BIAS;
 				
 				//If they did overlap (and can), figure out by how much and flip the corresponding flags
-				if(act1delta > act2delta)
+				if(act1rect.getX() + act1rect.getWidth()/2 < act2rect.getX() + act2rect.getWidth()/2)
+				{
+					overlap = actor1.location.x + act1rect.getWidth() - actor2.location.x;
+					if((overlap > maxOverlap))
+						overlap = 0;
+				}
+				else if(act1rect.getX() + act1rect.getWidth()/2 > act2rect.getX() + act2rect.getWidth()/2)
+				{
+					overlap = actor1.location.x - act2rect.getWidth() - actor2.location.x;
+					if((-overlap > maxOverlap))
+						overlap = 0;
+				}
+				/*if(act1delta > act2delta)
 				{
 					overlap = actor1.location.x + act1rect.getWidth() - actor2.location.x;
 					if((overlap > maxOverlap))
@@ -218,7 +230,7 @@ public class Manager
 					overlap = actor1.location.x - act2rect.getWidth() - actor2.location.x;
 					if((-overlap > maxOverlap))
 						overlap = 0;
-				}
+				}*/
 			}
 		}
 		
@@ -239,8 +251,8 @@ public class Manager
 				float average = (act1velocity + act2velocity)*0.5f;
 				act1velocity -= average;
 				act2velocity -= average;
-				actor1.velocity.x = average + act1velocity * actor1.elasticity;
-				actor2.velocity.x = average + act2velocity * actor2.elasticity;
+				//actor1.velocity.x = average + act1velocity * actor1.elasticity;
+				//actor2.velocity.x = average + act2velocity * actor2.elasticity;
 			}
 			else if(!act1immovable)
 			{
