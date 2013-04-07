@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="run" name="Compile and run">
+	<mkdir dir="bin"/>
 	<path id="APFG.classpath"> 
 		<pathelement location="bin"/> 
 		<pathelement location="lib/lwjgl.jar"/> 
