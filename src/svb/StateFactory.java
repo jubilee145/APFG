@@ -2,6 +2,7 @@ package svb;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.security.acl.LastOwnerException;
@@ -33,14 +34,14 @@ import entities.Hitbox;
 
 public class StateFactory {
 
-	Player player = new Player();
+	Player player;
 	StatusPacketFactory packetFactory = new StatusPacketFactory();
-	Fighter fighter;
-	List<SpriteSheet> sheetList;
+	//Fighter fighter;
+	//List<SpriteSheet> sheetList;
 	
 	public StateFactory() throws SlickException
 	{
-		player = new Player(500,0);
+		/*player = Manager.player1;
 		fighter = new Fighter(Manager.haroldSheet.get(0), new Vector2f(-500,Manager.WORLD.groundLevel));
 		
 		fighter.touchBox = new Rectangle(0,0,150,260);
@@ -51,16 +52,13 @@ public class StateFactory {
 		fighter.health = fighter.maxHealth = 5000;
 		player.fighter = fighter;
 		sheetList = Manager.haroldSheet;
-		populateMoveList("assets/moves/HaroldMovelist");
-		Manager.player1 = player;
-		Manager.players.add(player);
+		populateMoveList("assets/Moves/HaroldMovelist");
+
 		Manager.fighters.add(fighter);
 
 		Manager.cameras.get(0).target1 = fighter;
 		
-		player = new Player(-500,0);
-		player.setKeys(Input.KEY_NUMPAD8, Input.KEY_NUMPAD2, Input.KEY_NUMPAD4, Input.KEY_NUMPAD6, 
-				Input.KEY_O, Input.KEY_P, Input.KEY_K, Input.KEY_L);
+		player = Manager.player2;
 		fighter = new Fighter(Manager.haroldSheet.get(0), new Vector2f(500,Manager.WORLD.groundLevel));
 		
 		fighter.touchBox = new Rectangle(0,0,150,260);
@@ -71,15 +69,35 @@ public class StateFactory {
 		fighter.health = fighter.maxHealth = 5000;
 		player.fighter = fighter;
 		sheetList = Manager.haroldSheet;
-		populateMoveList("assets/moves/HaroldMovelist");
-		Manager.player2 = player;
-		Manager.players.add(player);
+		populateMoveList("assets/Moves/HaroldMovelist");
 		Manager.fighters.add(fighter);
 
-		Manager.cameras.get(0).target2 = fighter;
+		Manager.cameras.get(0).target2 = fighter;*/
 	}
+	
+	/*public Fighter makeFighter(File file) throws SlickException
+	{
+		int count = 0;
+		System.out.println("Load begun, character: " + file);
+		sheetList = new ArrayList<SpriteSheet>();
+		File fname = new File(file + "/sprites");
+		System.out.println("REACHED: " + count++);
+		File[] fileNames;
+		System.out.println("REACHED: " + count++);
+		fileNames = fname.listFiles();
+		System.out.println("REACHED: " + count++);
+		for (int i = 0; i < fileNames.length; i++) 
+		{
+			System.out.print("Loading file " + fileNames[i] + " ...");
+			sheetList.add(new SpriteSheet(fileNames[i].toString(), 300,360));
+			System.out.println("Done.");
+		}
+		fighter = new Fighter(sheetList.get(0), new Vector2f(-500,Manager.WORLD.groundLevel));
+		
+		return fighter;
+	}*/
 
-	private void populateMoveList(String movelist)
+	public void populateMoveList(String movelistFile, List<SpriteSheet> sheetList, Fighter fighter)
 	{
 		State state = new State();
 		List<State> moveList;
@@ -96,9 +114,7 @@ public class StateFactory {
 		
 		try
 		{
-			//TODO Make movelists for seperate characters here.
-			FileInputStream fstream = new FileInputStream(movelist);
-
+			FileInputStream fstream = new FileInputStream(movelistFile);
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String strLine;
@@ -363,6 +379,5 @@ public class StateFactory {
 				
 			}	
 		}
-		System.out.println ("MOVEFACTORY: " + moveList.size());
 	}
 }

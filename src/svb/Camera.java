@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.state.StateBasedGame;
 
 import stage.BackgroundObject;
 import svb.Manager.WORLD;
@@ -12,6 +13,8 @@ import svb.Manager.WORLD;
 import entities.Actor;
 import entities.Fighter;
 import entities.Hitbox;
+import gameState.EyeCatch;
+import gameState.Fight;
 
 /**
  * The camera class allows the action to move around, while still being visible. It basically shifts
@@ -35,13 +38,17 @@ public class Camera {
 	private GameContainer container;
 	
 	public int tempInt = 0;
+	private StateBasedGame game;
+	private Fight fight;
 
-	public Camera(GameContainer container) {
+	public Camera(GameContainer container, StateBasedGame game) {
 		this.container = container;
 		
 		location = new Vector2f();
 		screenLocation = new Vector2f(0,0);
 		screen = new Rectangle(0, 0, 1920, 1080);
+		this.game = game;
+		fight = ((Fight)game.getState(Manager.StateIndex.FIGHT.ordinal()));
 	}
 
 	public void update(int delta)
@@ -67,15 +74,16 @@ public class Camera {
 		 *thin wire.
 		 */
 		g.drawLine(0, WORLD.groundLevel - location.y + screen.getY() - 30, container.getScreenWidth(), WORLD.groundLevel + screen.getY() - location.y - 30);
-		
-		for (BackgroundObject b : Manager.stage.background)
+
+		for (BackgroundObject b : fight.stage.background)
 		{
 			b.setLocation(b.location.add(location.negate().add(screenLocation)));
 			b.render(container, g, 0, 0);
 			b.setLocation(b.location.add(location).add(screenLocation.negate()));
 		}
 		
-		for (Fighter f : Manager.fighters) {
+		
+		for (Fighter f : fight.fighters) {
 			
 			offset.x = 0;
 			offset.y = 0;

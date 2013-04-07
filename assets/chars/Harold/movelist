@@ -1,0 +1,410 @@
+[STATE]
+name="Idle"
+animation="1,0,59"
+action=D="50,0"
+condition=H=""
+looping
+preserveInput
+canTurn
+block="Stand Guard"
+
+[STATE]
+name="Forward Grab - Startup"
+animation="8,0,10"
+condition=I="BD," STATE="Idle"
+condition=I="BD," STATE="Standing B"
+condition=I="BD," STATE="Standing D"
+hitbox=A="6,200,100,45,150," A="7,300,100,50,150" T="GRAB,Forward Grab"
+
+[STATE]
+name="Forward Grab"
+animation="8,11,20"
+animation="10,0,51"
+condition=C="TRUE" STATE="Forward Grab - Startup"
+hitbox=A="0,100,0,0,0" A="60,100,0,0,0"
+hitbox=A="60,210,0,500,500" T="SETSTATE,Knockdown" T="IMPULSE,100,-100" T="DAMAGE,800"
+
+[STATE]
+name="Knockdown"
+animation="15,0,20"
+allowGravity
+open
+
+[STATE]
+name="Stand Guard"
+animation="2,0,5"
+condition=H="4"
+action=M="-1,0"
+guard="HIGH"
+guard="MID"
+block="Stand Guard"
+
+[STATE]
+name="Crouch Guard"
+animation="6,0,5"
+condition=H="1"
+action=M="-1,0"
+guard="LOW"
+block="Crouch Guard"
+transition="Crouch"
+
+[STATE]
+name="Air Guard"
+animation="2,0,5"
+condition=H="4"
+action=M="-1,0"
+guard="HIGH"
+guard="MID"
+guard="LOW"
+block="Air Guard"
+transition="Fall"
+
+[STATE]
+name="Crouch"
+animation="5,0,35"
+action=D="10,0"
+condition=H="2" STATE="Idle"
+condition=H="3"
+condition=H="1"
+looping
+preserveInput
+canTurn
+block="Crouch Guard"
+
+[STATE]
+name="Hurt"
+animation="11,0,4"
+open
+
+[STATE]
+name="Fall"
+animation="12,30,30"
+condition=G="FALSE"
+allowGravity
+looping
+preserveInput
+open
+block="Air Guard"
+
+[STATE]
+name="JumpF"
+animation="12,0,30"
+condition=H="9" STATE="WalkF"
+condition=H="9" STATE="Idle"
+action=I="99,-200"
+transition="Fall"
+allowGravity
+preserveInput
+block="Air Guard"
+
+[STATE]
+name="JumpB"
+animation="13,0,30"
+condition=H="7" STATE="WalkB"
+condition=H="7" STATE="Idle"
+action=I="-99,-200"
+transition="Fall"
+allowGravity
+preserveInput
+block="Air Guard"
+
+[STATE]
+name="JumpU"
+animation="12,0,30"
+condition=H="8" STATE="Idle"
+action=I="0,-200"
+transition="Fall"
+allowGravity
+preserveInput
+block="Air Guard"
+
+[STATE]
+name="Air Dash F"
+animation="1,0,8"
+condition=I="6,6," STATE="Fall"
+condition=I="6,6," STATE="JumpU"
+condition=I="6,6," STATE="JumpF"
+condition=I="6,6," STATE="JumpB"
+action=M="180,0"
+transition="Fall"
+
+[STATE]
+name="Dash F"
+animation="3,0,15"
+condition=I="6,6," STATE="Idle"
+condition=I="6,6," STATE="WalkF"
+condition=I="6,6," STATE="WalkB"
+action=I="100,-60"
+transition="Idle"
+allowGravity
+
+[STATE]
+name="Dash B"
+animation="4,0,15"
+condition=I="4,4," STATE="Idle"
+condition=I="4,4," STATE="WalkF"
+condition=I="4,4," STATE="WalkB"
+action=I="-80,-60"
+transition="Idle"
+allowGravity
+
+[STATE]
+name="WalkF"
+animation="3,0,29"
+condition=H="6" STATE="Idle"
+action=M="35,0"
+looping
+preserveInput
+canTurn
+
+[STATE]
+name="WalkB"
+animation="4,0,29"
+condition=H="4" STATE="Idle"
+action=M="-18,0"
+looping
+preserveInput
+canTurn
+block="Stand Guard"
+
+[STATE]
+name="Quick Upper"
+animation="8,0,0"
+animation="8,2,2"
+animation="8,4,9"
+action=I="60,0"
+condition=I="2,3,6,A," STATE="Idle"
+condition=I="2,3,6,A," STATE="WalkF"
+hitbox=A="5,200,150,200,130" A="7,200,0,200,130" G="HIGH" T="IMPULSE,10,-90" P="IMPULSE,10,-90" T="DAMAGE,150" T="SETSTATE,Hurt"
+
+[STATE]
+name="Uppercut"
+animation="8,10,25"
+action=I="80,0"
+condition=I="2,3,6,B," STATE="Idle"
+condition=I="2,3,6,B," STATE="WalkF"
+hitbox=A="10,200,150,100,130" A="12,200,0,100,130" G="HIGH" T="IMPULSE,10,-90" P="IMPULSE,10,-90" T="DAMAGE,200" T="SETSTATE,Hurt"
+
+[STATE]
+name="Heavy Upper"
+animation="9,0,27"
+action=I="120,0"
+condition=I="2,3,6,C," STATE="Idle"
+condition=I="2,3,6,C," STATE="WalkF"
+hitbox=A="20,200,150,100,130" A="22,200,0,100,130" G="HIGH" T="IMPULSE,10,-160" P="IMPULSE,10,-120" T="DAMAGE,300" T="SETSTATE,Hurt"
+
+[STATE]
+name="Bluff Dash"
+animation="9,0,10"
+action=I="120,0"
+condition=I="2,3,6,D," STATE="Idle"
+condition=I="2,3,6,D," STATE="WalkF"
+
+[STATE]
+name="Guard Lance"
+animation="4,0,15"
+animation="9,28,35"
+action=I="-10,0"
+condition=I="2,1,4,A," STATE="Idle"
+condition=I="2,1,4,A," STATE="WalkB"
+hitbox=A="14,200,120,45,60" A="17,275,120,200,60" G="HIGH" T="IMPULSE,1,-5" T="DAMAGE,300" T="SETSTATE,Hurt"
+
+[STATE]
+name="Upward Lance"
+animation="4,0,10"
+animation="9,28,35"
+action=I="-10,0"
+condition=I="2,1,4,B," STATE="Idle"
+condition=I="2,1,4,B," STATE="WalkB"
+hitbox=A="10,100,50,100,100" A="15,300,-125,100,100" G="HIGH" T="IMPULSE,10,-5" T="DAMAGE,350" T="SETSTATE,Hurt"
+
+
+[STATE]
+name="Lance Shift"
+animation="9,1,1"
+condition=I="2,1,4,C," STATE="Idle"
+condition=I="2,1,4,C," STATE="WalkB"
+transition="Lance Delay"
+
+[STATE]
+name="Lance Delay"
+animation="9,3,3"
+animation="9,5,5"
+animation="9,6,6"
+animation="9,7,7"
+condition=H="C"
+action=D="50,0"
+looping
+transition="Heavy Lance"
+
+[STATE]
+name="Heavy Lance"
+animation="9,10,27"
+hitbox=A="4,200,120,45,60" A="8,275,120,200,60" G="HIGH" T="IMPULSE,1,-5" T="DAMAGE,300" T="SETSTATE,Hurt"
+
+[STATE]
+name="Super Lance"
+animation="4,0,10"
+animation="9,0,30"
+action=I="-10,0"
+condition=I="2,1,4,D," STATE="Idle"
+condition=I="2,1,4,D," STATE="WalkB"
+hitbox=A="20,200,150,100,100" A="35,350,150,100,100" G="HIGH" T="IMPULSE,10,0" T="DAMAGE,225" T="SETSTATE,Hurt"
+hitbox=A="20,50,50,100,100" A="35,50,-180,100,100" G="HIGH" T="IMPULSE,0,-10" T="DAMAGE,225" T="SETSTATE,Hurt"
+hitbox=A="20,100,50,100,100" A="35,250,-150,100,100" G="HIGH" T="IMPULSE,10,-5" T="DAMAGE,225" T="SETSTATE,Hurt"
+
+[STATE]
+name="Standing A"
+animation="8,0,0"
+animation="8,2,2"
+animation="8,4,4"
+animation="8,6,6"
+animation="8,8,10"
+action=M="0,0"
+condition=I="A," STATE="Idle"
+condition=I="A," STATE="WalkF"
+condition=I="A," STATE="WalkB"
+hitbox=A="2,200,120,45,60" A="4,255,120,50,60" G="HIGH" T="IMPULSE,1,-5" T="DAMAGE,50" T="SETSTATE,Hurt"
+
+[STATE]
+name="Standing B"
+animation="8,10,10"
+animation="8,12,12"
+animation="8,14,14"
+animation="8,16,16"
+animation="8,18,18"
+animation="8,20,24"
+action=M="0,0"
+condition=I="B," STATE="Idle"
+condition=I="B," STATE="WalkF"
+condition=I="B," STATE="WalkB"
+hitbox=A="4,200,120,45,60" A="6,255,120,50,60" G="HIGH" T="IMPULSE,3,-5" T="DAMAGE,100" T="SETSTATE,Hurt"
+
+[STATE]
+name="Standing C"
+animation="9,0,27"
+animation="9,27,27"
+animation="9,27,27"
+animation="9,27,27"
+action=M="0,0"
+condition=I="C," STATE="Idle"
+condition=I="C," STATE="WalkF"
+condition=I="C," STATE="WalkB"
+hitbox=A="15,200,150,100,130" A="25,255,150,100,130" G="HIGH" T="IMPULSE,10,-5" T="DAMAGE,300" T="SETSTATE,Hurt"
+
+[STATE]
+name="Standing D"
+animation="10,20,50"
+action=M="0,0"
+condition=I="D," STATE="Idle"
+condition=I="D," STATE="WalkF"
+condition=I="D," STATE="WalkB"
+hitbox=A="15,200,100,200,50" A="20,200,0,200,100" A="25,150,-100,75,150" G="HIGH" T="IMPULSE,10,-5" T="DAMAGE,150" T="SETSTATE,Hurt"
+
+[STATE]
+name="Crouching A"
+animation="7,6,6"
+animation="7,8,8"
+animation="7,10,10"
+animation="7,12,12"
+animation="7,14,14"
+action=M="5,0"
+condition=I="A," STATE="Crouch"
+hitbox=A="2,200,220,45,60" A="4,255,220,50,60" G="LOW" T="IMPULSE,1,0" T="DAMAGE,50" T="SETSTATE,Hurt"
+transition="Crouch"
+
+[STATE]
+name="Crouching B"
+animation="7,6,10"
+animation="7,12,14"
+action=M="0,0"
+condition=I="B," STATE="Crouch"
+hitbox=A="4,200,220,45,60" A="6,255,220,50,60" G="LOW" T="IMPULSE,3,0" T="DAMAGE,100" T="SETSTATE,Hurt"
+transition="Crouch"
+
+[STATE]
+name="Crouching C (Launch)"
+animation="7,0,14"
+action=I="5,0"
+condition=H="26" I="C," STATE="Crouch"
+hitbox=A="7,200,100,200,100" A="14,200,0,200,100" G="HIGH" T="IMPULSE,10,-150" T="DAMAGE,200" T="SETSTATE,Hurt"
+transition="Crouch"
+
+[STATE]
+name="Crouching C"
+animation="7,0,14"
+action=I="5,0"
+condition=I="C," STATE="Crouch"
+hitbox=A="7,200,250,150,100" A="7,200,250,150,100" G="LOW" T="IMPULSE,10,0" T="DAMAGE,300" T="SETSTATE,Hurt"
+transition="Crouch"
+
+[STATE]
+name="Crouching D"
+animation="7,0,14"
+action=I="5,0"
+condition=I="D," STATE="Crouch"
+hitbox=A="7,400,300,200,50" A="14,600,300,200,50" G="LOW" T="IMPULSE,5,0" T="DAMAGE,100" T="SETSTATE,Hurt"
+transition="Crouch"
+
+[STATE]
+name="Air A"
+animation="14,11,11"
+animation="14,13,13"
+animation="14,15,15"
+animation="14,17,17"
+animation="14,19,19"
+condition=I="A," STATE="Fall"
+condition=I="A," STATE="JumpF"
+condition=I="A," STATE="JumpB"
+condition=I="A," STATE="JumpU"
+hitbox=A="2,200,120,45,60" A="4,255,120,50,60" G="LOW" T="IMPULSE,5,0" P="IMPULSE,-5,-5" T="DAMAGE,50" T="SETSTATE,Hurt"
+transition="Fall"
+allowGravity
+
+[STATE]
+name="Air B"
+animation="14,11,11"
+animation="14,13,13"
+animation="14,15,15"
+animation="14,17,17"
+animation="14,19,25"
+condition=I="B," STATE="Fall"
+condition=I="B," STATE="JumpF"
+condition=I="B," STATE="JumpB"
+condition=I="B," STATE="JumpU"
+hitbox=A="4,200,120,45,60" A="6,255,120,50,60" G="HIGH" T="IMPULSE,3,0" T="DAMAGE,100" T="SETSTATE,Hurt"
+transition="Fall"
+allowGravity
+
+[STATE]
+name="Air C"
+animation="14,11,28"
+condition=I="C," STATE="Fall"
+condition=I="C," STATE="JumpF"
+condition=I="C," STATE="JumpB"
+condition=I="C," STATE="JumpU"
+hitbox=A="11,200,150,200,50" A="14,200,225,200,100" A="17,220,300,200,150" G="HIGH" T="IMPULSE,10,-5" T="DAMAGE,200" T="SETSTATE,Hurt"
+transition="Fall"
+allowGravity
+
+[STATE]
+name="Air D"
+animation="14,11,28"
+action=M="0,0"
+condition=I="D," STATE="Fall"
+condition=I="D," STATE="JumpF"
+condition=I="D," STATE="JumpB"
+condition=I="D," STATE="JumpU"
+//Horizontal hitboxes
+hitbox=A="5,200,150,100,100" A="10,250,150,100,100" G="HIGH" T="IMPULSE,10,0" T="DAMAGE,25" T="SETSTATE,Hurt"
+hitbox=A="5,100,150,100,100" A="10,-100,150,100,100" G="HIGH" T="IMPULSE,-10,0" T="DAMAGE,25" T="SETSTATE,Hurt"
+//Vertical hitboxes
+hitbox=A="5,50,50,100,100" A="10,50,-50,100,100" G="HIGH" T="IMPULSE,0,-10" T="DAMAGE,25" T="SETSTATE,Hurt"
+hitbox=A="5,50,300,100,100" A="10,50,400,100,100" G="HIGH" T="IMPULSE,0,10" T="DAMAGE,25" T="SETSTATE,Hurt"
+//Diagonal hitboxes
+hitbox=A="5,0,50,100,100" A="10,-80,-25,100,100" G="HIGH" T="IMPULSE,10,-5" T="DAMAGE,25" T="SETSTATE,Hurt"
+hitbox=A="5,0,300,100,100" A="10,-80,375,100,100" G="HIGH" T="IMPULSE,10,-5" T="DAMAGE,25" T="SETSTATE,Hurt"
+hitbox=A="5,50,50,100,100" A="10,175,-25,100,100" G="HIGH" T="IMPULSE,10,-5" T="DAMAGE,25" T="SETSTATE,Hurt"
+hitbox=A="5,50,300,100,100" A="10,175,375,100,100" G="HIGH" T="IMPULSE,10,-5" T="DAMAGE,25" T="SETSTATE,Hurt"
+transition="Fall"
+allowGravity

@@ -71,9 +71,9 @@ public class Fighter extends Actor {
 
 	public Vector2f touchBoxOffset;
 
-	public Fighter() throws SlickException {
-		super();
-	}
+	//public Fighter() throws SlickException {
+	//	super();
+	//}
 
 	public Fighter(SpriteSheet sheet, Vector2f startLocation) throws SlickException
 	{

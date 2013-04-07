@@ -37,6 +37,11 @@ public class BackgroundObject {
 		g.drawImage(image, location.x, location.y, color);
 	}
 	
+	public void render(GameContainer container, Graphics g)
+			throws SlickException {
+		render(container, g, 0,0);
+	}
+	
 	public void setLocation(Vector2f location)
 	{
 		this.location = location.scale(parallax);

@@ -52,7 +52,7 @@ public class InputHandler {
 	public SpriteSheet spriteSheet;
 
 	private boolean[] keysDown, keysPressed, keysReleased;
-	private int[] keysIndex;
+	public int[] keysIndex;
 	
 	public InputHandler()
 	{

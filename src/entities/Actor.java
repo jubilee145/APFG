@@ -79,7 +79,6 @@ public class Actor {
 			this.animation = new Animation();
 		else
 			this.animation = new Animation(sheet, 100);
-		
 		location = startLocation;
 		//if there is no startlocation, make an empty one.
 		if(location==null)
