@@ -2,6 +2,7 @@ package gameState;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.newdawn.slick.Color;
@@ -107,6 +108,8 @@ public class EyeCatch extends BasicGameState{
 			sheetList = new ArrayList<SpriteSheet>();
 			fileName = new File(file + "/sprites");
 			fileNames = fileName.listFiles();
+			//Collections.sort((File[])fileNames);
+			Arrays.sort(fileNames);
 			firstLoad = false;
 		}
 		if (fileCounter < fileNames.length) 
