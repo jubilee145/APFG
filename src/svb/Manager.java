@@ -51,7 +51,8 @@ public class Manager
 		MAIN_VS,
 		MAIN_OPTIONS,
 		EYE_CATCH,
-		FIGHT;
+		FIGHT,
+		SHADER_TEST;
 	}
 	
 	public Manager() throws SlickException

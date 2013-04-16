@@ -1,18 +1,25 @@
 package svb;
 
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
 import gameState.EyeCatch;
 import gameState.Fight;
 import gameState.MainMenu;
 import gameState.Roster;
 import gameState.SplashScreen;
 
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import rendering.ShaderTest;
 
 /**
  * Where everything starts. Resolution, fullscreen mode and framerate are set down the bottom in main(), 
@@ -36,6 +43,7 @@ public class Main extends StateBasedGame {
 		addState(new Roster());
 		addState(new EyeCatch());
 		addState(new Fight());
+		addState(new ShaderTest());
 		
 		Player player;
 		Camera camera;
@@ -102,9 +110,9 @@ public class Main extends StateBasedGame {
 	public void render(GameContainer container, Graphics g)
 			throws SlickException {
 		//The graphics context should start at 1920x1080, and then scale down to
-		//whatever system it's working on. (ContainerWidth / 1920) ?
-		g.scale(container.getWidth() / 1920f, container.getHeight() / 1080f);
-		super.render(container, g);
+		//whatever system it's working on. (ContainerWidth / 1920) ?		
+		g.scale(container.getWidth() / 1920f, container.getHeight() / 1080f);    	
+    	super.render(container, g);
 	}
 
 	public static void main(String[] args) {

@@ -180,18 +180,6 @@ public class Fight extends BasicGameState{
 					if((-overlap > maxOverlap))
 						overlap = 0;
 				}
-				/*if(act1delta > act2delta)
-				{
-					overlap = actor1.location.x + act1rect.getWidth() - actor2.location.x;
-					if((overlap > maxOverlap))
-						overlap = 0;
-				}
-				else if(act1delta < act2delta)
-				{
-					overlap = actor1.location.x - act2rect.getWidth() - actor2.location.x;
-					if((-overlap > maxOverlap))
-						overlap = 0;
-				}*/
 			}
 		}
 		
@@ -212,8 +200,6 @@ public class Fight extends BasicGameState{
 				float average = (act1velocity + act2velocity)*0.5f;
 				act1velocity -= average;
 				act2velocity -= average;
-				//actor1.velocity.x = average + act1velocity * actor1.elasticity;
-				//actor2.velocity.x = average + act2velocity * actor2.elasticity;
 			}
 			else if(!act1immovable)
 			{

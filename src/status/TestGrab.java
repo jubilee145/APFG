@@ -2,6 +2,7 @@ package status;
 
 import svb.Player;
 import svb.State;
+import entities.Actor;
 import entities.Fighter;
 import entities.Hitbox;
 
@@ -10,7 +11,7 @@ public class TestGrab implements StatusPacket {
 	public TestGrab(){}
 	
 	private TestGrabbed friend;
-	private Fighter parent;
+	private Actor parent;
 	
 	@Override
 	public void update() {
@@ -32,13 +33,13 @@ public class TestGrab implements StatusPacket {
 		this.friend = friend;
 	}
 
-	public Fighter getParent() {
+	public Actor getParent() {
 		return parent;
 	}
 
 	@Override
-	public void giveObject(Fighter f) {
-		parent = f;
+	public void giveObject(Actor a) {
+		parent = a;
 	}
 
 	@Override

@@ -74,28 +74,6 @@ public class StateFactory {
 
 		Manager.cameras.get(0).target2 = fighter;*/
 	}
-	
-	/*public Fighter makeFighter(File file) throws SlickException
-	{
-		int count = 0;
-		System.out.println("Load begun, character: " + file);
-		sheetList = new ArrayList<SpriteSheet>();
-		File fname = new File(file + "/sprites");
-		System.out.println("REACHED: " + count++);
-		File[] fileNames;
-		System.out.println("REACHED: " + count++);
-		fileNames = fname.listFiles();
-		System.out.println("REACHED: " + count++);
-		for (int i = 0; i < fileNames.length; i++) 
-		{
-			System.out.print("Loading file " + fileNames[i] + " ...");
-			sheetList.add(new SpriteSheet(fileNames[i].toString(), 300,360));
-			System.out.println("Done.");
-		}
-		fighter = new Fighter(sheetList.get(0), new Vector2f(-500,Manager.WORLD.groundLevel));
-		
-		return fighter;
-	}*/
 
 	public void populateMoveList(String movelistFile, List<SpriteSheet> sheetList, Fighter fighter)
 	{

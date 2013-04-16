@@ -8,12 +8,13 @@ import org.newdawn.slick.Animation;
 import status.StatusPacket;
 import status.TestStatus;
 
-import entities.Fighter;
+import entities.Actor;
+import entities.Actor;
 import entities.Hitbox;
 import entities.Hitbox.Hit;
 
 /**
- * The State class is used to build up a kind of decision tree for the Fighter class.
+ * The State class is used to build up a kind of decision tree for the Actor class.
  * Each state has a handful of states it can 'cancel' into, depending on the players input.
  * eg. the "Idle" state cancels into the "Walk Forward" state when the player pushes the
  * forward button. "Idle" can also cancel into jump, most of the attack states and probably
@@ -64,7 +65,7 @@ public class State {
 	private int val;
 	
 	/**
-	 * The animation (basically a list of images) that gets sent to the Fighter when this state is assigned.
+	 * The animation (basically a list of images) that gets sent to the Actor when this state is assigned.
 	 */
 	private Animation animation;
 	
@@ -138,11 +139,11 @@ public class State {
 		
 	}
 
-	public void update(Fighter fighter)
+	public void update(Actor actor)
 	{
 		for (State s : cancels)
 		{
-			if(s.checkConditions(fighter))
+			if(s.checkConditions(actor))
 			{
 				break;
 			}
@@ -150,24 +151,24 @@ public class State {
 		
 		for (Hitbox h : hitBoxes)
 		{
-			h.update(fighter);
+			h.update(actor);
 			if(h.hit.confirmed)
-				fighter.hitConfirmed = true;
+				actor.hitConfirmed = true;
 		}
 
 		statusUpdate();
 
-		if(fighter.animation.isStopped())
+		if(actor.animation.isStopped())
 		{
-			fighter.animation.restart();
-			fighter.setState(this.transition);
+			actor.animation.restart();
+			actor.setState(this.transition);
 		}
 		if(looping)
 		{
 			boolean keepGoing = false;
 			for (String condition : conditions)
 			{
-				if(EventHandler.check(fighter, condition))
+				if(EventHandler.check(actor, condition))
 				{
 					keepGoing = true;
 					break;
@@ -175,8 +176,8 @@ public class State {
 			}
 			if(!keepGoing)
 			{
-				fighter.animation.restart();
-				fighter.setState(this.transition);
+				actor.animation.restart();
+				actor.setState(this.transition);
 			}
 		}
 	}
@@ -197,21 +198,21 @@ public class State {
 		removeStatus.clear();
 	}
 	
-	public void doActions(Fighter fighter)
+	public void doActions(Actor actor)
 	{
 		for (String action : actions)
 		{
-			EventHandler.doAction(fighter, action);
+			EventHandler.doAction(actor, action);
 		}
 	}
 	
-	public boolean checkConditions(Fighter fighter)
+	public boolean checkConditions(Actor actor)
 	{
 		for (String condition : conditions)
 		{
-			if(EventHandler.check(fighter, condition))
+			if(EventHandler.check(actor, condition))
 			{
-				fighter.setState(this);
+				actor.setState(this);
 				return true;
 			}
 		}
@@ -358,12 +359,12 @@ public class State {
 	}
 
 	//stops the hitboxes from "flashing" from the previous location
-	public void resetHitboxes(Fighter fighter) {
+	public void resetHitboxes(Actor actor) {
 		for (Hitbox h: hitBoxes)
 		{
 			h.hit.confirmed = false;
 			h.spent = false;
-			h.update(fighter);
+			h.update(actor);
 		}
 	}
 }

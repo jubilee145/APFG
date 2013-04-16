@@ -9,6 +9,13 @@ canTurn
 block="Stand Guard"
 
 [STATE]
+name="Land"
+animation="15,0,5"
+action=D="5,0"
+preserveInput
+open
+
+[STATE]
 name="Forward Grab - Startup"
 animation="8,0,10"
 condition=I="BD," STATE="Idle"

@@ -4,14 +4,14 @@ import org.newdawn.slick.geom.Vector2f;
 
 import svb.Player;
 import svb.State;
-import entities.Fighter;
+import entities.Actor;
 import entities.Hitbox;
 
 public class TestGrabbed implements StatusPacket {
 
 	String grabState;
-	private Fighter target;
-	private Fighter parent;
+	private Actor target;
+	private Actor parent;
 	
 	
 	public TestGrabbed(String grabState)
@@ -44,19 +44,19 @@ public class TestGrabbed implements StatusPacket {
 		return false;
 	}
 
-	public void setParent(Fighter f)
+	public void setParent(Actor f)
 	{
 		parent = f;
 	}
 	
-	public Fighter getParent()
+	public Actor getParent()
 	{
 		return parent;
 	}
 	
 	@Override
-	public void giveObject(Fighter f) {
-		target = f;
+	public void giveObject(Actor a) {
+		target = a;
 	}
 
 	@Override

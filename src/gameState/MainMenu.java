@@ -30,7 +30,7 @@ public class MainMenu extends BasicGameState{
 	MenuButton btnVS;
 	MenuButton btnOptions;
 	MenuButton btnQuit;
-	
+	MenuButton btnLighting;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -40,9 +40,11 @@ public class MainMenu extends BasicGameState{
 	    btnVS = new MenuButton(new Image("assets/images/menu/btnVS.png"),50,400);
 	    btnOptions = new MenuButton(new Image("assets/images/menu/btnOptions.png"),60,500);
 	    btnQuit = new MenuButton(new Image("assets/images/menu/btnQuit.png"),80,600);
+	    btnLighting = new MenuButton(new Image("assets/images/menu/btnLighting.png"),80,800);
 	    buttons.add(btnVS);
 	    buttons.add(btnOptions);
 	    buttons.add(btnQuit);
+	    buttons.add(btnLighting);
 	    
 	    activeButton = btnVS;
 	}
@@ -119,23 +121,14 @@ public class MainMenu extends BasicGameState{
 	        {
 	        	System.exit(0);
 	        }
+	        else if(activeButton == btnLighting)
+	        {
+	        	game.enterState(Manager.StateIndex.SHADER_TEST.ordinal(), new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+	        }
         }
-        if(abort)
+        else if(abort)
         	game.enterState(Manager.StateIndex.SPLASH.ordinal(), new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 
-        /*switch(key) {
-        case Input.KEY_1:
-            game.enterState(2, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-            break;
-        case Input.KEY_2:
-            // TODO: Implement later
-            break;
-        case Input.KEY_3:
-        	System.exit(0);
-            break;
-        default:
-            break;
-        }*/
     }
  
     @Override

@@ -5,7 +5,7 @@ import org.newdawn.slick.geom.Vector2f;
 import svb.Manager;
 import svb.Player;
 import svb.State;
-import entities.Fighter;
+import entities.Actor;
 import entities.Hitbox;
 
 /**
@@ -15,7 +15,7 @@ import entities.Hitbox;
  */
 public class SetState implements StatusPacket{
 
-	private Fighter target;
+	private Actor target;
 	private String stateName;
 	
 	public SetState(String stateName)
@@ -42,9 +42,9 @@ public class SetState implements StatusPacket{
 	}
 
 	@Override
-	public void giveObject(Fighter f) {
+	public void giveObject(Actor a) {
 		// TODO Auto-generated method stub
-		target = f;
+		target = a;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import org.newdawn.slick.geom.Vector2f;
 import svb.Manager;
 import svb.Player;
 import svb.State;
+import entities.Actor;
 import entities.Fighter;
 import entities.Hitbox;
 
@@ -20,8 +21,8 @@ import entities.Hitbox;
  */
 public class Move implements StatusPacket{
 
-	private Fighter target;
-	private Fighter parent;
+	private Actor target;
+	private Actor parent;
 	private Vector2f applyMovement;
 	
 	public Move(float impX, float impY)
@@ -45,15 +46,15 @@ public class Move implements StatusPacket{
 		return false;
 	}
 	
-	public void setParent(Fighter f)
+	public void setParent(Actor a)
 	{
-		parent = f;
+		parent = a;
 	}
 
 	@Override
-	public void giveObject(Fighter f) {
+	public void giveObject(Actor a) {
 		// TODO Auto-generated method stub
-		target = f;
+		target = a;
 	}
 
 	@Override

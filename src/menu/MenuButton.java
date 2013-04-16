@@ -28,7 +28,7 @@ public class MenuButton {
 
 	public void render(GameContainer container, Graphics g)
 			throws SlickException {
-		image.draw(location.x, location.y, g.getColor());
+		g.drawImage(image, location.x, location.y, g.getColor());
 	}
 
 	public Image getImage() {

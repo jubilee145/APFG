@@ -3,6 +3,7 @@ package svb;
 import status.Drag;
 import status.Impulse;
 import status.Move;
+import entities.Actor;
 import entities.Fighter;
 
 /**
@@ -19,7 +20,7 @@ public class EventHandler {
 
 	public EventHandler(){}
 	
-	public static boolean check(Fighter fighter, String condition)
+	public static boolean check(Actor actor, String condition)
 	{
 		String subString = null;
 		int index;
@@ -33,15 +34,15 @@ public class EventHandler {
 
 			if(flag == 'I')
 			{
-				if(!fighter.getInputString().contains(subString))
+				if(!actor.getInputString().contains(subString))
 				{	
 					return false;
 				}
 			}
 			else if(flag =='H')
 			{
-				String b = fighter.heldButton;
-				String d = fighter.heldDirection;
+				String b = actor.heldButton;
+				String d = actor.heldDirection;
 				
 				if(!(d.contains(subString)||b.contains(subString)))
 				{
@@ -50,7 +51,7 @@ public class EventHandler {
 			}
 			else if(flag =='F')
 			{
-				if(fighter.animation.getFrame() <= Integer.parseInt(subString))
+				if(actor.animation.getFrame() <= Integer.parseInt(subString))
 				{
 					return false;
 				}
@@ -63,14 +64,14 @@ public class EventHandler {
 				else
 					shouldTouchGround = false;
 
-				if(!fighter.isTouchingGround == shouldTouchGround)
+				if(!actor.isTouchingGround == shouldTouchGround)
 				{
 					return false;
 				}
 			}
 			else if(flag =='C')
 			{
-				if(!fighter.hitConfirmed)
+				if(!actor.hitConfirmed)
 				{
 					return false;
 				}
@@ -87,13 +88,13 @@ public class EventHandler {
 		return true;
 	}
 	
-	public static void doAction(Fighter fighter, String action)
+	public static void doAction(Actor actor, String action)
 	{
 		String subString = null;
 		int index;
 		char flag;
 		int facingAdjustment = 1;
-		if(fighter.isFacingLeft)
+		if(actor.isFacingLeft)
 			facingAdjustment = -1;
 		
 		while(action != "DONE")
@@ -108,10 +109,10 @@ public class EventHandler {
 				float impY = Integer.parseInt(splitString[1]);
 				
 				Move m = new Move(impX,impY);
-				m.setParent(fighter);
-				m.giveObject(fighter);
+				m.setParent(actor);
+				m.giveObject(actor);
 				
-				fighter.getState().status.add(m);
+				actor.getState().status.add(m);
 			}
 			else if(flag == 'D')
 			{
@@ -120,10 +121,10 @@ public class EventHandler {
 				float impY = Integer.parseInt(splitString[1]);
 				
 				Drag d = new Drag(impX,impY);
-				d.setParent(fighter);
-				d.giveObject(fighter);
+				d.setParent(actor);
+				d.giveObject(actor);
 				
-				fighter.getState().status.add(d);
+				actor.getState().status.add(d);
 			}
 			else if(flag == 'I')
 			{
@@ -132,10 +133,10 @@ public class EventHandler {
 				float impY = Integer.parseInt(splitString[1]);
 				
 				Impulse i = new Impulse(impX,impY);
-				i.setParent(fighter);
-				i.giveObject(fighter);
+				i.setParent(actor);
+				i.giveObject(actor);
 				
-				fighter.status.add(i);
+				actor.status.add(i);
 				
 			}
 			

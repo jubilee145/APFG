@@ -131,14 +131,34 @@ public class Roster extends BasicGameState{
 	
     public void keyPressed(int key, char c) {
     	
+    	int acceptKey1 = Manager.player1.inputHandler.keysIndex[4];
+        int acceptKey2 = Manager.player1.inputHandler.keysIndex[6];
+        int acceptKey3 = Manager.player2.inputHandler.keysIndex[4];
+        int acceptKey4 = Manager.player2.inputHandler.keysIndex[6];
+        int abortKey1 = Manager.player1.inputHandler.keysIndex[5];
+        int abortKey2 = Manager.player1.inputHandler.keysIndex[7];
+        int abortKey3 = Manager.player2.inputHandler.keysIndex[5];
+        int abortKey4 = Manager.player2.inputHandler.keysIndex[7];
+
+        boolean accept = false;
+        boolean abort = false;
+        
+        if(key == acceptKey1||key == acceptKey2||key == acceptKey3||key == acceptKey4)
+        	accept = true;
+        if(key == abortKey1||key == abortKey2||key == abortKey3||key == abortKey4)
+        	abort = true;
+    	
     	selectedP1 = moveSelection(selectedP1, key, Manager.player1);
     	selectedP2 = moveSelection(selectedP2, key, Manager.player2);
 
-    	if(key==Input.KEY_ENTER)
+    	if(accept || key == Input.KEY_ENTER)
     	{
     		((EyeCatch)game.getState(Manager.StateIndex.EYE_CATCH.ordinal())).setFighters(selectedP1.charRef, selectedP2.charRef);
     		game.enterState(Manager.StateIndex.EYE_CATCH.ordinal(), new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
     	}
+        else if(abort)
+        	game.enterState(Manager.StateIndex.MAIN_MENU.ordinal(), new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+
     }
 
     private Character moveSelection(Character character, int key, Player player)

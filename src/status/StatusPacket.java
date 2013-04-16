@@ -2,6 +2,7 @@ package status;
 
 import svb.Player;
 import svb.State;
+import entities.Actor;
 import entities.Fighter;
 import entities.Hitbox;
 
@@ -28,7 +29,7 @@ public interface StatusPacket {
 	 * only need a few. Targets for damage and such are assigned by the giveObject(Fighter) method,
 	 * but it doesn't need a hitbox, state or player. Things like that.
 	 */
-	public void giveObject(Fighter f);
+	public void giveObject(Actor a);
 	public void giveObject(Hitbox h);
 	public void giveObject(State s);
 	public void giveObject(Player p);

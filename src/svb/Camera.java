@@ -90,9 +90,19 @@ public class Camera {
 
 			f.zoneBox.setLocation(f.location.add(location.negate().add(screenLocation)));
 			if (screen.intersects(f.zoneBox)) {
-				f.render(container, g);
+				f.render(container, g, 0, 0);
 			}
 			f.zoneBox.setLocation(f.location.add(location).add(screenLocation.negate()));
+			
+			for (Actor a : f.subActors) 
+			{
+				a.zoneBox.setLocation(a.location.add(location.negate().add(screenLocation)));
+				if (screen.intersects(a.zoneBox)) {
+					a.render(container, g, 0, 0);
+				}
+				a.zoneBox.setLocation(a.location.add(location).add(screenLocation.negate()));
+				
+			}
 		}
 
 		for (Player p : Manager.players) 

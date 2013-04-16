@@ -2,7 +2,7 @@ package status;
 
 import svb.Player;
 import svb.State;
-import entities.Fighter;
+import entities.Actor;
 import entities.Hitbox;
 
 
@@ -29,7 +29,7 @@ public class TestStatus implements StatusPacket {
 	}
 
 	@Override
-	public void giveObject(Fighter f) {
+	public void giveObject(Actor a) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -7,7 +7,7 @@ import status.Impulse;
 import status.SetState;
 import status.StatusPacket;
 import status.TestGrabbed;
-import entities.Fighter;
+import entities.Actor;
 
 /**
  * Gets input from the movelist file, and figures out what status effects need to go where.
@@ -19,13 +19,13 @@ public class StatusPacketFactory {
 
 	public StatusPacketFactory(){}
 	
-	public void BuildPacket(String packetData, List<StatusPacket> packetList, Fighter fighter)
+	public void BuildPacket(String packetData, List<StatusPacket> packetList, Actor actor)
 	{
 		String[] subString = packetData.split(",");
 		if(subString[0].contentEquals("GRAB"))
 		{
 			TestGrabbed testGrabbed = new TestGrabbed(subString[1]);
-			testGrabbed.setParent(fighter);
+			testGrabbed.setParent(actor);
 			packetList.add(testGrabbed);
 			return;
 		} else if(subString[0].contentEquals("SETSTATE"))
@@ -36,7 +36,7 @@ public class StatusPacketFactory {
 		} else if(subString[0].contentEquals("IMPULSE"))
 		{
 			Impulse impulse = new Impulse(Integer.parseInt(subString[1]), Integer.parseInt(subString[2]));
-			impulse.setParent(fighter);
+			impulse.setParent(actor);
 			packetList.add(impulse);
 			return;
 		} else if(subString[0].contentEquals("DAMAGE"))
@@ -53,7 +53,7 @@ public class StatusPacketFactory {
 		
 	}
 	
-	public StatusPacket BuildPacket(String packetData, Fighter fighter)
+	public StatusPacket BuildPacket(String packetData, Actor actor)
 	{
 		return null;
 	}

@@ -52,9 +52,9 @@ public class Hitbox extends Rectangle {
 	public Hit hit;
 	public StatusList status;
 	public int directionMultiplier;
-	public Fighter parent;
+	public Actor parent;
 	
-	public Hitbox(int numFrames, Fighter parent) {
+	public Hitbox(int numFrames, Actor parent) {
 		super(0,0,0,0);
 		this.parent = parent;
 		hit = new Hit();
@@ -125,24 +125,24 @@ public class Hitbox extends Rectangle {
 		}
 	}
 	
-	public void update(Fighter fighter)
+	public void update(Actor actor)
 	{
-		int frame = fighter.animation.getFrame();
+		int frame = actor.animation.getFrame();
 		currentFrame = frames[frame];
 		
 		this.setHeight(currentFrame.height);
-		this.setY(currentFrame.y + fighter.location.y);
+		this.setY(currentFrame.y + actor.location.y);
 		this.setWidth(currentFrame.width);
 		
-		if(fighter.isFacingLeft)
+		if(actor.isFacingLeft)
 		{
 			directionMultiplier = -1;
-			this.setX(-currentFrame.x -currentFrame.width + fighter.location.x + fighter.zoneBox.getWidth());
+			this.setX(-currentFrame.x -currentFrame.width + actor.location.x + actor.zoneBox.getWidth());
 		}
 		else
 		{
 			directionMultiplier = 1;
-			this.setX(currentFrame.x + fighter.location.x);
+			this.setX(currentFrame.x + actor.location.x);
 		}
 		
 		statusUpdate();
@@ -170,9 +170,9 @@ public class Hitbox extends Rectangle {
 	 * TODO: This will currently ignore blocking. Put target status effects in
 	 * Fighter.hit() instead, once blocking mechanics are sorted out.
 	 * 
-	 * @param fighter
+	 * @param actor
 	 */
-	public void hit(Fighter fighter)
+	public void hit(Actor actor)
 	{
 		for(StatusPacket s: status.applyParent)
 		{

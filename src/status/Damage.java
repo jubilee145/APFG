@@ -2,6 +2,7 @@ package status;
 
 import svb.Player;
 import svb.State;
+import entities.Actor;
 import entities.Fighter;
 import entities.Hitbox;
 
@@ -12,7 +13,7 @@ import entities.Hitbox;
  */
 public class Damage implements StatusPacket{
 
-	private Fighter target;
+	private Actor target;
 	private int damage;
 	
 	public Damage(int damage)
@@ -32,9 +33,9 @@ public class Damage implements StatusPacket{
 	}
 
 	@Override
-	public void giveObject(Fighter f) {
+	public void giveObject(Actor a) {
 		// TODO Auto-generated method stub
-		target = f;
+		target = a;
 	}
 
 	@Override
