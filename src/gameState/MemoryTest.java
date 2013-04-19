@@ -60,7 +60,7 @@ public class MemoryTest extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 	        throws SlickException {
 	    this.game = game;
-	    imageFolder = new File("assets/memoryTest");
+	    imageFolder = new File("assets/memorytest");
 	    displayImage = new Image(20,20);
 	    displayImage2 = new Image(20,20);
 	    fileNames = imageFolder.listFiles();
