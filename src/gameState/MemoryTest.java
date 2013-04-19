@@ -97,6 +97,7 @@ public class MemoryTest extends BasicGameState{
 		if(firstTest)
 		{
 			displayTexture = tempTexture;
+			displayImage.destroy();
 			displayImage.setTexture(displayTexture);
 			try {
 				tempTexture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter + 1].getPath()));
