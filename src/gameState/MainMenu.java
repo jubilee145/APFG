@@ -31,6 +31,7 @@ public class MainMenu extends BasicGameState{
 	MenuButton btnOptions;
 	MenuButton btnQuit;
 	MenuButton btnLighting;
+	MenuButton btnMemory;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -41,6 +42,8 @@ public class MainMenu extends BasicGameState{
 	    btnOptions = new MenuButton(new Image("assets/images/menu/btnOptions.png"),60,500);
 	    btnQuit = new MenuButton(new Image("assets/images/menu/btnQuit.png"),80,600);
 	    btnLighting = new MenuButton(new Image("assets/images/menu/btnLighting.png"),80,800);
+	    btnMemory = new MenuButton(new Image("assets/images/menu/btnMemory.png"),80,300);
+	    buttons.add(btnMemory);
 	    buttons.add(btnVS);
 	    buttons.add(btnOptions);
 	    buttons.add(btnQuit);
@@ -106,7 +109,7 @@ public class MainMenu extends BasicGameState{
         	accept = true;
         if(key == abortKey1||key == abortKey2||key == abortKey3||key == abortKey4)
         	abort = true;
-        
+
         if(accept)
         {
 	    	if(activeButton == btnVS)
@@ -125,9 +128,16 @@ public class MainMenu extends BasicGameState{
 	        {
 	        	game.enterState(Manager.StateIndex.SHADER_TEST.ordinal(), new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 	        }
+	        else if(activeButton == btnMemory)
+	        {
+	        	game.enterState(Manager.StateIndex.MEMORY_TEST.ordinal(), new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+	        }
         }
         else if(abort)
+        {
+        	System.gc();
         	game.enterState(Manager.StateIndex.SPLASH.ordinal(), new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+        }
 
     }
  

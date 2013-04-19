@@ -43,6 +43,11 @@ public class EyeCatch extends BasicGameState{
 	boolean loadingSecondCharacter;
 	private Fight fight;
 	
+	long totalMem;
+	long maxMem;
+	long freeMem;
+	double megs;
+	
 	public void setFighters(File fighter1, File fighter2)
 	{
 		this.fighter1 = fighter1;
@@ -70,6 +75,16 @@ public class EyeCatch extends BasicGameState{
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		// TODO Auto-generated method stub
+        Runtime rt = Runtime.getRuntime();
+        totalMem = rt.totalMemory();
+        maxMem = rt.maxMemory();
+        freeMem = rt.freeMemory();
+        megs = 1048576.0;
+		
+        g.drawString ("Total Memory: " + totalMem + " (" + (totalMem/megs) + " MiB)", 20, 40);
+        g.drawString ("Max Memory:   " + maxMem + " (" + (maxMem/megs) + " 20)", 20, 60);
+        g.drawString ("Free Memory:  " + freeMem + " (" + (freeMem/megs) + " 20)", 20, 80);
+        
 		g.drawString("This is a loading screen...", 500, 500);
 	}
 

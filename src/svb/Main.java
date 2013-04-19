@@ -1,22 +1,12 @@
 package svb;
 
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
-import gameState.EyeCatch;
-import gameState.Fight;
-import gameState.MainMenu;
-import gameState.Roster;
-import gameState.SplashScreen;
+import gameState.*;
 
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import rendering.ShaderTest;
@@ -44,6 +34,7 @@ public class Main extends StateBasedGame {
 		addState(new EyeCatch());
 		addState(new Fight());
 		addState(new ShaderTest());
+		addState(new MemoryTest());
 		
 		Player player;
 		Camera camera;
@@ -53,7 +44,7 @@ public class Main extends StateBasedGame {
 
 		camera = new Camera(container, this);
 		manager.cameras.add(camera);
-		
+
 		//PLAYERS
 		player = new Player(500,0);
 		manager.player1 = player;
@@ -66,37 +57,6 @@ public class Main extends StateBasedGame {
 		manager.players.add(player);
 		//
 	}
-
-	//@Override
-	/*public void init(GameContainer container) throws SlickException {
-		Player player;
-		Camera camera;
-		Manager manager;
-		
-		manager = new Manager();
-		
-
-		//PLAYERS
-		player = new Player(500,0);
-		Manager.player1 = player;
-		Manager.players.add(player);
-		
-		player = new Player(-500,0);
-		player.setKeys(Input.KEY_NUMPAD8, Input.KEY_NUMPAD2, Input.KEY_NUMPAD4, Input.KEY_NUMPAD6, 
-				Input.KEY_O, Input.KEY_P, Input.KEY_K, Input.KEY_L);
-		Manager.player2 = player;
-		Manager.players.add(player);
-		//
-		
-		//TODO: Put in roster.complete()
-		camera = new Camera(container);
-		Manager.cameras.add(camera);
-		StateFactory mf = new StateFactory();
-		Stage stage = new Stage();
-		manager.stage = stage;
-		//
-		
-	}*/
 
 	@Override
 	public void update(GameContainer container, int delta)
@@ -121,7 +81,7 @@ public class Main extends StateBasedGame {
 			app.setDisplayMode(1280, 764, false);
 			app.setResizable(true);
 			app.setAlwaysRender(true);
-			app.setTargetFrameRate(60);
+			app.setTargetFrameRate(0);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

@@ -63,14 +63,17 @@ public class Fight extends BasicGameState{
 			{
 				if(f != f2)
 				{
+					//If fighters are touching, seperate them.
 					if(f.touchBox.intersects(f2.touchBox))
 					{
 						seperateX(f, f2);
 					}
+					//If hitboxes from one player touch the other, collide them
 					for(Hitbox h : f2.getState().hitBoxes)
 					{
 						if(h.intersects(f.touchBox)&&h.spent == false)
 						{
+							
 							h.hit(f);
 							if(f.getState().canBlock())
 							{

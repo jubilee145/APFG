@@ -12,6 +12,7 @@ import entities.Fighter;
  * The action M="50,0" will add a MOVE statusPacket to the state the fighter is in, telling it to move
  * forwards at a speed of fifty.
  * TODO: An explanation of all of the condition and action flags. :/
+ * TODO: These are all gonna get destroyed in a bit anyway, explain them when they're better.
  * @author Jubilee
  *
  */

@@ -16,12 +16,8 @@ import entities.Fighter;
 import entities.Hitbox;
 
 /**
- * Holds... Ugh, all kinds of stuff. This should probably be about three or four classes.
- * 
- * TODO: Make this into three or four classes. :P
- * 
- * Manager holds details about the world, deals with collisions, holds spritesheets for the characters,
- * deals with the cameras, updates *everything,* controls the flow of time... Bleh. It does everything.
+ * Holds a bunch of constants and variables that need to be accessed by many other classes.
+ * Also options, controls and such?
  * 
  * @author Jubilee
  *
@@ -52,7 +48,8 @@ public class Manager
 		MAIN_OPTIONS,
 		EYE_CATCH,
 		FIGHT,
-		SHADER_TEST;
+		SHADER_TEST,
+		MEMORY_TEST;
 	}
 	
 	public Manager() throws SlickException

@@ -25,6 +25,9 @@ import org.newdawn.slick.SpriteSheet;
 
 public class InputHandler {
 
+	/**
+	 * just an easy way to reference the keys array.
+	 */
 	class Keys {
 		public static final int DOWN = 0;
 		public static final int UP = 1;
@@ -37,19 +40,22 @@ public class InputHandler {
 		public static final int D = 7;
 	}
 	
-
+	/**
+	 * The parsed directions of the keys. (e.g. '2' is seen as down in the movelists.)
+	 */
 	public int DOWN = 2;
 	public int UP = 8;
 	public int BACK = 4;
 	public int FORWARD = 6;
 
+	/**
+	 * Buffers holding a string of recent inputs, and currently held inputs.
+	 */
 	public String inputBuffer = "";
 	public String heldDirection = "";
 	public String heldButton = "";
 	
 	public boolean resetClock = false;
-
-	public SpriteSheet spriteSheet;
 
 	private boolean[] keysDown, keysPressed, keysReleased;
 	public int[] keysIndex;

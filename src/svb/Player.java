@@ -11,12 +11,24 @@ import entities.Hitbox;
 
 public class Player {
 
+	/**
+	 * The fighter object associated with this player.
+	 */
 	public Fighter fighter;
+	
+	/**
+	 * Where input is parsed/comes from.
+	 */
 	public InputHandler inputHandler;
 	
+	/**
+	 * Used to determine input delays. Clears the input after 1/4 of a second.
+	 */
 	private int time;
 	
-	//Where to display the debug information on the screen.
+	/**
+	 * Where to display the debug information on the screen.
+	 */
 	private Vector2f debugDrawLocation;
 	
 	public Player()
