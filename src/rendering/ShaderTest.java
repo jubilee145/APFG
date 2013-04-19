@@ -76,14 +76,14 @@ public class ShaderTest extends BasicGameState {
 		this.game = game;
 
 		try {
-			FileInputStream trixieIn = new FileInputStream("assets/shaderTest/ShaderTest.png");
+			FileInputStream trixieIn = new FileInputStream("assets/shaderTest/ShaderTest_censored.png");
 			FileInputStream trixieIn_N = new FileInputStream("assets/shaderTest/ShaderTest_n.png");
 			
 			//load our texture with linear filter
-			trixie = TextureLoader.getTexture("assets/shaderTest/ShaderTest.png", trixieIn, Image.FILTER_LINEAR);
+			trixie = TextureLoader.getTexture("assets/shaderTest/ShaderTest_censored.png", trixieIn, Image.FILTER_LINEAR);
 			trixieNormals = TextureLoader.getTexture("assets/shaderTest/ShaderTest_n.png", trixieIn_N, Image.FILTER_LINEAR);
 			
-			pinkie = new SpriteSheet(new Image("assets/shaderTest/pinkie.png"), 369,331);
+			pinkie = new SpriteSheet(new Image("assets/shaderTest/pony_censored.png"), 369,331);
 			pinkie_n = new SpriteSheet(new Image("assets/shaderTest/pinkie_n.png"), 369,331);
 			
 			//PackedSpriteSheet bark = new PackedSpriteSheet("");
