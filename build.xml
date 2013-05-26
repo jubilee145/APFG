@@ -5,6 +5,7 @@
 		<pathelement location="bin"/> 
 		<pathelement location="lib/lwjgl.jar"/> 
 		<pathelement location="lib/slick.jar"/> 
+		<pathelement location="lib/json-simple-1.1.1.jar"/>
 	</path>
 	
 	<target name="run" depends="compile">

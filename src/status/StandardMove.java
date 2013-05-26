@@ -4,9 +4,9 @@ import org.newdawn.slick.geom.Vector2f;
 
 import svb.Manager;
 import svb.Player;
-import svb.State;
 import entities.Actor;
 import entities.Hitbox;
+import entities.State;
 
 /**
  * Moves the target at a constant direction and speed, modified by parents direction.

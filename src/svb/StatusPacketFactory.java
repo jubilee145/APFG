@@ -8,6 +8,7 @@ import status.SetState;
 import status.StatusPacket;
 import status.TestGrabbed;
 import entities.Actor;
+import entities.State;
 
 /**
  * Gets input from the movelist file, and figures out what status effects need to go where.

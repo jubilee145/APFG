@@ -14,6 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import entities.Actor;
 import entities.Fighter;
 import entities.Hitbox;
+import entities.Touchbox;
 
 import stage.Stage;
 import svb.Camera;
@@ -57,7 +58,7 @@ public class Fight extends BasicGameState{
     		delta = 17;
     	
     	//Update Fighters
-    	for(Fighter f: fighters)
+    	/*for(Fighter f: fighters)
 		{
 			for (Fighter f2 : fighters)
 			{
@@ -108,7 +109,7 @@ public class Fight extends BasicGameState{
 					}
 				}
 			}
-		}
+		}*/
     	//Turn the players around if they're behind one another.
     	Player player1 = Manager.player1;
     	Player player2 = Manager.player2;
@@ -149,75 +150,7 @@ public class Fight extends BasicGameState{
     
     private static boolean seperateX(Actor actor1, Actor actor2)
 	{
-		//can't separate two immovable objects
-		Boolean act1immovable = actor1.immovable;
-		Boolean act2immovable = actor2.immovable;
-		if(act1immovable && act2immovable)
-			return false;
-
-		//First, get the two object deltas
-		float overlap = 0;
-		float act1delta = actor1.location.x - actor1.last.x;
-		float act2delta = actor2.location.x - actor2.last.x;
-		
-		if(act1delta != act2delta)
-		{
-			//Check if the X hulls actually overlap
-			float act1deltaAbs = (act1delta > 0)?act1delta:-act1delta;
-			float act2deltaAbs = (act2delta > 0)?act2delta:-act2delta;
-			Rectangle act1rect = actor1.touchBox;
-			Rectangle act2rect = actor2.touchBox;
-			{
-				float maxOverlap = act1deltaAbs + act2deltaAbs + 150;//OVERLAP_BIAS;
-				
-				//If they did overlap (and can), figure out by how much and flip the corresponding flags
-				if(act1rect.getX() + act1rect.getWidth()/2 < act2rect.getX() + act2rect.getWidth()/2)
-				{
-					overlap = actor1.location.x + act1rect.getWidth() - actor2.location.x;
-					if((overlap > maxOverlap))
-						overlap = 0;
-				}
-				else if(act1rect.getX() + act1rect.getWidth()/2 > act2rect.getX() + act2rect.getWidth()/2)
-				{
-					overlap = actor1.location.x - act2rect.getWidth() - actor2.location.x;
-					if((-overlap > maxOverlap))
-						overlap = 0;
-				}
-			}
-		}
-		
-		//Then adjust their positions and velocities accordingly (if there was any overlap)
-		if(overlap != 0)
-		{
-			float act1v = actor1.velocity.x;
-			float act2v = actor2.velocity.x;
-			
-			if(!act1immovable && !act2immovable)
-			{
-				overlap *= 0.5;
-				actor1.location.x = actor1.location.x - overlap;
-				actor2.location.x += overlap;
-
-				float act1velocity = (float) (Math.sqrt((act2v * act2v * actor2.mass)/actor1.mass) * ((act2v > 0)?1:-1));
-				float act2velocity = (float) (Math.sqrt((act1v * act1v * actor1.mass)/actor2.mass) * ((act1v > 0)?1:-1));
-				float average = (act1velocity + act2velocity)*0.5f;
-				act1velocity -= average;
-				act2velocity -= average;
-			}
-			else if(!act1immovable)
-			{
-				actor1.location.x = actor1.location.x - overlap;
-				actor1.velocity.x = act2v - act1v*actor1.elasticity;
-			}
-			else if(!act2immovable)
-			{
-				actor2.location.x += overlap;
-				actor2.velocity.x = act1v - act2v*actor2.elasticity;
-			}
-			return true;
-		}
-		else
-			return false;
+		return true;
 	}
 
  

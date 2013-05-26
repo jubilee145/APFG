@@ -12,7 +12,6 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
 import svb.Manager;
-import svb.State;
 
 /**
  * The fighter class is basically what the player is controlling/seeing right now.
@@ -30,17 +29,10 @@ public class Fighter extends Actor {
 	
 	public List<Actor> subActors;
 
-	public Fighter(SpriteSheet sheet, Vector2f startLocation) throws SlickException
+	public Fighter(Vector2f startLocation) throws SlickException
 	{
-		super(sheet, startLocation);
+		super(startLocation);
 		subActors = new ArrayList<Actor>();
-		
-		//TODO State-based touchboxes
-		touchBox = new Rectangle(0,0,32,50);
-		touchBoxOffset = new Vector2f(31,30);
-		
-		zoneBox.setLocation(location);
-		touchBox.setX(location.getX() + touchBoxOffset.x);
 	}
 	
 	public void turnAround()
@@ -53,6 +45,7 @@ public class Fighter extends Actor {
 	public void update(GameContainer container, int delta)
 			throws SlickException {	
 		super.update(container, delta);
+
 		for(Actor a : subActors)
 		{
 			a.update(container, delta);
@@ -64,10 +57,10 @@ public class Fighter extends Actor {
 		}
 	}
 	
-	@Override
-	public void render(GameContainer container, Graphics g, float offsetX, float offsetY)
+	public void render(GameContainer container, Graphics g)
 			throws SlickException {
-		super.render(container, g, offsetX, offsetY);
+		super.render(container, g, this.location.x, this.location.y);
+		
 		for(Actor a : subActors)
 		{
 			//a.render(container, g, offsetX, offsetY);
@@ -77,7 +70,23 @@ public class Fighter extends Actor {
 	@Override
 	protected void touchGround()
 	{
-		this.location.y = Manager.WORLD.groundLevel - zoneBox.getHeight() +(zoneBox.getHeight() - touchBoxOffset.y - touchBox.getHeight());
+		
+		/**
+		 * If part of any touchbox is colliding with the ground, 
+		 * raise the actor until it is not.
+		 */
+		int verticalOffset = state.getFrames()[state.getCurrentFrame()].getOffsetY();
+		float height = 0;
+		for (Touchbox t : state.getTouchBoxes())
+		{
+			if(t.getY() + t.getHeight() > height)
+			{
+				height = t.getY() + t.getHeight() + verticalOffset;
+			}
+			
+		}
+		this.location.y = Manager.WORLD.groundLevel - height;
+		
 		if(!isTouchingGround)
 			for(State s : openStates)
 			{
@@ -106,7 +115,6 @@ public class Fighter extends Actor {
 	@Override
 	protected void offCamera(boolean isRightOfCamera)
 	{
-		//Empty by default.
 		if(isRightOfCamera)
 		{
 			this.location.x = Manager.cameras.get(0).location.x + Manager.cameras.get(0).screen.getWidth() - zoneBox.getWidth() + touchBoxOffset.x;

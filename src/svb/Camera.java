@@ -1,5 +1,6 @@
 package svb;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -13,6 +14,7 @@ import svb.Manager.WORLD;
 import entities.Actor;
 import entities.Fighter;
 import entities.Hitbox;
+import entities.Touchbox;
 import gameState.EyeCatch;
 import gameState.Fight;
 
@@ -78,23 +80,22 @@ public class Camera {
 		for (BackgroundObject b : fight.stage.background)
 		{
 			b.setLocation(b.location.add(location.negate().add(screenLocation)));
-			b.render(container, g, 0, 0);
+			b.render(container, g);
 			b.setLocation(b.location.add(location).add(screenLocation.negate()));
 		}
 		
-		
 		for (Fighter f : fight.fighters) {
-			
+
 			offset.x = 0;
 			offset.y = 0;
 
 			f.zoneBox.setLocation(f.location.add(location.negate().add(screenLocation)));
 			if (screen.intersects(f.zoneBox)) {
-				f.render(container, g, 0, 0);
+				f.render(container, g);
 			}
 			f.zoneBox.setLocation(f.location.add(location).add(screenLocation.negate()));
 			
-			for (Actor a : f.subActors) 
+			for (Actor a : f.subActors)
 			{
 				a.zoneBox.setLocation(a.location.add(location.negate().add(screenLocation)));
 				if (screen.intersects(a.zoneBox)) {
@@ -105,17 +106,28 @@ public class Camera {
 			}
 		}
 
-		for (Player p : Manager.players) 
+		for (Player p : Manager.players)
 		{
 			//TODO Delete me. Shows hitboxes. Replace with effect class when done.
 			for(Hitbox h : p.fighter.getState().getHitBoxes())
 			{
+				g.setColor(Color.red);
 				h.setX(h.getX() - location.x + screen.getX());
 				h.setY(h.getY() - location.y + screen.getY());
-				g.fill(h);
+				g.draw(h);
 				h.setX(h.getX() + location.x - screen.getX());
 				h.setY(h.getY() + location.y - screen.getY());
 			}
+			for(Touchbox t : p.fighter.getState().getTouchBoxes())
+			{
+				g.setColor(Color.green);
+				t.setX(t.getX() - location.x + screen.getX());
+				t.setY(t.getY() - location.y + screen.getY());
+				g.draw(t);
+				t.setX(t.getX() + location.x - screen.getX());
+				t.setY(t.getY() + location.y - screen.getY());
+			}
+			g.setColor(Color.white);
 			////
 			p.render(container, g);
 		}

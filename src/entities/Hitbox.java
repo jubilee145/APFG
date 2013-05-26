@@ -4,6 +4,7 @@ entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -23,6 +24,12 @@ import svb.Manager;
 @SuppressWarnings("serial")
 public class Hitbox extends Rectangle {
 
+	/**
+	 * The dimensions and relative location of the current frame.
+	 * 'active' determines whether the hitbox will do anything in
+	 * the current frame. If not, it is ignored in collisions and 
+	 * not displayed.
+	 */
 	public class Frame {
 		public int x;
 		public int y;
@@ -31,6 +38,25 @@ public class Hitbox extends Rectangle {
 		public boolean active;
 	}
 	
+	/**
+	 * The array of frame data. This cycles at the same speed as the state animation
+	 * and is polled to create the correct hitbox at the correct time.
+	 */
+	public Frame[] frames;
+	
+	/**
+	 * The current, 'active' frame.
+	 */
+	public Frame currentFrame;
+	
+	
+	/**
+	 * Hit data. Determines where the hitbox will be blockable.
+	 * E.g. if a hitbox that hits high connects with a target that
+	 * is blocking high, the hitbox will be blocked. 'Confirmed' is
+	 * set to true when the hitbox successfully connects with a
+	 * target (i.e. is not blocked/whiffed).
+	 */
 	public class Hit {
 		public boolean unblockable = false;
 		public boolean high = false;
@@ -39,6 +65,17 @@ public class Hitbox extends Rectangle {
 		public boolean confirmed = false;
 	}
 	
+	/**
+	 * Active instance of the hit class.
+	 */
+	public Hit hit;
+	
+	/**
+	 * lists of status effects to apply to the target, the parent, and (possibly)
+	 * itself. 
+	 * TODO The self and removeStatus lists may be deprecated. We will know when the
+	 * character creator integration is complete.
+	 */
 	public class StatusList {
 		public List<StatusPacket> self;
 		public List<StatusPacket> applyTarget;
@@ -46,12 +83,21 @@ public class Hitbox extends Rectangle {
 		private List<StatusPacket> removeStatus;
 	}
 	
-	public boolean spent = false;
-	public Frame[] frames;
-	public Frame currentFrame;
-	public Hit hit;
+	/**
+	 * Active instance of the status lists.
+	 */
 	public StatusList status;
-	public int directionMultiplier;
+	
+	/**
+	 * Set to true when the hitbox connects, whether it is blocked
+	 * or not. Reset to false at the beginning of a state. Prevents
+	 * hitboxes from connecting multiple times.
+	 */
+	public boolean spent = false;
+	
+	/**
+	 * The parent of this hitbox.
+	 */
 	public Actor parent;
 	
 	public Hitbox(int numFrames, Actor parent) {
@@ -68,11 +114,6 @@ public class Hitbox extends Rectangle {
 		for(int i = 0; i< numFrames;i++)
 		{
 			Frame f = new Frame();
-			f.active = false;
-			f.height = -1;
-			f.width = 0;
-			f.x = 0;
-			f.y = 0;
 			frames[i] = f;
 		}
 	}
@@ -125,24 +166,22 @@ public class Hitbox extends Rectangle {
 		}
 	}
 	
-	public void update(Actor actor)
+	public void update()
 	{
-		int frame = actor.animation.getFrame();
+		int frame = parent.getState().getCurrentFrame();
 		currentFrame = frames[frame];
 		
 		this.setHeight(currentFrame.height);
-		this.setY(currentFrame.y + actor.location.y);
+		this.setY(parent.location.y + currentFrame.y);
 		this.setWidth(currentFrame.width);
 		
-		if(actor.isFacingLeft)
+		if(parent.isFacingLeft)
 		{
-			directionMultiplier = -1;
-			this.setX(-currentFrame.x -currentFrame.width + actor.location.x + actor.zoneBox.getWidth());
+			this.setX(parent.location.x + parent.zoneBox.getWidth()/2  + (parent.zoneBox.getWidth() - currentFrame.x - currentFrame.width));
 		}
 		else
 		{
-			directionMultiplier = 1;
-			this.setX(currentFrame.x + actor.location.x);
+			this.setX(parent.location.x - parent.zoneBox.getWidth()/2 + currentFrame.x);
 		}
 		
 		statusUpdate();

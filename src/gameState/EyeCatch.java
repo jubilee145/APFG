@@ -43,11 +43,6 @@ public class EyeCatch extends BasicGameState{
 	boolean loadingSecondCharacter;
 	private Fight fight;
 	
-	long totalMem;
-	long maxMem;
-	long freeMem;
-	double megs;
-	
 	public void setFighters(File fighter1, File fighter2)
 	{
 		this.fighter1 = fighter1;
@@ -62,6 +57,7 @@ public class EyeCatch extends BasicGameState{
 		firstLoad = true;
 		loadComplete = false;
 		loadingSecondCharacter = false;
+		
 	}
 	
 	@Override
@@ -75,15 +71,7 @@ public class EyeCatch extends BasicGameState{
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		// TODO Auto-generated method stub
-        Runtime rt = Runtime.getRuntime();
-        totalMem = rt.totalMemory();
-        maxMem = rt.maxMemory();
-        freeMem = rt.freeMemory();
-        megs = 1048576.0;
-		
-        g.drawString ("Total Memory: " + totalMem + " (" + (totalMem/megs) + " MiB)", 20, 40);
-        g.drawString ("Max Memory:   " + maxMem + " (" + (maxMem/megs) + " 20)", 20, 60);
-        g.drawString ("Free Memory:  " + freeMem + " (" + (freeMem/megs) + " 20)", 20, 80);
+
         
 		g.drawString("This is a loading screen...", 500, 500);
 	}
@@ -117,17 +105,22 @@ public class EyeCatch extends BasicGameState{
 	
 	public boolean makeFighter(File file, Fighter fighter) throws SlickException
 	{
-		if(firstLoad)
+		fighter = initFighter();
+		if(!loadingSecondCharacter)
 		{
-			System.out.println("Load begun, character: " + file);
-			sheetList = new ArrayList<SpriteSheet>();
-			fileName = new File(file + "/sprites");
-			fileNames = fileName.listFiles();
-			//Collections.sort((File[])fileNames);
-			Arrays.sort(fileNames);
-			firstLoad = false;
+			//loadingSecondCharacter = true;
+			Manager.cameras.get(0).target1 = fighter;
 		}
-		if (fileCounter < fileNames.length) 
+		else
+		{
+			Manager.cameras.get(0).target2 = fighter;
+		}
+		
+		System.out.println("Load begun, character: " + file);
+		
+		stateF.populateJsonMoveList(file, fighter);
+		fight.fighters.add(fighter);
+		/*if (fileCounter < fileNames.length) 
 		{
 			System.out.print("Loading file " + fileNames[fileCounter] + " ...");
 			sheetList.add(new SpriteSheet(fileNames[fileCounter].toString(), 300,360));
@@ -136,42 +129,36 @@ public class EyeCatch extends BasicGameState{
 		}
 		else
 		{
-			fighter = initFighter();
 			
-			if(loadingSecondCharacter)
-				Manager.cameras.get(0).target1 = fighter;
-			else
-				Manager.cameras.get(0).target2 = fighter;
+			
+
 
 			String movelist = file.getParentFile() + "/movelist";
 			
-			stateF.populateMoveList(movelist, sheetList, fighter);
-			fight.fighters.add(fighter);
+			//stateF.populateMoveList(movelist, sheetList, fighter);
+			
 			fileCounter = 0;
 			firstLoad = true;
 			return true;
-		}
+		}*/
 		
-		return false;
+		return true;
 	}
 	
 	private Fighter initFighter() throws SlickException
 	{
 		
 		Player player = Manager.player1;
-		Rectangle touchBox = new Rectangle(0,0,150,260);
-		Vector2f touchBoxOffset = new Vector2f(75,96);
+
 		Vector2f startVector = new Vector2f(-500,Manager.WORLD.groundLevel);
 		if(loadingSecondCharacter)
 		{
 			player = Manager.player2;
 			startVector.x = 500;
 		}
-		Fighter fighter = new Fighter(sheetList.get(0), startVector);
-		fighter.touchBox = touchBox;
-		fighter.touchBoxOffset = touchBoxOffset;
-		fighter.zoneBox.setLocation(fighter.location);
-		fighter.touchBox.setX(fighter.location.getX() + fighter.touchBoxOffset.x);
+		Fighter fighter = new Fighter(startVector);
+
+		//fighter.location(fighter.location);
 		
 		fighter.health = fighter.maxHealth = 5000;
 		player.fighter = fighter;

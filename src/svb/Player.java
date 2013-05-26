@@ -84,8 +84,6 @@ public class Player {
 	public void render(GameContainer container, Graphics g)
 			throws SlickException {
 		
-		
-		
 		//Render health bar, on right hand side if player 2
 		if(this == Manager.player1)
 		{
@@ -104,7 +102,7 @@ public class Player {
 			g.drawString("Input Buffer: " + fighter.inputBuffer, debugDrawLocation.x+5, 75);
 			g.drawString("Time: " + time, debugDrawLocation.x+5, 95);
 			g.drawString("State: " + fighter.getState().getName(), debugDrawLocation.x+5, 115);
-			g.drawString("Frame: " + fighter.animation.getFrame(), debugDrawLocation.x+5, 135);
+			g.drawString("Frame: " + fighter.getState().getCurrentFrame(), debugDrawLocation.x+5, 135);
 			if(fighter.isFacingLeft)
 				g.drawString("Facing: Left", debugDrawLocation.x+5, 155);
 			else
@@ -122,7 +120,7 @@ public class Player {
 			g.setColor(Color.darkGray);
 			g.draw(fighter.zoneBox);
 			g.setColor(Color.green);
-			g.draw(fighter.touchBox);
+			//g.draw(fighter.touchBox);
 			g.setColor(Color.white);
 		}
 	}

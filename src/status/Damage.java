@@ -1,10 +1,10 @@
 package status;
 
 import svb.Player;
-import svb.State;
 import entities.Actor;
 import entities.Fighter;
 import entities.Hitbox;
+import entities.State;
 
 /**
  * Just what it says on the tin. :) Causes damage once, then removes itself.

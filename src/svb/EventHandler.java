@@ -1,5 +1,7 @@
 package svb;
 
+import org.json.simple.JSONObject;
+
 import status.Drag;
 import status.Impulse;
 import status.Move;
@@ -21,91 +23,81 @@ public class EventHandler {
 
 	public EventHandler(){}
 	
-	public static boolean check(Actor actor, String condition)
+	public static boolean check(Actor actor, JSONObject condition)
 	{
-		String subString = null;
-		int index;
-		char flag;
+
+		String type = condition.get("type").toString();
+		String parameters = condition.get("parameters").toString();
+		boolean inverse = (Boolean) condition.get("inverse");
 		
-		while(condition != "DONE")
+		boolean returnBool = true;
+		if(inverse)
+			returnBool = false;
+		
+		if(type.contentEquals("INPUT"))
 		{
-			flag = condition.charAt(0);
-			index = condition.indexOf('"', condition.indexOf('"')+1);
-			subString = condition.substring(condition.indexOf('"')+1, index);
-
-			if(flag == 'I')
-			{
-				if(!actor.getInputString().contains(subString))
-				{	
-					return false;
-				}
+			if(!actor.getInputString().contains(parameters))
+			{	
+				return inverse;
 			}
-			else if(flag =='H')
-			{
-				String b = actor.heldButton;
-				String d = actor.heldDirection;
-				
-				if(!(d.contains(subString)||b.contains(subString)))
-				{
-					return false;
-				}
-			}
-			else if(flag =='F')
-			{
-				if(actor.animation.getFrame() <= Integer.parseInt(subString))
-				{
-					return false;
-				}
-			}
-			else if(flag =='G')
-			{
-				boolean shouldTouchGround;
-				if(subString.contentEquals("TRUE"))
-					shouldTouchGround = true;
-				else
-					shouldTouchGround = false;
-
-				if(!actor.isTouchingGround == shouldTouchGround)
-				{
-					return false;
-				}
-			}
-			else if(flag =='C')
-			{
-				if(!actor.hitConfirmed)
-				{
-					return false;
-				}
-			}
-			
-			condition = condition.substring(index + 1);
-			condition = condition.trim();
-			
-			if(condition.length() == 0)
-				condition = "DONE";
 		}
+		else if(type.contentEquals("HELD"))
+		{
+			String b = actor.heldButton;
+			String d = actor.heldDirection;
 
+			if(!(d.contains(parameters)||b.contains(parameters)))
+			{
+				return inverse;
+			}
+		}
+		else if(type.contentEquals("FRAME"))
+		{
+			if(actor.getState().getCurrentFrame() <= Integer.parseInt(parameters))
+			{
+				return inverse;
+			}
+		}
+		else if(type.contentEquals("TOUCHINGGROUND"))
+		{
+			boolean shouldTouchGround;
+			if(parameters.contentEquals("TRUE"))
+				shouldTouchGround = true;
+			else
+				shouldTouchGround = false;
+
+			if(!actor.isTouchingGround == shouldTouchGround)
+			{
+				return false;
+			}
+		}
+		else if(type.contentEquals("HITCONFIRM"))
+		{
+			if(!actor.hitConfirmed)
+			{
+				return inverse;
+			}
+		}
 		
-		return true;
+		return returnBool;
 	}
 	
-	public static void doAction(Actor actor, String action)
+	public static void doAction(Actor actor, JSONObject action)
 	{
-		String subString = null;
-		int index;
-		char flag;
-		int facingAdjustment = 1;
-		if(actor.isFacingLeft)
-			facingAdjustment = -1;
+
 		
-		while(action != "DONE")
-		{
-			flag = action.charAt(0);
-			index = action.indexOf('"', action.indexOf('"')+1);
-			subString = action.substring(action.indexOf('"')+1, index);
-			if(flag == 'M')
+		
+		/*int facingAdjustment = 1;
+		if(actor.isFacingLeft)
+			facingAdjustment = -1;*/
+		
+		String type = action.get("type").toString();
+		String parameters = action.get("parameters").toString();
+
+			if(type.contentEquals("MOVE"))
 			{
-				String[] splitString = subString.split(",");
+				
+				String[] splitString = parameters.split(",");
 				float impX = Integer.parseInt(splitString[0]);
 				float impY = Integer.parseInt(splitString[1]);
 				
@@ -115,9 +107,9 @@ public class EventHandler {
 				
 				actor.getState().status.add(m);
 			}
-			else if(flag == 'D')
+			else if(type.contentEquals("DRAG"))
 			{
-				String[] splitString = subString.split(",");
+				String[] splitString = parameters.split(",");
 				float impX = Integer.parseInt(splitString[0]);
 				float impY = Integer.parseInt(splitString[1]);
 				
@@ -127,9 +119,9 @@ public class EventHandler {
 				
 				actor.getState().status.add(d);
 			}
-			else if(flag == 'I')
+			else if(type.contentEquals("IMPULSE"))
 			{
-				String[] splitString = subString.split(",");
+				String[] splitString = parameters.split(",");
 				float impX = Integer.parseInt(splitString[0]);
 				float impY = Integer.parseInt(splitString[1]);
 				
@@ -141,12 +133,8 @@ public class EventHandler {
 				
 			}
 			
-			action = action.substring(index + 1);
-			action.trim();
-			
-			if(action.length() == 0)
-				action = "DONE";
-		}
+
+		
 	}
 
 }

@@ -165,14 +165,14 @@ public class InputHandler {
 			resetClock = true;
 		}
 		
-		if(heldDirection.contentEquals("26"))
+		/*if(heldDirection.contentEquals("26"))
 			heldDirection = "3";
 		else if(heldDirection.contentEquals("24"))
 			heldDirection = "1";
 		else if(heldDirection.contentEquals("48"))
 			heldDirection = "7";
 		else if(heldDirection.contentEquals("68"))
-			heldDirection = "9";
+			heldDirection = "9";*/
 		
 		if(dirty)
 		{
@@ -256,3 +256,208 @@ public class InputHandler {
 	}
 	
 }
+
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////
+ * InputManager class programmed by Azura (James Addison).
+ * 
+ * Incomplete, however mostly finished.
+ * 
+ *////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+package Client;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.Scanner;
+
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
+
+public class InputHandler 
+{
+ private static enum KeyStates
+ {
+  NONE,
+  DOWN,
+  PRESSED,
+  RELEASED;
+ }
+ 
+ private static enum Keys
+ {
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT;
+  
+  private static String getName(int id)
+  {
+    switch (id) 
+    {
+             case 0:
+              return "UP";
+             case 1:
+              return "DOWN";
+             case 2:
+              return "LEFT";
+             case 3:
+              return "RIGHT";
+             default:
+              return "";
+    }
+  }
+ }
+ 
+ private class KeyData 
+ {
+  private int id;
+  private int state = KeyStates.NONE.ordinal();
+  
+  public KeyData(int id) 
+  {
+   this.id = id;
+  }
+ }
+ 
+ private final String KEYBINDINGS = "src/Client/Keybindings.ini";
+ private static final int keySize = Keys.values().length;
+ private KeyData[] keyData;
+ 
+ public InputHandler()
+ {
+
+ }
+ 
+ public void init()
+ {
+  try 
+  {
+   readKeys();
+  } 
+  catch (FileNotFoundException e) 
+  {
+   e.printStackTrace();
+  }
+  
+ }
+ 
+ public void readKeys() throws FileNotFoundException
+ {
+  String actionName;
+  int id;
+  keyData = new KeyData[keySize];
+  String inLine;
+  String[] splits;
+     Scanner scanner = new Scanner(new File(KEYBINDINGS));
+      try 
+      {
+       while (scanner.hasNextLine())
+      {
+       inLine = scanner.nextLine();
+       inLine = inLine.replaceAll(" ", "");
+       inLine = inLine.replaceAll("'", "");
+       splits = inLine.split("=");
+       actionName = splits[0];
+       id = Integer.parseInt(splits[1]);
+       keyData[Keys.valueOf(actionName).ordinal()] = new KeyData(id);
+       System.out.println(actionName + " : " + id);
+      }
+      }
+      finally
+      {
+        scanner.close();
+      }
+ }
+ 
+ public void writeKeys()
+ {
+  Writer writer = null;
+  
+  try 
+  {
+      writer = new BufferedWriter(new OutputStreamWriter(
+      new FileOutputStream(KEYBINDINGS)));
+      for(int i = 0; i < keySize-1; i++)
+      {
+       writer.write(Keys.getName(i) + " = '" + keyData[i].id + "'" + System.getProperty("line.separator"));
+      }
+      writer.write(Keys.getName(keySize-1) + " = '" + keyData[keySize-1].id + "'");
+  } 
+  catch (IOException ex)
+  {
+  }
+  finally 
+  {
+     try 
+     {
+      writer.close();
+     } 
+     catch (Exception ex) 
+     {
+      
+     }
+  }
+ }
+ 
+ public void setKey(KeyData keyData, int id)
+ {
+  keyData.id = id;
+  keyData.state = KeyStates.NONE.ordinal();
+ }
+ 
+ public void resetKeys()
+ {
+  for (int i = 0; i < keySize; i++)
+  {
+   keyData[i].state = KeyStates.NONE.ordinal();
+  }
+ }
+ 
+ public void resetDefaults()
+ {
+  keyData[0].id = Input.KEY_W;
+  keyData[0].state = KeyStates.NONE.ordinal();
+  keyData[1].id = Input.KEY_S;
+  keyData[1].state = KeyStates.NONE.ordinal();
+  keyData[2].id = Input.KEY_A;
+  keyData[2].state = KeyStates.NONE.ordinal();
+  keyData[3].id = Input.KEY_D;
+  keyData[3].state = KeyStates.NONE.ordinal();
+ }
+ 
+ public void checkKeys(GameContainer container)
+ {
+  Input input = container.getInput();
+  
+  for(int i = 0; i < keySize; i++)
+  { 
+   //Checks whether the previous key state was DOWN and the current key is not DOWN if so
+   //sets the current key state to RELEASED.
+   if(keyData[i].state == KeyStates.DOWN.ordinal() && input.isKeyDown(keyData[i].id) == false)
+   {
+    keyData[i].state = KeyStates.RELEASED.ordinal();
+   }
+   //Checks whether the key is PRESSED if so sets the key State to PRESSED.
+   else if(input.isKeyPressed(keyData[i].id))
+   {
+    keyData[i].state = KeyStates.PRESSED.ordinal();
+   }
+   //Checks whether the key is DOWN if so sets the key state to DOWN.
+   else if(input.isKeyDown(keyData[i].id))
+   {
+    keyData[i].state = KeyStates.DOWN.ordinal();
+   }
+   //If the key isn't currently active it sets the key state to NONE.
+   else
+   {
+    keyData[i].state = KeyStates.NONE.ordinal();
+   }
+  }
+ }
+}*/

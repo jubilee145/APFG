@@ -32,7 +32,7 @@ public class Manager
 	public static List<SpriteSheet> haroldSheet;
 	public static boolean debug;
 	public static float timeScale = 100f;
-	
+	public static boolean preLoadTextures = true;
 	
 	public static class WORLD
 	{

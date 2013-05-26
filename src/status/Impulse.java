@@ -4,9 +4,9 @@ import org.newdawn.slick.geom.Vector2f;
 
 import svb.Manager;
 import svb.Player;
-import svb.State;
 import entities.Actor;
 import entities.Hitbox;
+import entities.State;
 
 /**
  * Applies a force on the target object, with direction modified by the parent object,

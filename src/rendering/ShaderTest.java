@@ -79,7 +79,7 @@ public class ShaderTest extends BasicGameState {
 			FileInputStream trixieIn = new FileInputStream("assets/shaderTest/ShaderTest_censored.png");
 			FileInputStream trixieIn_N = new FileInputStream("assets/shaderTest/ShaderTest_n.png");
 			
-			//load our texture with linear filter
+			//load our texture with linear filterd
 			trixie = TextureLoader.getTexture("assets/shaderTest/ShaderTest_censored.png", trixieIn, Image.FILTER_LINEAR);
 			trixieNormals = TextureLoader.getTexture("assets/shaderTest/ShaderTest_n.png", trixieIn_N, Image.FILTER_LINEAR);
 			

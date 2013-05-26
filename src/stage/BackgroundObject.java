@@ -32,14 +32,9 @@ public class BackgroundObject {
 		this.image = image;
 	}
 	
-	public void render(GameContainer container, Graphics g, float offsetX, float offsetY)
-			throws SlickException {
-		g.drawImage(image, location.x, location.y, color);
-	}
-	
 	public void render(GameContainer container, Graphics g)
 			throws SlickException {
-		render(container, g, 0,0);
+		g.drawImage(image, location.x, location.y, color);
 	}
 	
 	public void setLocation(Vector2f location)

@@ -1,9 +1,9 @@
 package status;
 
 import svb.Player;
-import svb.State;
 import entities.Actor;
 import entities.Hitbox;
+import entities.State;
 
 
 public class TestStatus implements StatusPacket {

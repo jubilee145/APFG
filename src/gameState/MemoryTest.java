@@ -2,21 +2,14 @@ package gameState;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.state.BasicGameState;
@@ -24,13 +17,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.util.ResourceLoader;
-import org.newdawn.slick.util.ResourceLocation;
-
-import entities.Fighter;
 
 import svb.Manager;
-import svb.Player;
-import svb.StateFactory;
 
 /**
  * @author Jubilee
@@ -67,11 +55,11 @@ public class MemoryTest extends BasicGameState{
 	    
 	    try {
 			tempTexture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter].getPath()));
-			displayTexture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter].getPath()));
+			displayTexture = tempTexture;//TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter].getPath()));
 			displayImage.setTexture(displayTexture);
 			
 			tempTexture2 = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter2].getPath()));
-			displayTexture2 = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter2].getPath()));
+			displayTexture2 = tempTexture2;//TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter2].getPath()));
 			displayImage2.setTexture(displayTexture2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -145,4 +133,3 @@ public class MemoryTest extends BasicGameState{
 	}
 
 }
-

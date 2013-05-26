@@ -4,10 +4,10 @@ import org.newdawn.slick.geom.Vector2f;
 
 import svb.Manager;
 import svb.Player;
-import svb.State;
 import entities.Actor;
 import entities.Fighter;
 import entities.Hitbox;
+import entities.State;
 
 /**
  * Moves the target at a constant direction and speed, modified by parents direction.
@@ -27,6 +27,7 @@ public class Move implements StatusPacket{
 	
 	public Move(float impX, float impY)
 	{
+		
 		applyMovement = new Vector2f(impX * Manager.WORLD.conversionConstant, impY * Manager.WORLD.conversionConstant);
 	}
 	

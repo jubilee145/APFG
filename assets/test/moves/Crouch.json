@@ -1,0 +1,1 @@
+{"name":"Crouch","preserveInput":true,"canTurn":true,"openState":false,"allowGravity":false,"block":"Crouch Guard","transition":"Idle","frames":[],"actions":[],"hitboxes":[],"touchboxes":[],"cancels":[]}

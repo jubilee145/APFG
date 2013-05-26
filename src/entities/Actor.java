@@ -15,7 +15,6 @@ import org.newdawn.slick.geom.Vector2f;
 
 import status.StatusPacket;
 import svb.Manager;
-import svb.State;
 
 /**
  * Actor is basically the class used for anything that is on the screen and active.
@@ -42,12 +41,10 @@ public class Actor {
 	public float elasticity = 0;
 	public float rotation = 0;
 	
-	public Animation animation;
-	
 	public Vector2f location;
 	
 	public Rectangle zoneBox;
-	public Rectangle touchBox;
+	//public Rectangle touchBox;
 	
 	public Color color;
 	
@@ -97,22 +94,22 @@ public class Actor {
 	
 	public Actor() throws SlickException
 	{
-		init(null, null);
+		init(null);
 	}
 	
-	public Actor(SpriteSheet sheet, Vector2f startLocation) throws SlickException
+	public Actor(Vector2f startLocation) throws SlickException
 	{
-		init(sheet, startLocation);
+		init(startLocation);
 	}
 	
-	protected void init(SpriteSheet sheet, Vector2f startLocation) throws SlickException
+	protected void init(Vector2f startLocation) throws SlickException
 	{
 		openStates = new ArrayList<State>();
 		status = new ArrayList<StatusPacket>();
 		removeStatus = new ArrayList<StatusPacket>();
 		
-		touchBox = new Rectangle(0,0,0,0);
-		touchBoxOffset = new Vector2f(0,0);
+		//touchBox = new Rectangle(0,0,0,0);
+		//touchBoxOffset = new Vector2f(0,0);
 		
 		acceleration = new Vector2f();
 		drag = new Vector2f(0.2f,0.95f);
@@ -121,17 +118,17 @@ public class Actor {
 		velocity = new Vector2f();
 		maxVelocity = 100;
 		
-		//if there is no image, make an empty one.
-		if(sheet == null)
-			this.animation = new Animation();
-		else
-			this.animation = new Animation(sheet, 100);
 		location = startLocation;
 		//if there is no startlocation, make an empty one.
 		if(location==null)
 			location = new Vector2f(0,0);
 		
-		zoneBox = new Rectangle(0, 0, animation.getWidth(), animation.getHeight());
+		/**
+		 * TODO The width of the zonebox is used to determine when characters should turn around.
+		 * This number is not exact, but it may be good enough. If characters jump and shift when
+		 * they turn around, this is probably why.
+		 */
+		zoneBox = new Rectangle(0, 0, 300, 10);
 	}
 	
 	public void update(GameContainer container, int delta)
@@ -144,51 +141,53 @@ public class Actor {
 		 * NB: If animation.update() is handed a number greater than the animation duration,
 		 * frames WILL be skipped. This will cause logic problems in states where the frame 
 		 * number is relevant,such as IMPULSE states, and may cause strange hitbox behaviour.
+		 * P.S. This may no longer be the case. We will know when state.Update starts
+		 * handling the animations.
 		*/
-		animation.update((long)(delta * Manager.WORLD.conversionConstant * Manager.timeScale));
 		statusUpdate();
-		state.update(this);
+		state.update(this, delta);
 		
-		last = location.copy();
 		location.add(velocity.copy().scale((float) (delta * Manager.timeScale * Manager.WORLD.conversionConstant)));
-		
-		if(isFacingLeft)
-		{
-			touchBox.setX(location.getX() + zoneBox.getWidth() - touchBox.getWidth() - touchBoxOffset.x);
-		} 
-		else
-		{
-			touchBox.setX(location.getX() + touchBoxOffset.x);
-		}
-		touchBox.setY(location.getY() + touchBoxOffset.y);
-		
-		
 		
 		if(state.isAllowGravity())
 		{
-			
 			this.velocity.y += Manager.WORLD.gravity*delta * Manager.WORLD.conversionConstant * Manager.timeScale;
+			
 		}
-		if(this.touchBox.getY() + touchBox.getHeight() >= Manager.WORLD.groundLevel)
-		{
-			touchGround();
+		/**Set location of each touchbox (relative to fighter base position)
+		 * Check if any touchboxes are in contact with the ground. If so,
+		 * call touchGround, if not call inAir.
+		 */
+		int verticalOffset = state.getFrames()[state.getCurrentFrame()].getOffsetY();
+		for (Touchbox t : state.getTouchBoxes())
+		{	
+			/**TODO This won't currently work. If ANY of the TB's aren't touching the ground, the inAir
+			 * thing will happen. Not good.
+			 */
+			if(location.getY() + t.getY() + t.getHeight() + verticalOffset >= Manager.WORLD.groundLevel)
+			{
+				touchGround();
+			}else if(location.getY() + t.getY() + t.getHeight() < Manager.WORLD.groundLevel)
+			{
+				//inAir();
+			}
+		}
 
-		}else if(this.touchBox.getY() + touchBox.getHeight() < Manager.WORLD.groundLevel)
-		{
-			inAir();
-		}
-		
-		//TODO make into offCamera function, and 
-		//put the rest in Fighter where it belongs.
-		//Keep players onscreen
-		if(this.touchBox.getX() < Manager.cameras.get(0).location.x)
+		/**
+		 * If any part of the actor is colliding with the edge of the visible world, 
+		 * call offCamera, which may do different things for different Actor types, 
+		 * or depending on the situation. Usually will just shunt them back on screen
+		 * (for fighters) or destroy them (for projectiles and co.)
+		 */
+		//TODO for each touchbox
+		/*if(this.touchBox.getX() < Manager.cameras.get(0).location.x)
 		{
 			offCamera(false);
 			
 		} else if(this.touchBox.getX() + this.touchBox.getWidth() > Manager.cameras.get(0).location.x + Manager.cameras.get(0).screen.getWidth())
 		{
 			offCamera(true);
-		}
+		}*/
 
 	}
 
@@ -197,15 +196,9 @@ public class Actor {
 
 		if(!visible)
 			return;
-
-		if(isFacingLeft)
-			g.drawImage(animation.getCurrentFrame().getFlippedCopy(true, false), location.x + offsetX, location.y + offsetY, color);
-		else
-			g.drawImage(animation.getCurrentFrame(), location.x + offsetX, location.y + offsetY, color);
-
+		state.render(container, g, offsetX, offsetY, this);
+		
 	}
-	
-	
 	
 	protected void touchGround()
 	{
@@ -220,14 +213,6 @@ public class Actor {
 	protected void offCamera(boolean isRightOfCamera)
 	{
 		//Empty by default.
-	}
-	
-	public Animation getAnimation() {
-		return animation;
-	}
-
-	public void setAnimation(Animation animation) {
-		this.animation = animation;
 	}
 	
 	protected void statusUpdate()
@@ -252,7 +237,6 @@ public class Actor {
 	public void setState(State newState)
 	{
 		this.state = newState;
-		animation = newState.getAnimation();
 		
 		newState.reset();
 		newState.doActions(this);

@@ -4,9 +4,9 @@ import org.newdawn.slick.geom.Vector2f;
 
 import svb.Manager;
 import svb.Player;
-import svb.State;
 import entities.Actor;
 import entities.Hitbox;
+import entities.State;
 
 /**
  * Assigns a state from the targets list of open states.
