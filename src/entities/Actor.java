@@ -15,6 +15,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 import status.StatusPacket;
 import svb.Manager;
+import svb.Player;
 
 /**
  * Actor is basically the class used for anything that is on the screen and active.
@@ -29,7 +30,7 @@ public class Actor {
 	public Vector2f acceleration; 
 	public Vector2f drag; 
 	public Vector2f friction;
-	public Vector2f last;
+	public Vector2f lastLocation;
 	public Vector2f parallax;
 	public Vector2f touchBoxOffset;
 	public Vector2f velocity;
@@ -40,6 +41,8 @@ public class Actor {
 	public float mass = 1;
 	public float elasticity = 0;
 	public float rotation = 0;
+	
+	public Player player;
 	
 	public Vector2f location;
 	
@@ -119,6 +122,7 @@ public class Actor {
 		maxVelocity = 100;
 		
 		location = startLocation;
+		lastLocation = startLocation.copy();
 		//if there is no startlocation, make an empty one.
 		if(location==null)
 			location = new Vector2f(0,0);
@@ -171,32 +175,30 @@ public class Actor {
 			{
 				//inAir();
 			}
-		}
-
-		/**
-		 * If any part of the actor is colliding with the edge of the visible world, 
-		 * call offCamera, which may do different things for different Actor types, 
-		 * or depending on the situation. Usually will just shunt them back on screen
-		 * (for fighters) or destroy them (for projectiles and co.)
-		 */
-		//TODO for each touchbox
-		/*if(this.touchBox.getX() < Manager.cameras.get(0).location.x)
-		{
-			offCamera(false);
 			
-		} else if(this.touchBox.getX() + this.touchBox.getWidth() > Manager.cameras.get(0).location.x + Manager.cameras.get(0).screen.getWidth())
-		{
-			offCamera(true);
-		}*/
-
+			/**
+			 * If any part of the actor is colliding with the edge of the visible world, 
+			 * call offCamera, which may do different things for different Actor types, 
+			 * or depending on the situation. Usually will just shunt them back on screen
+			 * (for fighters) or destroy them (for projectiles and co.)
+			 */
+			if(t.getX() < Manager.cameras.get(0).location.x)
+			{
+				offCamera(false);
+				
+			} else if(t.getX() + t.getWidth() > Manager.cameras.get(0).location.x + Manager.cameras.get(0).screen.getWidth())
+			{
+				offCamera(true);
+			}
+		}
 	}
 
-	public void render(GameContainer container, Graphics g, float offsetX, float offsetY)
+	public void render(GameContainer container, Graphics g)
 			throws SlickException {
 
 		if(!visible)
 			return;
-		state.render(container, g, offsetX, offsetY, this);
+		state.render(container, g, location.x, location.y, this);
 		
 	}
 	
@@ -236,11 +238,12 @@ public class Actor {
 	 */
 	public void setState(State newState)
 	{
-		this.state = newState;
-		
+		state = newState;
+
 		newState.reset();
 		newState.doActions(this);
 		newState.resetHitboxes(this);
+		newState.resetTouchboxes(this);
 		
 		//Clear input stream.
 		if(!newState.isPreserveInput())
@@ -259,12 +262,15 @@ public class Actor {
 
 	public void hit(Hitbox hitbox)
 	{	
-
-		for(StatusPacket s: hitbox.status.applyTarget)
+		if(!hitbox.spent)
 		{
-			s.giveObject(this);
-			this.applyStatus(s);
+			for(StatusPacket s: hitbox.status.applyTarget)
+			{
+				s.giveObject(this);
+				this.applyStatus(s);
+			}
 		}
+		hitbox.spent = true;
 	}
 	
 	public void applyStatus(StatusPacket s)

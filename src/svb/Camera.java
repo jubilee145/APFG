@@ -60,7 +60,7 @@ public class Camera {
 		 */
 		if(target1 != null && target2 != null)
 		{
-			location.x = (target1.location.x + target1.zoneBox.getWidth()/2 + target2.location.x + target2.zoneBox.getWidth()/2)/2 - screen.getWidth()/2;
+			//location.x = (target1.location.x + target1.zoneBox.getWidth()/2 + target2.location.x + target2.zoneBox.getWidth()/2)/2 - screen.getWidth()/2;
 			location.y = (target1.location.y + target1.zoneBox.getHeight()/2 + target2.location.y + target2.zoneBox.getHeight()/2)/2 - screen.getHeight()/2;
 		}
 		screen.setLocation(screenLocation);
@@ -70,6 +70,7 @@ public class Camera {
 			throws SlickException {
 		
 		Vector2f offset = new Vector2f();
+		g.drawString("Sub-Actors: " + (Manager.player1.fighter.subActors.size() + Manager.player2.fighter.subActors.size()), 50, 200);
 		
 		/**TODO Delete me. Displays ground level.
 		 *-30 so that it looks like they're actually standing on the ground, instead of an impossibly
@@ -99,7 +100,7 @@ public class Camera {
 			{
 				a.zoneBox.setLocation(a.location.add(location.negate().add(screenLocation)));
 				if (screen.intersects(a.zoneBox)) {
-					a.render(container, g, 0, 0);
+					a.render(container, g);
 				}
 				a.zoneBox.setLocation(a.location.add(location).add(screenLocation.negate()));
 				

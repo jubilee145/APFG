@@ -151,13 +151,14 @@ public class EyeCatch extends BasicGameState{
 		Player player = Manager.player1;
 
 		Vector2f startVector = new Vector2f(-500,Manager.WORLD.groundLevel);
+		
 		if(loadingSecondCharacter)
 		{
 			player = Manager.player2;
 			startVector.x = 500;
 		}
 		Fighter fighter = new Fighter(startVector);
-
+		fighter.player = player;
 		//fighter.location(fighter.location);
 		
 		fighter.health = fighter.maxHealth = 5000;

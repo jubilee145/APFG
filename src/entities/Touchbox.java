@@ -76,8 +76,6 @@ public class Touchbox extends Rectangle {
 		
 		if(parent.isFacingLeft)
 		{
-			//offsetX + zoneWidth/2 - frames[currentFrame].getOffsetX() + (zoneWidth - image.getWidth())
-			//this.setX(parent.location.x + parent.zoneBox.getWidth()/2 - currentFrame.x + currentFrame.width);
 			this.setX(parent.location.x + parent.zoneBox.getWidth()/2  + (parent.zoneBox.getWidth() - currentFrame.x - currentFrame.width));
 		}
 		else

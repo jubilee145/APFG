@@ -50,20 +50,23 @@ public class Fighter extends Actor {
 		{
 			a.update(container, delta);
 		}
-		if(container.getInput().isKeyPressed(Input.KEY_C))
+		if(container.getInput().isKeyDown(Input.KEY_C))
 		{
-			SpriteSheet s = new SpriteSheet("assets/sprites/projectileTest.png", 100, 100);
-			subActors.add(new Projectile(s, this.location.copy()));
+			Vector2f locCopy = location.copy();
+			locCopy.y +=200;
+			Projectile proj = new Projectile(locCopy, isFacingLeft);
+			proj.player = player;
+			subActors.add(proj);
 		}
 	}
 	
 	public void render(GameContainer container, Graphics g)
 			throws SlickException {
-		super.render(container, g, this.location.x, this.location.y);
+		super.render(container, g);
 		
 		for(Actor a : subActors)
 		{
-			//a.render(container, g, offsetX, offsetY);
+			a.render(container, g);
 		}
 	}
 	
@@ -115,12 +118,13 @@ public class Fighter extends Actor {
 	@Override
 	protected void offCamera(boolean isRightOfCamera)
 	{
+		
 		if(isRightOfCamera)
 		{
-			this.location.x = Manager.cameras.get(0).location.x + Manager.cameras.get(0).screen.getWidth() - zoneBox.getWidth() + touchBoxOffset.x;
+			this.location.x = Manager.cameras.get(0).location.x + Manager.cameras.get(0).screen.getWidth() - zoneBox.getWidth() + state.getFrames()[state.getCurrentFrame()].getOffsetX()/4;
 		} else
 		{
-			this.location.x = Manager.cameras.get(0).location.x - touchBoxOffset.x;
+			this.location.x = Manager.cameras.get(0).location.x - state.getFrames()[state.getCurrentFrame()].getOffsetX()/4;
 		}
 	}
 

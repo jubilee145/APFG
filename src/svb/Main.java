@@ -28,9 +28,10 @@ public class Main extends StateBasedGame {
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
 		
+		addState(new Roster());
 		addState(new SplashScreen());
 		addState(new MainMenu());
-		addState(new Roster());
+		
 		addState(new EyeCatch());
 		addState(new Fight());
 		addState(new ShaderTest());
@@ -81,7 +82,10 @@ public class Main extends StateBasedGame {
 			app.setDisplayMode(1280, 764, false);
 			app.setResizable(true);
 			app.setAlwaysRender(true);
-			app.setTargetFrameRate(0);
+			app.setTargetFrameRate(60);
+			app.setMaximumLogicUpdateInterval(10);
+			app.setSmoothDeltas(true);
+			//app.setVSync(true);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

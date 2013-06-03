@@ -34,6 +34,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
+import status.Damage;
 import status.TestGrab;
 import status.TestGrabbed;
 import status.TestStatus;
@@ -78,7 +79,6 @@ public class StateFactory {
 			
 			for(int i = 0; i < fileNames.length; i++)
 			{
-				// new State();
 				JSONObject jsonObject = new JSONObject();
 				jsonObject = (JSONObject) jParser.parse(new FileReader(fileNames[i]));
 				
@@ -162,6 +162,7 @@ public class StateFactory {
 		JSONArray touchboxes = (JSONArray) jsonObject.get("touchboxes");
 		JSONArray cancels = (JSONArray) jsonObject.get("cancels");
 		JSONArray actions = (JSONArray) jsonObject.get("actions");
+
 		List<JSONObject> stateCancelList = new ArrayList<JSONObject>();
 		List<JSONObject> stateActionList = new ArrayList<JSONObject>();
 		
@@ -215,6 +216,12 @@ public class StateFactory {
 			stateHitbox.hit.low = (Boolean) jsonHitbox.get("hitLow");
 			
 			//TODO Target and parent actions.
+			JSONArray targetActions = (JSONArray) jsonHitbox.get("targetActions");
+			JSONArray parentActions = (JSONArray) jsonHitbox.get("parentActions");
+			
+			populateTargetActions(targetActions, stateHitbox);
+			populateParentActions(parentActions, stateHitbox);
+			
 			for(int i = 0; i < frames.size(); i++)
 			{
 				jsonHitboxFrame = (JSONObject)((JSONArray) jsonHitbox.get("boxFrames")).get(i);
@@ -321,4 +328,31 @@ public class StateFactory {
 		return frame;
 	}
 	
+	/**
+	 * Add status effects to the hitboxes target list, i.e. the list of effects
+	 * that will be applied to the target of the hitbox.
+	 * 
+	 * @param targetActions
+	 * @param stateHitbox
+	 */
+	private void populateTargetActions(JSONArray targetActions, Hitbox stateHitbox)
+	{
+		JSONObject statusObject;
+		for(int i = 0; i < targetActions.size(); i++)
+		{
+			statusObject = (JSONObject) targetActions.get(i);
+			if(statusObject.get("type").toString().contentEquals("DAMAGE"))
+			{
+				String pObject = statusObject.get("parameters").toString();
+				int parameter = Integer.parseInt(pObject);
+				Damage damage = new Damage(parameter);
+				stateHitbox.status.applyTarget.add(damage);
+			}
+		}
+	}
+	
+	private void populateParentActions(JSONArray parentActions, Hitbox stateHitbox)
+	{
+		
+	}
 }

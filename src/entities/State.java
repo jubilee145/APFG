@@ -71,7 +71,7 @@ public class State {
 	/**
 	 * The time, in milliseconds, since the framedata of this state was last updated.
 	 */
-	private int lastUpdate;
+	private float lastUpdate;
 	
 	/**
 	 * The list of possible hitboxes that can happen during this state.
@@ -138,7 +138,7 @@ public class State {
 
 	public void update(Actor actor, int delta)
 	{
-
+		
 		checkConditions(actor);
 		
 		for (Hitbox h : hitBoxes)
@@ -157,8 +157,13 @@ public class State {
 
 		
 		//Update frame
-		lastUpdate += delta;
-		if(lastUpdate > 17)
+		
+		if(actor.player == Manager.player1)
+		{
+			lastUpdate += delta;// * Manager.timeScale * Manager.WORLD.conversionConstant;
+			//System.out.println(lastUpdate);
+		}
+		if(lastUpdate >= 17)
 		{
 			currentFrame ++;
 			lastUpdate = 0;
@@ -334,13 +339,20 @@ public class State {
 		this.frames = frames;
 	}
 
-	//stops the hitboxes from "flashing" from the previous location
+	//stops the hitboxes from "flashing" from the previous location on state reset.
 	public void resetHitboxes(Actor actor) {
 		for (Hitbox h: hitBoxes)
 		{
 			h.hit.confirmed = false;
 			h.spent = false;
 			h.update();
+		}
+	}
+	
+	public void resetTouchboxes(Actor actor) {
+		for (Touchbox t: touchBoxes)
+		{
+			t.update();
 		}
 	}
 
