@@ -17,7 +17,7 @@ import entities.Hitbox;
 
 /**
  * Holds a bunch of constants and variables that need to be accessed by many other classes.
- * Also options, controls and such?
+ * Also options, controls and such later?
  * 
  * @author Jubilee
  *
@@ -32,7 +32,8 @@ public class Manager
 	public static List<SpriteSheet> haroldSheet;
 	public static boolean debug;
 	public static float timeScale = 100f;
-	public static boolean preLoadTextures = true;
+	public static boolean preLoadTextures = false;
+	public static boolean allowShaders = false;
 	
 	public static class WORLD
 	{

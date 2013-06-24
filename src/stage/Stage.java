@@ -13,6 +13,9 @@ import org.newdawn.slick.geom.Vector2f;
  * The environment, background objects, floor, music, worldbounds.
  * Associated with a particular character, or just random?
  * Experiment with environmental hazards, effects? (Wind, fire, traps etc.)
+ * Maybe certain ares of the stage can react to the players? E.G. windows can smash,
+ * books get knocked off library shelves, dust clouds get raised, the buttons in the
+ * temple of the Sapphire Statue cause traps to go off in the background.
  * 
  * @author Jubilee
  */

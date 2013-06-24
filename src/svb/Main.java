@@ -28,9 +28,16 @@ public class Main extends StateBasedGame {
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
 		
+		/* The first gamestate to be added will be the one that appears
+		 * when the game first starts up. This will normally be SplashScreen,
+		 * but i've set it to Roster for now to save time. I don't think the
+		 * order matters, after the first one.
+		 */
+		
+		//addState(new SplashScreen());
 		addState(new Roster());
-		addState(new SplashScreen());
 		addState(new MainMenu());
+		addState(new OptionsMenu());
 		
 		addState(new EyeCatch());
 		addState(new Fight());
@@ -39,23 +46,21 @@ public class Main extends StateBasedGame {
 		
 		Player player;
 		Camera camera;
-		Manager manager;
-		
-		manager = new Manager();
+		Manager manager = new Manager();
 
 		camera = new Camera(container, this);
-		manager.cameras.add(camera);
+		Manager.cameras.add(camera);
 
 		//PLAYERS
 		player = new Player(500,0);
-		manager.player1 = player;
-		manager.players.add(player);
+		Manager.player1 = player;
+		Manager.players.add(player);
 		
 		player = new Player(-500,0);
 		player.setKeys(Input.KEY_NUMPAD8, Input.KEY_NUMPAD2, Input.KEY_NUMPAD4, Input.KEY_NUMPAD6, 
 				Input.KEY_O, Input.KEY_P, Input.KEY_K, Input.KEY_L);
-		manager.player2 = player;
-		manager.players.add(player);
+		Manager.player2 = player;
+		Manager.players.add(player);
 		//
 	}
 
@@ -82,9 +87,9 @@ public class Main extends StateBasedGame {
 			app.setDisplayMode(1280, 764, false);
 			app.setResizable(true);
 			app.setAlwaysRender(true);
-			app.setTargetFrameRate(60);
+			//app.setTargetFrameRate(60);
 			app.setMaximumLogicUpdateInterval(10);
-			app.setSmoothDeltas(true);
+			//app.setSmoothDeltas(true);
 			//app.setVSync(true);
 			app.start();
 		} catch (SlickException e) {

@@ -59,6 +59,7 @@ public class StateFactory {
 	List<State> stateList;
 	List<List<JSONObject>> cancelList;
 	List<String> transitionList;
+	List<String> blockList;
 	
 	public StateFactory() throws SlickException
 	{
@@ -71,6 +72,7 @@ public class StateFactory {
 		stateList = new ArrayList<State>();
 		cancelList = new ArrayList<List<JSONObject>>();
 		transitionList  = new ArrayList<String>();
+		blockList  = new ArrayList<String>();
 		
 		try {
 			File movesFile = new File(characterFile + "/moves");
@@ -97,6 +99,7 @@ public class StateFactory {
 		
 		int currentState = 0;
 		int currentCancel;
+
 		for (State s : stateList)
 		{
 			currentCancel = 0;
@@ -106,6 +109,12 @@ public class StateFactory {
 				{
 					s.setTransition(s2);
 				}
+				
+				if(blockList.get(currentState)!=null)
+					if(blockList.get(currentState).contentEquals(s2.getName()))
+					{
+						s.setBlock(s2);
+					}
 
 				//Setup cancels list.
 				for(int i = 0; i < cancelList.get(currentState).size(); i++)
@@ -150,6 +159,7 @@ public class StateFactory {
 
 		String name = (String) jsonObject.get("name");
 		String transition = (String)jsonObject.get("transition");
+		String block = (String)jsonObject.get("block");
 		
 		boolean allowGravity = (Boolean) jsonObject.get("allowGravity");
 		boolean canTurn = (Boolean) jsonObject.get("canTurn");
@@ -179,6 +189,7 @@ public class StateFactory {
 		StateFrame[] stateFrames = state.getFrames();
 		
 		transitionList.add(transition);
+		blockList.add(block);
 		
 		for(int i = 0; i < frames.size(); i++)
 		{
@@ -215,7 +226,6 @@ public class StateFactory {
 			stateHitbox.hit.mid = (Boolean) jsonHitbox.get("hitMedium");
 			stateHitbox.hit.low = (Boolean) jsonHitbox.get("hitLow");
 			
-			//TODO Target and parent actions.
 			JSONArray targetActions = (JSONArray) jsonHitbox.get("targetActions");
 			JSONArray parentActions = (JSONArray) jsonHitbox.get("parentActions");
 			
@@ -241,8 +251,7 @@ public class StateFactory {
 					stateHitbox.frames[i].height = height.intValue();
 					stateHitbox.frames[i].x = x.intValue();
 					stateHitbox.frames[i].y = y.intValue();
-				}
-				
+				}				
 			}
 		}
 
@@ -278,6 +287,11 @@ public class StateFactory {
 			}
 		}
 		
+		if(openState)
+		{
+			fighter.openStates.add(state);
+		}
+		
 		
 		return state;
 	}
@@ -300,9 +314,10 @@ public class StateFactory {
 		boolean whiffMedium = (Boolean) jsonFrame.get("whiffMedium");
 		boolean whiffLow = (Boolean) jsonFrame.get("whiffLow");
 		
-		if(Manager.preLoadTextures)
+		if(!Manager.preLoadTextures)
 		{
 			//Load image
+			//TODO Image compression.
 			try {
 				frame.setImage(new Image(url));
 			} catch (SlickException e) {
@@ -317,6 +332,12 @@ public class StateFactory {
 		frame.setOffsetX(offsetX.intValue());
 		frame.setOffsetY(offsetY.intValue());
 		
+		if(guardHigh)
+		{
+			System.out.println(characterFile);
+			System.out.println(frame.getGuard().high + " " + guardHigh);
+		}
+		
 		frame.getGuard().high = guardHigh;
 		frame.getGuard().mid = guardMedium;
 		frame.getGuard().low = guardLow;
@@ -325,6 +346,9 @@ public class StateFactory {
 		frame.getWhiff().mid = whiffMedium;
 		frame.getWhiff().low = whiffLow;
 		
+		if(guardHigh)
+		System.out.println(frame.getGuard().high + " " + guardHigh);
+
 		return frame;
 	}
 	

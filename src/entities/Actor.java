@@ -3,12 +3,10 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -19,7 +17,7 @@ import svb.Player;
 
 /**
  * Actor is basically the class used for anything that is on the screen and active.
- * It has behaviour for animation and movement, it holds information for collisions,
+ * It has behaviour for states and stage interaction, it holds information for collisions,
  * stuff like that.
  * 
  * @author Jubilee
@@ -47,7 +45,6 @@ public class Actor {
 	public Vector2f location;
 	
 	public Rectangle zoneBox;
-	//public Rectangle touchBox;
 	
 	public Color color;
 	
@@ -132,49 +129,35 @@ public class Actor {
 		 * This number is not exact, but it may be good enough. If characters jump and shift when
 		 * they turn around, this is probably why.
 		 */
-		zoneBox = new Rectangle(0, 0, 300, 10);
+		zoneBox = new Rectangle(0, 0, 300, 495);
 	}
 	
 	public void update(GameContainer container, int delta)
 			throws SlickException {
 		
+		//Don't update if the actor is not active.
 		if(!active)
 			return;
 		
-		/** 
-		 * NB: If animation.update() is handed a number greater than the animation duration,
-		 * frames WILL be skipped. This will cause logic problems in states where the frame 
-		 * number is relevant,such as IMPULSE states, and may cause strange hitbox behaviour.
-		 * P.S. This may no longer be the case. We will know when state.Update starts
-		 * handling the animations.
-		*/
 		statusUpdate();
 		state.update(this, delta);
+		
+		
 		
 		location.add(velocity.copy().scale((float) (delta * Manager.timeScale * Manager.WORLD.conversionConstant)));
 		
 		if(state.isAllowGravity())
 		{
 			this.velocity.y += Manager.WORLD.gravity*delta * Manager.WORLD.conversionConstant * Manager.timeScale;
-			
 		}
 		/**Set location of each touchbox (relative to fighter base position)
 		 * Check if any touchboxes are in contact with the ground. If so,
 		 * call touchGround, if not call inAir.
 		 */
 		int verticalOffset = state.getFrames()[state.getCurrentFrame()].getOffsetY();
+		boolean inAir = true;
 		for (Touchbox t : state.getTouchBoxes())
 		{	
-			/**TODO This won't currently work. If ANY of the TB's aren't touching the ground, the inAir
-			 * thing will happen. Not good.
-			 */
-			if(location.getY() + t.getY() + t.getHeight() + verticalOffset >= Manager.WORLD.groundLevel)
-			{
-				touchGround();
-			}else if(location.getY() + t.getY() + t.getHeight() < Manager.WORLD.groundLevel)
-			{
-				//inAir();
-			}
 			
 			/**
 			 * If any part of the actor is colliding with the edge of the visible world, 
@@ -190,6 +173,18 @@ public class Actor {
 			{
 				offCamera(true);
 			}
+		}
+		/**
+		 * Trigger actors touchGround function if zonebox is below ground level.
+		 * Otherwise, trigger the actors inAir function.
+		 */
+		if(zoneBox.getY() + zoneBox.getHeight() > Manager.WORLD.groundLevel)
+		{
+			touchGround();
+		}
+		else
+		{
+			inAir();
 		}
 	}
 
@@ -261,16 +256,49 @@ public class Actor {
 	}
 
 	public void hit(Hitbox hitbox)
-	{	
+	{
 		if(!hitbox.spent)
 		{
-			for(StatusPacket s: hitbox.status.applyTarget)
+			//Apply hitbox effects if character is not blocking.
+			if(state.getBlock() != null && heldDirection.contains("4") && isValidBlock(hitbox, state))
 			{
-				s.giveObject(this);
-				this.applyStatus(s);
+				setState(state.getBlock());
+			}
+			else
+			{
+				for(StatusPacket s: hitbox.status.applyTarget)
+				{
+					s.giveObject(this);
+					this.applyStatus(s);
+				}
 			}
 		}
+
 		hitbox.spent = true;
+	}
+	
+	private boolean isValidBlock(Hitbox h, State s)
+	{
+		StateFrame f = s.getBlock().getFrames()[0];
+
+		if(h.hit.high && (f.getGuard().high || f.getWhiff().high))
+		{
+			return true;
+		}
+		if(h.hit.mid && (f.getGuard().mid || f.getWhiff().mid))
+		{
+			return true;
+		}
+		if(h.hit.low && (f.getGuard().low || f.getWhiff().low))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public void createSubActor(String params)
+	{
+		//Empty by default
 	}
 	
 	public void applyStatus(StatusPacket s)

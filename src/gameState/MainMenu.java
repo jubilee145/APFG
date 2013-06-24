@@ -19,6 +19,9 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import svb.Manager;
 
 /**
+ * The main menu. Self explanatory, I hope.
+ * The buttons list is checked when any of the player keys are pressed.
+ * The active button is used to determine what gamestate is activated next.
  * @author Jubilee
  */
 public class MainMenu extends BasicGameState{
@@ -55,7 +58,7 @@ public class MainMenu extends BasicGameState{
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException {
-        // TODO Auto-generated method stub
+        // TODO Startup animations.
     	
     }
     
@@ -118,7 +121,7 @@ public class MainMenu extends BasicGameState{
 	        }
 	        else if(activeButton == btnOptions)
 	        {
-	        	System.out.println("Options doesn't exist yet!");
+	        	game.enterState(Manager.StateIndex.MAIN_OPTIONS.ordinal(), new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 	        }
 	        else if(activeButton == btnQuit)
 	        {
@@ -135,7 +138,6 @@ public class MainMenu extends BasicGameState{
         }
         else if(abort)
         {
-        	System.gc();
         	game.enterState(Manager.StateIndex.SPLASH.ordinal(), new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
         }
 

@@ -15,6 +15,8 @@ import svb.StatusPacketFactory;
 
 /**
  * @author Jubilee
+ * This is a test of the subActor system. It will be deleted once the character creator
+ * has the power to spawn subActors.
  */
 public class Projectile extends Actor {
 
@@ -45,14 +47,12 @@ public class Projectile extends Actor {
 		state.getHitBoxes()[0] = hitBox;
 		
 		StatusPacketFactory packetFactory = new StatusPacketFactory();
-		packetFactory.BuildPacket("DAMAGE,800", hitBox.status.applyTarget, this);
+		packetFactory.BuildPacket("DAMAGE,10", hitBox.status.applyTarget, this);
 
-		//{"name":"Action: 1","type":"MOVE","parameters":"35,0"}
 		try {
 			JSONObject json = (JSONObject)new JSONParser().parse("{\"name\":\"Action: 1\", \"type\":\"MOVE\", \"parameters\":\"70,0\"}");
 			state.getActions().add(json);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

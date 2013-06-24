@@ -10,13 +10,9 @@ import entities.Fighter;
 
 /**
  * Determines both the conditions required to enter a state, and the actions that will occur in that state.
- * For instance, a condition of I="6,A" will return true if the players input equals "6,A".
- * The action M="50,0" will add a MOVE statusPacket to the state the fighter is in, telling it to move
- * forwards at a speed of fifty.
- * TODO: An explanation of all of the condition and action flags. :/
- * TODO: These are all gonna get destroyed in a bit anyway, explain them when they're better.
+ * 
+ * TODO: An explanation of all of the condition and action parameters. :/
  * @author Jubilee
- *
  */
 
 public class EventHandler {
@@ -85,12 +81,6 @@ public class EventHandler {
 	public static void doAction(Actor actor, JSONObject action)
 	{
 
-		
-		
-		/*int facingAdjustment = 1;
-		if(actor.isFacingLeft)
-			facingAdjustment = -1;*/
-		
 		String type = action.get("type").toString();
 		String parameters = action.get("parameters").toString();
 
@@ -130,7 +120,10 @@ public class EventHandler {
 				i.giveObject(actor);
 				
 				actor.status.add(i);
-				
+			}
+			else if(type.contentEquals("SUBACTOR"))
+			{
+				actor.createSubActor(parameters);
 			}
 			
 

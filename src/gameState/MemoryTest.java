@@ -55,14 +55,13 @@ public class MemoryTest extends BasicGameState{
 	    
 	    try {
 			tempTexture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter].getPath()));
-			displayTexture = tempTexture;//TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter].getPath()));
+			displayTexture = tempTexture;
 			displayImage.setTexture(displayTexture);
 			
 			tempTexture2 = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter2].getPath()));
-			displayTexture2 = tempTexture2;//TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter2].getPath()));
+			displayTexture2 = tempTexture2;
 			displayImage2.setTexture(displayTexture2);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -77,7 +76,6 @@ public class MemoryTest extends BasicGameState{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		//System.gc();
 
 		if(testActive)
 		{
@@ -92,7 +90,6 @@ public class MemoryTest extends BasicGameState{
 				tempTexture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter + 1].getPath()));
 				tempTexture2 = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileNames[fileCounter2].getPath()));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			fileCounter ++;

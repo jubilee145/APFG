@@ -102,9 +102,10 @@ public class Roster extends BasicGameState{
         		color = Color.white;
         		if(roster[width][height]!=null)
         		{
-        			//TODO Display swirlies rather than just highlight the portrait
-        			//Maybe make portraits darker by default and lighten them when
-        			//'hovering.'
+        			/* TODO Display swirlies rather than just highlight the portrait
+        			 * Maybe make portraits darker by default and lighten them when
+        			 * 'hovering.'
+        			 */
         			if(roster[width][height]==selectedP1)
         			{
         				color = Color.blue;
@@ -203,7 +204,7 @@ public class Roster extends BasicGameState{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
+		// TODO Startup animation. Roster assembles itself, or something.
 		
 	}
 

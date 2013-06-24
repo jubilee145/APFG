@@ -38,7 +38,6 @@ public class Fighter extends Actor {
 	public void turnAround()
 	{
 		isFacingLeft = !isFacingLeft;
-
 	}
 
 	@Override
@@ -52,11 +51,7 @@ public class Fighter extends Actor {
 		}
 		if(container.getInput().isKeyDown(Input.KEY_C))
 		{
-			Vector2f locCopy = location.copy();
-			locCopy.y +=200;
-			Projectile proj = new Projectile(locCopy, isFacingLeft);
-			proj.player = player;
-			subActors.add(proj);
+
 		}
 	}
 	
@@ -73,60 +68,84 @@ public class Fighter extends Actor {
 	@Override
 	protected void touchGround()
 	{
-		
+
 		/**
-		 * If part of any touchbox is colliding with the ground, 
-		 * raise the actor until it is not.
+		 * Raise the actor until it is not colliding with the ground.
 		 */
-		int verticalOffset = state.getFrames()[state.getCurrentFrame()].getOffsetY();
-		float height = 0;
-		for (Touchbox t : state.getTouchBoxes())
-		{
-			if(t.getY() + t.getHeight() > height)
-			{
-				height = t.getY() + t.getHeight() + verticalOffset;
-			}
-			
-		}
-		this.location.y = Manager.WORLD.groundLevel - height;
-		
+		this.location.y = Manager.WORLD.groundLevel - this.zoneBox.getHeight();
+
 		if(!isTouchingGround)
+		{
 			for(State s : openStates)
 			{
 				if(s.getName().contentEquals("Land"))
 					this.setState(s);
 			}
-		isTouchingGround = true;
+			isTouchingGround = true;
+		}
 		if(velocity.y > 0)
 			this.velocity.y = 0;
+		
 	}
 	
 	@Override
 	protected void inAir()
 	{
-		if(this.state.getName().contentEquals("Idle"))
+		/*if(this.state.getName().contentEquals("Idle"))
 		{
 			for(State s : openStates)
 			{
 				if(s.getName().contentEquals("Fall"))
 					this.setState(s);
 			}
-		}
+		}*/
 		isTouchingGround = false;
+	}
+	
+	protected void createSubactor()
+	{
+		//Empty by default.
 	}
 	
 	@Override
 	protected void offCamera(boolean isRightOfCamera)
 	{
-		
+		/**
+		 * If characters are off camera, bring them back on, provided they aren't already moving
+		 * in the right direction. If they ARE moving in the right direction, leave them alone, 
+		 * other wise you can get characters 'sticking' to the walls. 
+		 * It still shouldn't allow
+		 * characters offscreen, hopefully. You'd need to get off-camera, by moving towards the
+		 * center of the camera.
+		 */
+		float xDelta = velocity.x;
 		if(isRightOfCamera)
 		{
-			this.location.x = Manager.cameras.get(0).location.x + Manager.cameras.get(0).screen.getWidth() - zoneBox.getWidth() + state.getFrames()[state.getCurrentFrame()].getOffsetX()/4;
-		} else
+			if(xDelta >= 0)
+				this.location.x = Manager.cameras.get(0).location.x + Manager.cameras.get(0).screen.getWidth() - zoneBox.getWidth() + state.getFrames()[state.getCurrentFrame()].getOffsetX()/4 - 1;
+		} 
+		else
 		{
-			this.location.x = Manager.cameras.get(0).location.x - state.getFrames()[state.getCurrentFrame()].getOffsetX()/4;
+			if(xDelta <= 0)
+				this.location.x = Manager.cameras.get(0).location.x - state.getFrames()[state.getCurrentFrame()].getOffsetX()/4 + 1;
 		}
 	}
+	
+	@Override
+	public void createSubActor(String params)
+	{
+		Vector2f locCopy = location.copy();
+		locCopy.y +=200;
+		Projectile proj;
+		try {
+			proj = new Projectile(locCopy, isFacingLeft);
+			proj.player = player;
+			subActors.add(proj);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+	}
 
 }

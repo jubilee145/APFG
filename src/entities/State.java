@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONObject;
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Rectangle;
 
 import status.StatusPacket;
-import status.TestStatus;
 import svb.EventHandler;
 import svb.Manager;
 
@@ -155,14 +152,8 @@ public class State {
 
 		statusUpdate();
 
-		
 		//Update frame
-		
-		if(actor.player == Manager.player1)
-		{
-			lastUpdate += delta;// * Manager.timeScale * Manager.WORLD.conversionConstant;
-			//System.out.println(lastUpdate);
-		}
+		lastUpdate += delta * Manager.timeScale * Manager.WORLD.conversionConstant;	
 		if(lastUpdate >= 17)
 		{
 			currentFrame ++;
@@ -173,6 +164,7 @@ public class State {
 		{
 			actor.setState(this.transition);
 		}
+
 	}
 	
 	public void render(GameContainer container, Graphics g, float offsetX, float offsetY, Actor actor)
@@ -182,7 +174,8 @@ public class State {
 		Image image = frames[currentFrame].getImage();
 		
 		offsetY = offsetY+ frames[currentFrame].getOffsetY();
-
+		// TODO Image decompression.
+		// image.draw(x,y,scale);
 		if(actor.isFacingLeft)
 			g.drawImage(image.getFlippedCopy(true, false), offsetX + zoneWidth/2 - frames[currentFrame].getOffsetX() + (zoneWidth - image.getWidth()), offsetY);
 		else

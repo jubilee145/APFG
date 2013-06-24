@@ -15,9 +15,12 @@ import org.newdawn.slick.SpriteSheet;
  * 	4 6
  * 	123
  * 
- * With six being forward, eight is up and so on.
- * There are only four directional buttons, so pressing the six and eight buttons
- * simultaneously will turn the input into a nine.
+ * With 6 being forward, 4 being back, 8 is up and so on.
+ * There are only four directional buttons, so pressing the 6 and 8 buttons
+ * simultaneously will turn the input into a 9.
+ * When no directional button is down, this will be a 5 instead.
+ * 
+ * TODO Make gamepads and so on work with this too.
  * 
  * @author Jubilee
  *

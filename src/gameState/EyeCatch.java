@@ -70,16 +70,14 @@ public class EyeCatch extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-		// TODO Auto-generated method stub
-
-        
+       
 		g.drawString("This is a loading screen...", 500, 500);
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
+
 		if(!loadComplete)
 		{
 			if(makeFighter(fileName, currentFighter))
@@ -108,7 +106,6 @@ public class EyeCatch extends BasicGameState{
 		fighter = initFighter();
 		if(!loadingSecondCharacter)
 		{
-			//loadingSecondCharacter = true;
 			Manager.cameras.get(0).target1 = fighter;
 		}
 		else
@@ -120,27 +117,6 @@ public class EyeCatch extends BasicGameState{
 		
 		stateF.populateJsonMoveList(file, fighter);
 		fight.fighters.add(fighter);
-		/*if (fileCounter < fileNames.length) 
-		{
-			System.out.print("Loading file " + fileNames[fileCounter] + " ...");
-			sheetList.add(new SpriteSheet(fileNames[fileCounter].toString(), 300,360));
-			System.out.println("Done.");
-			fileCounter++;
-		}
-		else
-		{
-			
-			
-
-
-			String movelist = file.getParentFile() + "/movelist";
-			
-			//stateF.populateMoveList(movelist, sheetList, fighter);
-			
-			fileCounter = 0;
-			firstLoad = true;
-			return true;
-		}*/
 		
 		return true;
 	}
@@ -149,8 +125,12 @@ public class EyeCatch extends BasicGameState{
 	{
 		
 		Player player = Manager.player1;
-
-		Vector2f startVector = new Vector2f(-500,Manager.WORLD.groundLevel);
+		
+		/* TODO This always seems to spawn fighters at the negative
+		 * absolute value of the Y in this vector, minus a bunch. 
+		 * I have no idea why. :/
+		 */
+		Vector2f startVector = new Vector2f(-500,-390);//-Manager.WORLD.groundLevel);
 		
 		if(loadingSecondCharacter)
 		{
@@ -159,7 +139,6 @@ public class EyeCatch extends BasicGameState{
 		}
 		Fighter fighter = new Fighter(startVector);
 		fighter.player = player;
-		//fighter.location(fighter.location);
 		
 		fighter.health = fighter.maxHealth = 5000;
 		player.fighter = fighter;

@@ -40,7 +40,6 @@ public class Camera {
 	private GameContainer container;
 	
 	public int tempInt = 0;
-	private StateBasedGame game;
 	private Fight fight;
 
 	public Camera(GameContainer container, StateBasedGame game) {
@@ -49,7 +48,6 @@ public class Camera {
 		location = new Vector2f();
 		screenLocation = new Vector2f(0,0);
 		screen = new Rectangle(0, 0, 1920, 1080);
-		this.game = game;
 		fight = ((Fight)game.getState(Manager.StateIndex.FIGHT.ordinal()));
 	}
 
@@ -72,11 +70,12 @@ public class Camera {
 		Vector2f offset = new Vector2f();
 		g.drawString("Sub-Actors: " + (Manager.player1.fighter.subActors.size() + Manager.player2.fighter.subActors.size()), 50, 200);
 		
-		/**TODO Delete me. Displays ground level.
+		/**TODO Delete me when Stage can actually draw the ground. Displays ground level.
 		 *-30 so that it looks like they're actually standing on the ground, instead of an impossibly
 		 *thin wire.
 		 */
-		g.drawLine(0, WORLD.groundLevel - location.y + screen.getY() - 30, container.getScreenWidth(), WORLD.groundLevel + screen.getY() - location.y - 30);
+		//g.drawLine(0, WORLD.groundLevel - location.y + screen.getY() - 30, container.getScreenWidth(), WORLD.groundLevel + screen.getY() - location.y - 30);
+		g.drawLine(0, WORLD.groundLevel - location.y + screen.getY(), container.getScreenWidth(), WORLD.groundLevel + screen.getY() - location.y);
 
 		for (BackgroundObject b : fight.stage.background)
 		{
@@ -109,7 +108,7 @@ public class Camera {
 
 		for (Player p : Manager.players)
 		{
-			//TODO Delete me. Shows hitboxes. Replace with effect class when done.
+			//TODO Delete me when effects class makes this non-ambiguous. Shows hit & touchboxes. 
 			for(Hitbox h : p.fighter.getState().getHitBoxes())
 			{
 				g.setColor(Color.red);

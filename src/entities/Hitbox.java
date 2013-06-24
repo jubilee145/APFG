@@ -73,14 +73,10 @@ public class Hitbox extends Rectangle {
 	/**
 	 * lists of status effects to apply to the target, the parent, and (possibly)
 	 * itself. 
-	 * TODO The self and removeStatus lists may be deprecated. We will know when the
-	 * character creator integration is complete.
 	 */
 	public class StatusList {
-		public List<StatusPacket> self;
 		public List<StatusPacket> applyTarget;
 		public List<StatusPacket> applyParent;
-		private List<StatusPacket> removeStatus;
 	}
 	
 	/**
@@ -106,8 +102,6 @@ public class Hitbox extends Rectangle {
 		hit = new Hit();
 		frames = new Frame[numFrames];
 		status = new StatusList();
-		status.self = new ArrayList<StatusPacket>();
-		status.removeStatus = new ArrayList<StatusPacket>();
 		status.applyParent = new ArrayList<StatusPacket>();
 		status.applyTarget = new ArrayList<StatusPacket>();
 		
@@ -183,24 +177,6 @@ public class Hitbox extends Rectangle {
 		{
 			this.setX(parent.location.x - parent.zoneBox.getWidth()/2 + currentFrame.x);
 		}
-		
-		statusUpdate();
-	}
-	
-	private void statusUpdate()
-	{
-		for (StatusPacket s : status.self)
-		{
-			s.update();
-			if(s.die())
-				status.removeStatus.add(s);
-		}
-		
-		for (StatusPacket s : status.removeStatus)
-		{
-			status.self.remove(s);
-		}
-		status.removeStatus.clear();
 	}
 	
 	/**

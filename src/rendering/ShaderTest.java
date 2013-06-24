@@ -36,7 +36,6 @@ public class ShaderTest extends BasicGameState {
 
 	private StateBasedGame game;
 	
-	//our texture to blur
 	TextureLoader loader = new TextureLoader();
 	Image image;
 	Texture trixie, trixieNormals;
@@ -189,7 +188,6 @@ public class ShaderTest extends BasicGameState {
 
 	public void setUniformVariables(GameContainer gc)
 	{
-		//GL20.glUseProgram(shader.getID());
 		shader.bind();
 		int loc1 = GL20.glGetUniformLocation(shader.getID(), "time");
 
@@ -199,13 +197,11 @@ public class ShaderTest extends BasicGameState {
 		GL20.glUniform2f(loc2, (float)gc.getInput().getMouseX()/(float)gc.getWidth(), 1 - (float)gc.getInput().getMouseY()/(float)gc.getHeight());
 		
 		shader.setUniform2f("Resolution", (float)gc.getWidth(), (float)gc.getHeight());
-		//shader.unbind();
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
 		time += delta * 0.001f;
 		setUniformVariables(container);
 		
