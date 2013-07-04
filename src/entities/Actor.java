@@ -51,6 +51,7 @@ public class Actor {
 	public boolean immovable = false;
 	public boolean visible = true;
 	public boolean active = true;
+	public boolean wallBouncing = false;
 	
 	private String inputString = "5,";
 	public String inputBuffer = "";
@@ -60,6 +61,8 @@ public class Actor {
 	
 	public int health;
 	public int maxHealth;
+	
+	public int hitStun;
 	
 	/**
 	 * A list of states that can be accessed at all times/don't need to be cancelled into.
@@ -141,9 +144,7 @@ public class Actor {
 		
 		statusUpdate();
 		state.update(this, delta);
-		
-		
-		
+
 		location.add(velocity.copy().scale((float) (delta * Manager.timeScale * Manager.WORLD.conversionConstant)));
 		
 		if(state.isAllowGravity())
@@ -233,6 +234,9 @@ public class Actor {
 	 */
 	public void setState(State newState)
 	{
+		//if(state != null)
+		//	System.out.println(state.getName() + " " + newState.getName());
+		
 		state = newState;
 
 		newState.reset();
@@ -273,7 +277,7 @@ public class Actor {
 				}
 			}
 		}
-
+		
 		hitbox.spent = true;
 	}
 	

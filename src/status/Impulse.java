@@ -39,6 +39,7 @@ public class Impulse implements StatusPacket{
 
 	@Override
 	public boolean die() {
+		
 		// Only implements once
 		return true;
 	}

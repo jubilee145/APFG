@@ -24,12 +24,42 @@ public class Player {
 	/**
 	 * Used to determine input delays. Clears the input after 1/4 of a second.
 	 */
-	private int time;
+	private int inputTime;
 	
 	/**
 	 * Where to display the debug information on the screen.
 	 */
 	private Vector2f debugDrawLocation;
+	
+	/**
+	 * Whether the combo tracker information is displayer. TRUE when comboCounter > 1,
+	 * FALSE when time since last hit > 250ms
+	 */
+	private boolean comboVisible = false;
+	
+	/**
+	 * The number of hits dealt to this player in the current combo
+	 */
+	private int comboCounter = 0;
+	
+	/**
+	 * The total damage dealt to the player in the current combo.
+	 */
+	private int damageCounter = 0;
+	
+	/**
+	 * The colour of the displayed combo counter information. Gets set to RED when the
+	 * player is repeatedly hit during hitstun, gets set to BLUE if they are hit out
+	 * of hitstun, but soon enough for it to be considered a combo. (IE The player could
+	 * have broken out of the combo, but did not.)
+	 */
+	private Color comboColour = Color.red;
+	
+	/**
+	 * The time since the player was last hit by an opponents attack. Stops incrementing at
+	 * 250 ms.
+	 */
+	private int comboTimer = 250;
 	
 	public Player()
 	{
@@ -47,17 +77,31 @@ public class Player {
 	
 	public void update(GameContainer container, int delta) throws SlickException
 	{
-		time += delta;
+		inputTime += delta;
+		
+		if(comboTimer < 500)
+		{
+			if(comboCounter > 1)
+			{
+				comboVisible = true;
+				comboTimer += delta;
+			}
+		}
+		else
+		{
+			damageCounter = 0;
+			comboCounter = 0;
+			comboVisible = false;
+		}
 		
 		inputHandler.update(container);
 		
 		fighter.inputBuffer = inputHandler.checkDirections() + inputHandler.checkButtons();
 		fighter.heldDirection = inputHandler.heldDirection;
-		fighter.heldButton = inputHandler.heldButton;
-		
+		fighter.heldButton = inputHandler.heldButton;		
 		
 		if(inputHandler.resetClock)
-			time = 0;
+			inputTime = 0;
 		
 		if(!fighter.inputBuffer.contentEquals(""))
 		{
@@ -67,15 +111,14 @@ public class Player {
 		}
 		fighter.inputBuffer = "";
 
-		if(time >= 250)
+		if(inputTime >= 250)
 		{
 			if(fighter.getInputString() != "5,")
 				fighter.lastString = fighter.getInputString();
 			fighter.setInputString("5,");
-			time = 0;
+			inputTime = 0;
 		}
 
-		
 		inputHandler.reset(container);
 		
 		fighter.update(container, delta);
@@ -100,7 +143,7 @@ public class Player {
 		{
 			g.drawString("Input String: " + fighter.getInputString(), debugDrawLocation.x+5, 55);
 			g.drawString("Input Buffer: " + fighter.inputBuffer, debugDrawLocation.x+5, 75);
-			g.drawString("Time: " + time, debugDrawLocation.x+5, 95);
+			g.drawString("Time: " + inputTime, debugDrawLocation.x+5, 95);
 			g.drawString("State: " + fighter.getState().getName(), debugDrawLocation.x+5, 115);
 			g.drawString("Frame: " + fighter.getState().getCurrentFrame(), debugDrawLocation.x+5, 135);
 			if(fighter.isFacingLeft)
@@ -123,6 +166,45 @@ public class Player {
 			//g.draw(fighter.touchBox);
 			g.setColor(Color.white);
 		}
+		
+		if(comboVisible)
+		{
+			g.setColor(comboColour);
+			g.drawString(getComboCounter() + " " + damageCounter, debugDrawLocation.x, debugDrawLocation.y + 100);
+			g.setColor(Color.white);
+		}
+	}
+
+	public boolean isComboVisible() {
+		return comboVisible;
+	}
+
+	public void setComboVisible(boolean comboVisible) {
+		this.comboVisible = comboVisible;
+	}
+
+	public int getDamageCounter() {
+		return damageCounter;
+	}
+
+	public void setDamageCounter(int damageCounter) {
+		this.damageCounter = damageCounter;
+	}
+
+	public Color getComboColour() {
+		return comboColour;
+	}
+
+	public void setComboColour(Color comboColour) {
+		this.comboColour = comboColour;
+	}
+
+	public int getComboTimer() {
+		return comboTimer;
+	}
+
+	public void setComboTimer(int comboTimer) {
+		this.comboTimer = comboTimer;
 	}
 
 	public void setKeys(int up, int down, int left, int right, int A, int B, int C, int D)
@@ -134,5 +216,13 @@ public class Player {
 	{
 		fighter.turnAround();
 		inputHandler.turnAround();
+	}
+
+	public int getComboCounter() {
+		return comboCounter;
+	}
+
+	public void setComboCounter(int comboCounter) {
+		this.comboCounter = comboCounter;
 	}
 }

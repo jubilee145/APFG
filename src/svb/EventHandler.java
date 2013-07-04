@@ -84,50 +84,53 @@ public class EventHandler {
 		String type = action.get("type").toString();
 		String parameters = action.get("parameters").toString();
 
-			if(type.contentEquals("MOVE"))
-			{
-				
-				String[] splitString = parameters.split(",");
-				float impX = Integer.parseInt(splitString[0]);
-				float impY = Integer.parseInt(splitString[1]);
-				
-				Move m = new Move(impX,impY);
-				m.setParent(actor);
-				m.giveObject(actor);
-				
-				actor.getState().status.add(m);
-			}
-			else if(type.contentEquals("DRAG"))
-			{
-				String[] splitString = parameters.split(",");
-				float impX = Integer.parseInt(splitString[0]);
-				float impY = Integer.parseInt(splitString[1]);
-				
-				Drag d = new Drag(impX,impY);
-				d.setParent(actor);
-				d.giveObject(actor);
-				
-				actor.getState().status.add(d);
-			}
-			else if(type.contentEquals("IMPULSE"))
-			{
-				String[] splitString = parameters.split(",");
-				float impX = Integer.parseInt(splitString[0]);
-				float impY = Integer.parseInt(splitString[1]);
-				
-				Impulse i = new Impulse(impX,impY);
-				i.setParent(actor);
-				i.giveObject(actor);
-				
-				actor.status.add(i);
-			}
-			else if(type.contentEquals("SUBACTOR"))
-			{
-				actor.createSubActor(parameters);
-			}
+		if(type.contentEquals("MOVE"))
+		{
 			
+			String[] splitString = parameters.split(",");
+			float impX = Integer.parseInt(splitString[0]);
+			float impY = Integer.parseInt(splitString[1]);
+			
+			Move m = new Move(impX,impY);
+			m.setParent(actor);
+			m.giveObject(actor);
+			
+			actor.getState().status.add(m);
+		}
+		else if(type.contentEquals("DRAG"))
+		{
+			String[] splitString = parameters.split(",");
+			float impX = Integer.parseInt(splitString[0]);
+			float impY = Integer.parseInt(splitString[1]);
+			
+			Drag d = new Drag(impX,impY);
+			d.setParent(actor);
+			d.giveObject(actor);
+			
+			actor.getState().status.add(d);
+		}
+		else if(type.contentEquals("IMPULSE"))
+		{
+			String[] splitString = parameters.split(",");
+			float impX = Integer.parseInt(splitString[0]);
+			float impY = Integer.parseInt(splitString[1]);
+			
+			Impulse i = new Impulse(impX,impY);
+			i.setParent(actor);
+			i.giveObject(actor);
+			
+			actor.status.add(i);
+		}
+		else if(type.contentEquals("SUBACTOR"))
+		{
+			actor.createSubActor(parameters);
+		}
+		else if(type.contentEquals("WALLBOUNCE"))
+		{
+			System.out.println("BOUNCE! :D");
+			actor.wallBouncing = true;
+		}
 
-		
 	}
 
 }

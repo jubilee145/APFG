@@ -229,8 +229,8 @@ public class StateFactory {
 			JSONArray targetActions = (JSONArray) jsonHitbox.get("targetActions");
 			JSONArray parentActions = (JSONArray) jsonHitbox.get("parentActions");
 			
-			populateTargetActions(targetActions, stateHitbox);
-			populateParentActions(parentActions, stateHitbox);
+			populateTargetActions(targetActions, stateHitbox, fighter);
+			populateParentActions(parentActions, stateHitbox, fighter);
 			
 			for(int i = 0; i < frames.size(); i++)
 			{
@@ -331,13 +331,7 @@ public class StateFactory {
 		
 		frame.setOffsetX(offsetX.intValue());
 		frame.setOffsetY(offsetY.intValue());
-		
-		if(guardHigh)
-		{
-			System.out.println(characterFile);
-			System.out.println(frame.getGuard().high + " " + guardHigh);
-		}
-		
+			
 		frame.getGuard().high = guardHigh;
 		frame.getGuard().mid = guardMedium;
 		frame.getGuard().low = guardLow;
@@ -346,9 +340,6 @@ public class StateFactory {
 		frame.getWhiff().mid = whiffMedium;
 		frame.getWhiff().low = whiffLow;
 		
-		if(guardHigh)
-		System.out.println(frame.getGuard().high + " " + guardHigh);
-
 		return frame;
 	}
 	
@@ -359,23 +350,32 @@ public class StateFactory {
 	 * @param targetActions
 	 * @param stateHitbox
 	 */
-	private void populateTargetActions(JSONArray targetActions, Hitbox stateHitbox)
+	private void populateTargetActions(JSONArray targetActions, Hitbox stateHitbox, Fighter fighter)
 	{
+		
 		JSONObject statusObject;
 		for(int i = 0; i < targetActions.size(); i++)
 		{
 			statusObject = (JSONObject) targetActions.get(i);
-			if(statusObject.get("type").toString().contentEquals("DAMAGE"))
+			packetFactory.BuildPacket(statusObject, stateHitbox.status.applyTarget, fighter);
+			/*if(statusObject.get("type").toString().contentEquals("DAMAGE"))
 			{
 				String pObject = statusObject.get("parameters").toString();
 				int parameter = Integer.parseInt(pObject);
 				Damage damage = new Damage(parameter);
 				stateHitbox.status.applyTarget.add(damage);
 			}
+			else if(statusObject.get("type").toString().contentEquals("DAMAGE"))
+			{
+				String pObject = statusObject.get("parameters").toString();
+				int parameter = Integer.parseInt(pObject);
+				Damage damage = new Damage(parameter);
+				stateHitbox.status.applyTarget.add(damage);
+			}*/
 		}
 	}
 	
-	private void populateParentActions(JSONArray parentActions, Hitbox stateHitbox)
+	private void populateParentActions(JSONArray parentActions, Hitbox stateHitbox, Fighter fighter)
 	{
 		
 	}

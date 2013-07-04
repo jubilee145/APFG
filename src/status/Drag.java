@@ -32,6 +32,7 @@ public class Drag implements StatusPacket{
 	public void update() {
 		Vector2f tempVector = applyDrag.copy();
 		
+		
 		target.velocity.x *= tempVector.x;
 		target.velocity.y *= tempVector.y;
 	}

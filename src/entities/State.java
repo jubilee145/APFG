@@ -150,7 +150,8 @@ public class State {
 			t.update();
 		}
 
-		statusUpdate();
+
+		statusUpdate(actor);
 
 		//Update frame
 		lastUpdate += delta * Manager.timeScale * Manager.WORLD.conversionConstant;	
@@ -183,13 +184,17 @@ public class State {
 		
 	}
 	
-	private void statusUpdate()
+	private void statusUpdate(Actor actor)
 	{
+
 		for (StatusPacket s : status)
 		{
+			if(Math.abs(actor.velocity.y) > 0.5f)
+				System.out.println(s.getClass().toString());
 			s.update();
 			if(s.die())
 				removeStatus.add(s);
+			
 		}
 		
 		for (StatusPacket s : removeStatus)
@@ -197,6 +202,9 @@ public class State {
 			status.remove(s);
 		}
 		removeStatus.clear();
+		
+
+
 	}
 	
 	public void doActions(Actor actor)

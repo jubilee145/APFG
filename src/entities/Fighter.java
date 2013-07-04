@@ -3,6 +3,7 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -43,16 +44,28 @@ public class Fighter extends Actor {
 	@Override
 	public void update(GameContainer container, int delta)
 			throws SlickException {	
-		super.update(container, delta);
-
+		
 		for(Actor a : subActors)
 		{
 			a.update(container, delta);
 		}
-		if(container.getInput().isKeyDown(Input.KEY_C))
+		
+		if(hitStun > 0)
 		{
-
+			for(State s : openStates)
+			{
+				/**
+				 * Air hurt, when !isTouchingGround ???
+				 */
+				if(s.getName().contentEquals("Hurt"))
+				{
+					setState(s);
+				}
+			}
+			hitStun -= delta;
 		}
+		
+		super.update(container, delta);
 	}
 	
 	public void render(GameContainer container, Graphics g)
@@ -66,6 +79,29 @@ public class Fighter extends Actor {
 	}
 	
 	@Override
+	public void hit(Hitbox hitbox)
+	{
+		if(!hitbox.spent)
+		{
+			player.setComboCounter(player.getComboCounter() + 1);
+			player.setDamageCounter( player.getDamageCounter() + 500);//TODO HITBOX DAMAGE
+			player.setComboTimer(0);
+		 
+			if(hitStun > 0)
+			{
+				if(!player.isComboVisible())
+					player.setComboColour(Color.red);
+			}
+			else
+				player.setComboColour(Color.blue);
+		}
+		
+		super.hit(hitbox);
+
+		hitStun = 250;
+	}	
+	
+	@Override
 	protected void touchGround()
 	{
 
@@ -76,6 +112,7 @@ public class Fighter extends Actor {
 
 		if(!isTouchingGround)
 		{
+			
 			for(State s : openStates)
 			{
 				if(s.getName().contentEquals("Land"))
@@ -85,7 +122,6 @@ public class Fighter extends Actor {
 		}
 		if(velocity.y > 0)
 			this.velocity.y = 0;
-		
 	}
 	
 	@Override
@@ -99,12 +135,17 @@ public class Fighter extends Actor {
 					this.setState(s);
 			}
 		}*/
+		if(zoneBox.getY() + zoneBox.getHeight() < Manager.WORLD.groundLevel)
+			if(state.getName().contentEquals("Idle"))
+				for(State s : openStates)
+				{
+					if(s.getName().contentEquals("Fall"))
+					{
+						this.setState(s);
+						break;
+					}
+				}
 		isTouchingGround = false;
-	}
-	
-	protected void createSubactor()
-	{
-		//Empty by default.
 	}
 	
 	@Override
@@ -129,11 +170,25 @@ public class Fighter extends Actor {
 			if(xDelta <= 0)
 				this.location.x = Manager.cameras.get(0).location.x - state.getFrames()[state.getCurrentFrame()].getOffsetX()/4 + 1;
 		}
+		
+		/**
+		 * If the character has recently been hit with a wallbounce, their horizontal velocity
+		 * will reverse.
+		 */
+		if(wallBouncing)
+		{
+			velocity.x = velocity.x *-1;
+			wallBouncing = false;
+		}
 	}
 	
 	@Override
 	public void createSubActor(String params)
 	{
+		/**
+		 * TODO This currently just makes the default projectile.
+		 * It needs to generate one determined by the input parameters.
+		 */
 		Vector2f locCopy = location.copy();
 		locCopy.y +=200;
 		Projectile proj;

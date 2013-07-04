@@ -52,11 +52,11 @@ public class Main extends StateBasedGame {
 		Manager.cameras.add(camera);
 
 		//PLAYERS
-		player = new Player(500,0);
+		player = new Player(200,0);
 		Manager.player1 = player;
 		Manager.players.add(player);
 		
-		player = new Player(-500,0);
+		player = new Player(1600,0);
 		player.setKeys(Input.KEY_NUMPAD8, Input.KEY_NUMPAD2, Input.KEY_NUMPAD4, Input.KEY_NUMPAD6, 
 				Input.KEY_O, Input.KEY_P, Input.KEY_K, Input.KEY_L);
 		Manager.player2 = player;

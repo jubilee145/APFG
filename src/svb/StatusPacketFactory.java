@@ -2,11 +2,14 @@ package svb;
 
 import java.util.List;
 
+import org.json.simple.JSONObject;
+
 import status.Damage;
 import status.Impulse;
 import status.SetState;
 import status.StatusPacket;
 import status.TestGrabbed;
+import status.WallBounce;
 import entities.Actor;
 import entities.State;
 
@@ -20,36 +23,37 @@ public class StatusPacketFactory {
 
 	public StatusPacketFactory(){}
 	
-	public void BuildPacket(String packetData, List<StatusPacket> packetList, Actor actor)
+	public void BuildPacket(JSONObject packetData, List<StatusPacket> packetList, Actor actor)
 	{
-		String[] subString = packetData.split(",");
-		if(subString[0].contentEquals("GRAB"))
+		String type = packetData.get("type").toString();
+		String params = packetData.get("parameters").toString();
+		if(type.contentEquals("GRAB"))
 		{
-			TestGrabbed testGrabbed = new TestGrabbed(subString[1]);
+			TestGrabbed testGrabbed = new TestGrabbed(params);
 			testGrabbed.setParent(actor);
 			packetList.add(testGrabbed);
 			return;
-		} else if(subString[0].contentEquals("SETSTATE"))
+		} else if(type.contentEquals("SETSTATE"))
 		{
-			SetState setState = new SetState(subString[1]);
+			SetState setState = new SetState(params);
 			packetList.add(setState);
 			return;
-		} else if(subString[0].contentEquals("IMPULSE"))
+		} else if(type.contentEquals("IMPULSE"))
 		{
-			Impulse impulse = new Impulse(Integer.parseInt(subString[1]), Integer.parseInt(subString[2]));
+			String[] splitParams = params.split(",");
+			Impulse impulse = new Impulse(Integer.parseInt(splitParams[0]), Integer.parseInt(splitParams[1]));
 			impulse.setParent(actor);
 			packetList.add(impulse);
 			return;
-		} else if(subString[0].contentEquals("DAMAGE"))
+		} else if(type.contentEquals("DAMAGE"))
 		{
-			Damage damage = new Damage(Integer.parseInt(subString[1]));
+			Damage damage = new Damage(Integer.parseInt(params));
 			packetList.add(damage);
-			return;
-		} else if(subString[0].contentEquals("HURT"))
+		}
+		else if(type.contentEquals("WALLBOUNCE"))
 		{
-			Damage damage = new Damage(Integer.parseInt(subString[1]));
-			packetList.add(damage);
-			return;
+			WallBounce wallBounce = new WallBounce();
+			packetList.add(wallBounce);
 		}
 		
 	}

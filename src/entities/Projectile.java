@@ -47,7 +47,7 @@ public class Projectile extends Actor {
 		state.getHitBoxes()[0] = hitBox;
 		
 		StatusPacketFactory packetFactory = new StatusPacketFactory();
-		packetFactory.BuildPacket("DAMAGE,10", hitBox.status.applyTarget, this);
+		//packetFactory.BuildPacket("DAMAGE,10", hitBox.status.applyTarget, this);
 
 		try {
 			JSONObject json = (JSONObject)new JSONParser().parse("{\"name\":\"Action: 1\", \"type\":\"MOVE\", \"parameters\":\"70,0\"}");
